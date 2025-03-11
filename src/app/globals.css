@@ -1,26 +1,43 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: var(--font-inter);
+  --color-primary: #4a4a4a;
+  --color-secondary: #485d76;
+  --color-accent: #b96f44;
+  --color-light: #f4f9fd;
+  --color-muted: #5a7a9c;
+}
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: var(--color-light);
+  --foreground: var(--color-primary);
 }
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: var(--color-primary);
+    --foreground: var(--color-light);
   }
 }
 
+html {
+  scroll-behavior: smooth;
+}
+section {
+  scroll-margin-top: 80px; /* Prevents navbar from hiding content */
+}
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-sans);
+}
+/* Swiper Arrows */
+.swiper-button-prev,
+.swiper-button-next {
+  color: var(--color-light) !important; /* Default arrow color */
+  transition: color 0.3s ease-in-out;
+}
+
+.swiper-button-prev:hover,
+.swiper-button-next:hover {
+  color: var(--color-primary); /* Change color on hover */
 }
