@@ -19,7 +19,7 @@ export default function Home() {
       <Navbar />
 
       {/* Sections */}
-      <div className="pt-20 space-y-0">
+      <div className="pt-0 space-y-0">
         <section
           id="intro"
           className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden"
@@ -55,18 +55,29 @@ export default function Home() {
           </div>
         </section>
 
-        <motion.section
+        <section
           id="work"
           className="min-h-screen flex flex-col items-center justify-center bg-secondary text-light"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, ease: "easeOut" }}
-          viewport={{ amount: 0.5, once: true }}
         >
-          <h1 className="text-7xl font-bold uppercase mb-8">My Work</h1>
-          <WorkCarousel />
-        </motion.section>
+          {/* Animated Content Wrapper */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 1, ease: "easeOut" }}
+            viewport={{ amount: 0.5, once: true }}
+            className="flex flex-col items-center w-full"
+          >
+            <h1 className="text-6xl font-bold uppercase mb-8">
+              Where I Learnt More
+            </h1>
+            <p className="text-2xl leading-relaxed tracking-wide max-w-4xl">
+              Here are my most appreciated projects.
+            </p>
+            <div className="w-full flex justify-center">
+              <WorkCarousel /> {/* ✅ Ensure it's inside the animated div */}
+            </div>
+          </motion.div>
+        </section>
 
         <motion.section
           id="about"

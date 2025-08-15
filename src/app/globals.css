@@ -23,7 +23,7 @@ html {
   scroll-behavior: smooth;
 }
 section {
-  scroll-margin-top: 80px; /* Prevents navbar from hiding content */
+  /* scroll-margin-top: 80px; Prevents navbar from hiding content */
 }
 body {
   background: var(--background);
