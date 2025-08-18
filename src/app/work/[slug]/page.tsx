@@ -1,6 +1,6 @@
+import Link from "next/link";
 import { notFound } from "next/navigation";
 
-// Temporary registry of slugs (add/remove as you wish)
 const projects = {
   "bua-na-cainte": {
     title: "Bua na Cainte",
@@ -12,23 +12,23 @@ const projects = {
   },
 } as const;
 
-export async function generateStaticParams() {
+export async function generateStaticParams(): Promise<{ slug: string }[]> {
   return Object.keys(projects).map((slug) => ({ slug }));
 }
 
 export default async function CasePage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const meta = (projects as any)[params.slug];
+  const { slug } = await params; // Next 15: params é Promise
+  const meta = projects[slug as keyof typeof projects];
   if (!meta) return notFound();
 
   return (
     <article className="mx-auto max-w-3xl px-4 py-12">
-      {/* Hero */}
       <header className="mb-10">
-        <h1 className="text-3xl font-bold text-zinc-900">{meta.title}</h1>
+        <h1 className="text-3xl font-bold">{meta.title}</h1>
         <p className="text-sm text-zinc-600 mt-1">{meta.subtitle}</p>
         {/* Placeholder cover */}
         <div className="mt-6 h-48 w-full rounded-lg bg-zinc-200" />
@@ -98,12 +98,12 @@ export default async function CasePage({
 
       {/* Back link */}
       <div className="mt-8">
-        <a
+        <Link
           href="/#work"
           className="text-sm underline text-zinc-600 hover:text-zinc-800"
         >
           ← Back to Work
-        </a>
+        </Link>
       </div>
     </article>
   );
