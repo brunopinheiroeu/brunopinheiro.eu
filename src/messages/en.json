@@ -1,0 +1,18 @@
+{
+  "menu.work": "Work",
+  "menu.about": "About",
+  "menu.resume": "Resume",
+  "menu.contact": "Contact",
+  "hero.title": "I design and build {highlight}.",
+  "hero.highlight": "digital solutions",
+  "hero.subtitle": "UI, Design Systems, prototyping, automation, and 3D/VR when it makes sense.",
+  "hero.cta.about": "About Me",
+  "hero.cta.projects": "See Projects",
+  "work.title": "Work",
+  "resume.title": "Resume",
+  "resume.pdf": "Download PDF",
+  "resume.linkedin": "LinkedIn",
+  "contact.title": "Contact",
+  "contact.email": "Email Me",
+  "footer.thanks": "Thanks for visiting."
+}

@@ -1,143 +1,133 @@
-"use client";
-import Navbar from "@/components/Navbar";
-import WorkCarousel from "@/components/WorkCarousel";
-import { motion } from "framer-motion";
-import { useState } from "react";
+import CopyEmailButton from "@/components/CopyEmailButton";
+import BrunixButton from "@/components/BrunixButton";
 
 export default function Home() {
-  const [copied, setCopied] = useState(false);
-  const email = "brunopinheiro.eu@gmail.com"; // Your actual email
-
-  const handleCopy = () => {
-    navigator.clipboard.writeText(email);
-    setCopied(true);
-    setTimeout(() => setCopied(false), 2000); // Reset message after 2 seconds
-  };
-
   return (
-    <div className="bg-light text-primary">
-      <Navbar />
-
-      {/* Sections */}
-      <div className="pt-0 space-y-0">
-        <section
-          id="intro"
-          className="relative min-h-screen flex flex-col items-center justify-center text-center px-6 overflow-hidden"
-        >
-          {/* Background Video */}
-          <video
-            autoPlay
-            loop
-            muted
-            playsInline
-            className="absolute inset-0 w-full h-full object-cover"
-          >
-            <source src="/background-video.mp4" type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
-          {/* Gradient Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent to-[var(--color-secondary)]"></div>
-
-          {/* Text Overlay */}
-          <div className="relative z-10 text-light text-left w-full flex flex-col items-start justify-center pl-6 md:pl-12 gap-6">
-            <p className="text-2xl leading-relaxed tracking-wide uppercase">
-              Product Designer & Technologist
-            </p>
-            <h2 className="text-9xl md:text-9xl font-bold uppercase leading-[0.85] tracking-tighter">
-              Turning Your Ideas <br /> into Pure Reality
-            </h2>
-            <p className="text-2xl leading-relaxed tracking-wide max-w-4xl">
-              Hey, I’m Bruno Pinheiro – a designer who loves improving processes
-              and building products that feel seamless and intuitive. I believe
-              that solutions to problems can be simpler than we think—we just
-              need to think beyond the obvious.
-            </p>
-          </div>
-        </section>
-
-        <section
-          id="work"
-          className="min-h-screen flex flex-col items-center justify-center bg-secondary text-light"
-        >
-          {/* Animated Content Wrapper */}
-          <motion.div
-            initial={{ opacity: 0, y: 50 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: "easeOut" }}
-            viewport={{ amount: 0.5, once: true }}
-            className="flex flex-col items-center w-full"
-          >
-            <h1 className="text-6xl font-bold uppercase mb-8">
-              Where I Learnt More
-            </h1>
-            <p className="text-2xl leading-relaxed tracking-wide max-w-4xl">
-              Here are my most appreciated projects.
-            </p>
-            <div className="w-full flex justify-center">
-              <WorkCarousel /> {/* ✅ Ensure it's inside the animated div */}
-            </div>
-          </motion.div>
-        </section>
-
-        <motion.section
-          id="about"
-          className="min-h-screen flex flex-col items-center justify-center text-center max-w-4xl mx-auto px-6"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ amount: 0.5, once: true }}
-        >
-          <h1 className="text-5xl font-bold text-primary mb-6">👤 About Me</h1>
-          <p className="text-lg text-[var(--color-muted)] leading-relaxed">
-            Experienced and accomplished Senior Product Designer with over 20
-            years of design-related expertise. Specialised in end-to-end mobile
-            and web application design and process improvement, I have a proven
-            track record of delivering seamless user experiences. With a strong
-            focus on efficient design and development processes, I excel at
-            optimising workflows and driving successful project outcomes.
-            Collaborating closely with cross-functional teams, I ensure
-            effective communication and collaboration to achieve project
-            success. I am now seeking a Senior or Lead Product Designer role
-            where I can keep leveraging my extensive experience and skills to
-            create impactful digital experiences that drive product success.
-          </p>
-        </motion.section>
-
-        <motion.section
-          id="contact"
-          className="min-h-screen flex flex-col items-center justify-center text-center mx-auto px-6 bg-[var(--color-muted)] text-light py-12"
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6 }}
-          viewport={{ amount: 0.5, once: true }}
-        >
-          <h1 className="text-5xl font-bold mb-6">📬 Get in Touch</h1>
-          <p className="text-lg leading-relaxed mb-6">
-            Let’s connect! Feel free to reach out via email or LinkedIn.
-          </p>
-
-          {/* Contact Buttons */}
-          <div className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-6">
-            {/* Copy Email Button */}
-            <button
-              onClick={handleCopy}
-              className="bg-[var(--color-primary)] text-light px-6 py-3 rounded-md hover:bg-[var(--color-accent)] transition-all duration-300 relative"
-            >
-              {copied ? "✅ Copied!" : "📧 Copy my e-mail"}
-            </button>
-
-            {/* LinkedIn Button */}
-            <a
-              href="https://www.linkedin.com/in/brunopinheiroeu"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="bg-[var(--color-primary)] text-light px-6 py-3 rounded-md hover:bg-[var(--color-accent)] transition-all duration-300"
-            >
-              🔗 Connect on LinkedIn
+    <main className="bg-zinc-50 text-zinc-800 min-h-screen flex flex-col">
+      {/* Navbar */}
+      <header className="sticky top-0 z-10 backdrop-blur bg-white/80 border-b border-zinc-200">
+        <nav className="mx-auto max-w-5xl flex items-center justify-between p-4">
+          <a href="/" className="font-bold text-zinc-800">
+            Bruno Pinheiro
+          </a>
+          <div className="flex gap-6 text-sm">
+            <a href="#work" className="hover:text-zinc-900">
+              Work
+            </a>
+            <a href="#about" className="hover:text-zinc-900">
+              About
+            </a>
+            <a href="#resume" className="hover:text-zinc-900">
+              Resume
+            </a>
+            <a href="#contact" className="hover:text-zinc-900">
+              Contact
             </a>
           </div>
-        </motion.section>
-      </div>
-    </div>
+        </nav>
+      </header>
+
+      {/* Hero */}
+      <section className="mx-auto max-w-5xl px-4 py-24 text-center">
+        <h1 className="text-5xl font-extrabold text-zinc-900">
+          I design and build digital solutions.
+        </h1>
+        <p className="mt-4 text-lg text-zinc-600 max-w-2xl mx-auto">
+          UI, Design Systems, prototyping, automation, and 3D/VR when it makes
+          sense.
+        </p>
+        <div className="mt-8 flex gap-4 justify-center">
+          <a
+            className="px-5 py-2 border rounded-lg hover:bg-zinc-100"
+            href="#work"
+          >
+            View Projects
+          </a>
+          <a
+            className="px-5 py-2 border rounded-lg hover:bg-zinc-100"
+            href="#resume"
+          >
+            Resume
+          </a>
+        </div>
+      </section>
+
+      {/* Work */}
+      <section id="work" className="mx-auto max-w-5xl px-4 py-16">
+        <h2 className="text-3xl font-semibold">Work</h2>
+        <div className="mt-8 grid gap-6 sm:grid-cols-2">
+          <article className="border border-zinc-200 rounded-lg p-6 hover:shadow-md transition">
+            <h3 className="font-medium text-lg">Bua na Cainte</h3>
+            <p className="text-sm text-zinc-600">UI + Design System · EdTech</p>
+            <a
+              className="inline-block mt-3 text-sm underline"
+              href="/work/bua-na-cainte"
+            >
+              View case study
+            </a>
+          </article>
+          <article className="border border-zinc-200 rounded-lg p-6 hover:shadow-md transition">
+            <h3 className="font-medium text-lg">VR Showroom</h3>
+            <p className="text-sm text-zinc-600">3D/Realtime · Digital Twin</p>
+            <a
+              className="inline-block mt-3 text-sm underline"
+              href="/work/vr-showroom"
+            >
+              View case study
+            </a>
+          </article>
+        </div>
+      </section>
+
+      {/* Resume */}
+      <section id="resume" className="mx-auto max-w-5xl px-4 py-16">
+        <h2 className="text-3xl font-semibold">Resume</h2>
+        <p className="mt-4 text-zinc-600">
+          You can download my full CV or check my LinkedIn.
+        </p>
+        <div className="mt-6 flex gap-4">
+          <a
+            className="px-5 py-2 border rounded-lg hover:bg-zinc-100"
+            href="/BrunoPinheiroResume.pdf"
+            target="_blank"
+            rel="noreferrer"
+          >
+            Download PDF
+          </a>
+          <a
+            className="px-5 py-2 border rounded-lg hover:bg-zinc-100"
+            href="https://www.linkedin.com/in/brunopinheiroeu"
+            target="_blank"
+          >
+            LinkedIn
+          </a>
+        </div>
+      </section>
+
+      {/* Contact */}
+      <section id="contact" className="mx-auto max-w-5xl px-4 py-16">
+        <h2 className="text-3xl font-semibold">Contact</h2>
+        <p className="mt-4 text-zinc-600">Let’s connect!</p>
+        <div className="mt-6 flex gap-4">
+          <a
+            className="px-5 py-2 border rounded-lg hover:bg-zinc-100"
+            href="mailto:bruno@pinheiro.art.br"
+          >
+            Email
+          </a>
+          <CopyEmailButton email="bruno@pinheiro.art.br" />
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="border-t border-zinc-200 mt-auto">
+        <div className="mx-auto max-w-5xl p-4 text-sm text-zinc-500 text-center">
+          © {new Date().getFullYear()} Bruno Pinheiro — Thanks for visiting.
+        </div>
+      </footer>
+
+      {/* Floating Button */}
+      <BrunixButton />
+    </main>
   );
 }

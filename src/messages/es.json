@@ -1,0 +1,18 @@
+{
+  "menu.work": "Proyectos",
+  "menu.about": "Sobre mí",
+  "menu.resume": "Currículum",
+  "menu.contact": "Contacto",
+  "hero.title": "Diseño y construyo {highlight}.",
+  "hero.highlight": "soluciones digitales",
+  "hero.subtitle": "UI, sistemas de diseño, prototipado, automatización y 3D/VR cuando tiene sentido.",
+  "hero.cta.about": "Sobre mí",
+  "hero.cta.projects": "Ver proyectos",
+  "work.title": "Proyectos",
+  "resume.title": "Currículum",
+  "resume.pdf": "Descargar PDF",
+  "resume.linkedin": "LinkedIn",
+  "contact.title": "Contacto",
+  "contact.email": "Envíame un correo",
+  "footer.thanks": "Gracias por visitar."
+}
