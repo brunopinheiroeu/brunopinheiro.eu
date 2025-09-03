@@ -2,6 +2,7 @@
 import { motion } from "framer-motion";
 import { Camera, Utensils, Guitar, Footprints } from "lucide-react";
 import FadeHeader from "@/components/FadeHeader";
+import Image from "next/image";
 
 export default function About() {
   return (
@@ -19,9 +20,10 @@ export default function About() {
             className="relative h-80 overflow-hidden rounded-2xl shadow-xl md:h-[420px]"
           >
             <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-violet-700" />
-            <img
-              src="https://framerusercontent.com/images/mkuUy9yvfCuPurmIwV0Wu4mLEUM.png?scale-down-to=1024"
+            <Image
+              src="/images/aboutMe.png"
               alt="Bruno Pinheiro"
+              fill
               className="relative z-10 h-full w-full object-cover transition-transform duration-300 hover:scale-[1.03]"
               onError={(e) => (e.currentTarget.style.display = "none")}
             />
@@ -45,17 +47,21 @@ export default function About() {
               Hey, Bruno here again!
             </p>
             <p className="mb-4">
-              It's not that I'm always working — actually, I really don't
+              It`s not that I`m always working — actually, I really don`t
               believe that heavy work is the answer. I believe in{" "}
               <strong className="text-indigo-700">smart work</strong>: making
               the most of our time, learning new tools, and improving processes
               to build better projects and a better quality of life.
             </p>
             <p className="mb-4">
-              My journey into tech started back in the late '90s. In 1998, I
-              took my first course: "How to Assemble and Maintain a Computer",
-              followed by "Programming in Delphi". But honestly, my earliest
-              memory of all is way before that —{" "}
+              My journey into tech started back in the late `90s. In 1998, I
+              took my first course:{" "}
+              <strong className="text-indigo-700">
+                How to Assemble and Maintain a Computer
+              </strong>
+              , followed by{" "}
+              <strong className="text-indigo-700">Programming in Delphi</strong>
+              . But honestly, my earliest memory of all is way before that —{" "}
               <em className="text-slate-500">
                 pulling motors from toy cars to build my own fans and boats
               </em>
@@ -64,7 +70,7 @@ export default function About() {
             <p>
               Fast forward a bit, in 2001 I began studying Graphic Design while
               working with web technologies like HTML, Photoshop, and PHP. Since
-              then, I've explored multiple fields of design, with a special
+              then, I`ve explored multiple fields of design, with a special
               focus on 3D, video, and web. Outside of work, my passions are{" "}
               <strong className="text-indigo-700">
                 running, photography, cooking, and playing my guitar

@@ -74,7 +74,7 @@ export default function Projects() {
                 </div>
                 <a
                   href={p.href}
-                  className="inline-flex items-center gap-2 font-medium text-indigo-600 hover:text-blue-800"
+                  className="inline-flex items-center gap-2 font-medium text-indigo-600 hover:text-violet-700"
                 >
                   View Case Study{" "}
                   <ChevronDown className="h-4 w-4 rotate-[-90deg]" />
