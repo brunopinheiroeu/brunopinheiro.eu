@@ -7,7 +7,7 @@ import { Mail, Check } from "lucide-react";
 import { SiLinkedin, SiGithub } from "react-icons/si";
 
 export default function Contact() {
-  const EMAIL = "brunopinheiro.eu@gmail.com";
+  const EMAIL = "bruno@pinheiro.art.br";
   const [copied, setCopied] = useState(false);
 
   const copyEmail = async () => {
@@ -15,7 +15,6 @@ export default function Contact() {
       await navigator.clipboard.writeText(EMAIL);
       setCopied(true);
     } catch {
-      // Fallback if clipboard permissions are blocked
       const textarea = document.createElement("textarea");
       textarea.value = EMAIL;
       document.body.appendChild(textarea);
@@ -28,7 +27,7 @@ export default function Contact() {
 
   useEffect(() => {
     if (!copied) return;
-    const t = setTimeout(() => setCopied(false), 5000); // show "Copied!" for 5s
+    const t = setTimeout(() => setCopied(false), 5000);
     return () => clearTimeout(t);
   }, [copied]);
 
@@ -37,9 +36,9 @@ export default function Contact() {
       id="contact"
       className="relative overflow-hidden bg-gradient-to-br from-indigo-500 via-violet-500 to-purple-700 py-24 text-white"
     >
-      {/* angled overlay (same style as Hero) */}
+      {/* angled overlay (static, sem parallax) */}
       <div className="absolute inset-0 opacity-20">
-        <svg viewBox="0 0 1000 1000" className="h-full w-full">
+        <svg viewBox="0 0 1000 1000" className="h-[160%] w-[160%]">
           <polygon fill="white" points="0,0 1000,300 1000,1000 0,700" />
         </svg>
       </div>
@@ -58,10 +57,10 @@ export default function Contact() {
           viewport={{ once: true, amount: 0.2 }}
           className="mt-8 flex flex-col items-center justify-center gap-4 sm:flex-row"
         >
-          {/* Copy my email */}
+          {/* Copy email */}
           <button
             onClick={copyEmail}
-            className={`inline-flex items-center gap-2 rounded-full border-2 px-6 py-3 font-medium backdrop-blur transition hover:-translate-y-0.5 ${
+            className={`inline-flex items-center gap-2 rounded-full border px-6 py-3 font-medium backdrop-blur transition hover:-translate-y-0.5 ${
               copied
                 ? "border-white bg-white/20 text-white"
                 : "border-white/30 bg-white/10 text-white hover:bg-white/20"
@@ -80,21 +79,22 @@ export default function Contact() {
           <a
             href="https://linkedin.com/in/brunopinheiroeu"
             target="_blank"
-            className="inline-flex items-center gap-2 rounded-full border-2 border-white/30 bg-white/10 px-6 py-3 font-medium text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20"
+            className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 font-medium text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20"
           >
             <SiLinkedin className="h-5 w-5" /> LinkedIn
           </a>
+
           {/* GitHub */}
           <a
             href="https://github.com/brunopinheiroeu"
             target="_blank"
-            className="inline-flex items-center gap-2 rounded-full border-2 border-white/30 bg-white/10 px-6 py-3 font-medium text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20"
+            className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-6 py-3 font-medium text-white backdrop-blur transition hover:-translate-y-0.5 hover:bg-white/20"
           >
             <SiGithub className="h-5 w-5" /> GitHub
           </a>
         </motion.div>
 
-        {/* copied message for 5s */}
+        {/* copied message */}
         <div className="h-6 pt-2">
           {copied && (
             <span className="inline-block rounded-full bg-white/15 px-3 py-1 text-sm text-white/90">

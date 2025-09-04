@@ -10,7 +10,7 @@ export default function About() {
       <div className="mx-auto max-w-6xl px-6">
         <FadeHeader
           title="About Me"
-          subtitle="The story behind the pixels and the passion for smart work"
+          subtitle="Smart Work Over Hard Work — Always Building Better"
         />
         <div className="grid items-center gap-10 md:grid-cols-[1fr_1.5fr]">
           <motion.div
@@ -43,9 +43,6 @@ export default function About() {
             viewport={{ once: true, amount: 0.2 }}
             className="text-base leading-relaxed text-slate-800"
           >
-            <p className="mb-2 text-lg font-semibold text-indigo-700">
-              Hey, Bruno here again!
-            </p>
             <p className="mb-4">
               It`s not that I`m always working — actually, I really don`t
               believe that heavy work is the answer. I believe in{" "}
@@ -69,12 +66,20 @@ export default function About() {
             </p>
             <p>
               Fast forward a bit, in 2001 I began studying Graphic Design while
-              working with web technologies like HTML, Photoshop, and PHP. Since
-              then, I`ve explored multiple fields of design, with a special
-              focus on 3D, video, and web. Outside of work, my passions are{" "}
+              working with web technologies like HTML, Fireworks, Photoshop,
+              Flash and PHP. Since then, I`ve explored multiple fields of
+              design, with a special focus on 3D, Video, Games, Web, VR, AR, 3D
+              printing, UX and now AI.{" "}
+            </p>
+            <p>
+              Outside of work, my passions are{" "}
               <strong className="text-indigo-700">
-                running, photography, cooking, and playing my guitar
+                running, photography, cooking, and playing guitar.{" "}
               </strong>
+              <em className="text-slate-500">
+                Would you believe if I said that I went from Obese to Run a Full
+                marathon?
+              </em>
               .
             </p>
           </motion.div>
