@@ -3,13 +3,15 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import FadeHeader from "@/components/FadeHeader";
 import { ChevronDown } from "lucide-react";
+import { GrDocumentDownload } from "react-icons/gr";
+import { SiLinkedin } from "react-icons/si";
 
 export default function Experience() {
   const [openIdx, setOpenIdx] = useState(0);
   const experience = [
     {
       title: "Product Design & Technology Lead",
-      company: "Edco - Ireland's Leading Educational Platform",
+      company: "Edco - Ireland's Leading Educational Platform - Ireland",
       period: "05/2022 - Present",
       bullets: [
         "Led remote development teams and managed cross-functional stakeholder relationships",
@@ -21,7 +23,7 @@ export default function Experience() {
     },
     {
       title: "Product Designer (Contract)",
-      company: "Imvizar - Augmented Reality Startup",
+      company: "Imvizar - Augmented Reality Startup - Ireland",
       period: "01/2022 - 04/2022",
       bullets: [
         "Led end-to-end mobile and web application redesign",
@@ -32,13 +34,26 @@ export default function Experience() {
     },
     {
       title: "Motion Designer",
-      company: "Thérapie Clinic - Europe's No.1 Medical Aesthetic Clinic",
+      company:
+        "Thérapie Clinic - Europe's No.1 Medical Aesthetic Clinic - Ireland",
       period: "01/2021 - 10/2021",
       bullets: [
         "Primary Motion Designer for Marketing team",
         "Delivered 40+ publicity videos, 100 images, and 10 3D animations",
         "Contributed to creation of company podcast 'Fertility Talks'",
         "Enhanced creative production processes with new tools and technologies",
+      ],
+    },
+    {
+      title: "3D Product Designer",
+      company: "MacGowans Print - ",
+      period: "06/2018 - 01/2021",
+      bullets: [
+        "Founded and led innovative virtual reality startup",
+        "Developed 'VR Showroom' real estate platform and 'Go There' tourism app",
+        "Managed development in Unity 3D and Unreal Engine",
+        "Secured incubation and mentorship from InovAtiva Brasil",
+        "Integrated 360º video, 3D modeling, and real-time animation",
       ],
     },
     {
@@ -98,7 +113,7 @@ export default function Experience() {
                 }`}
               >
                 <div className="overflow-hidden">
-                  <div className="bg-slate-50 px-6 pb-6 pt-2">
+                  <div className="bg-indigo-50 px-6 pb-6 pt-2">
                     <ul className="mt-4 list-none space-y-2 text-sm text-slate-700">
                       {exp.bullets.map((b, i) => (
                         <li key={i} className="relative pl-5">
@@ -115,6 +130,26 @@ export default function Experience() {
             </motion.div>
           ))}
         </div>
+      </div>
+      {/* Actions at the end of Experience */}
+      <div className="mt-8 flex flex-col items-center justify-center gap-3 sm:flex-row">
+        <a
+          href="https://linkedin.com/in/brunopinheiroeu"
+          target="_blank"
+          className="inline-flex items-center gap-2 rounded-full border-2 border-violet-500/50 bg-violet-500/10 px-6 py-3 font-medium text-violet-700 backdrop-blur transition hover:-translate-y-0.5 hover:bg-violet-500/20"
+        >
+          <SiLinkedin className="h-5 w-5" />
+          LinkedIn
+        </a>
+
+        <a
+          href="https://www.dropbox.com/scl/fi/azapa13akewcfgjoddiu2/BrunoPinheiroResume.pdf?rlkey=ionedq7nzbs7jlqcg402mbx37&dl=1"
+          target="_blank"
+          className="inline-flex items-center gap-2 rounded-full border-2 border-violet-500/50 bg-violet-500/10 px-6 py-3 font-medium text-violet-700 backdrop-blur transition hover:-translate-y-0.5 hover:bg-violet-500/20"
+        >
+          <GrDocumentDownload className="h-5 w-5" />
+          Download my CV
+        </a>
       </div>
     </section>
   );

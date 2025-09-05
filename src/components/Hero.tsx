@@ -348,7 +348,7 @@ export default function Hero() {
           })}
         </div>
 
-        {/* mobile fallback (2x2) */}
+        {/* mobile fallback (2x2)
         <div className="relative grid grid-cols-2 gap-4 md:hidden">
           {imgs.slice(0, 4).map((img, i) => (
             <div
@@ -365,7 +365,7 @@ export default function Hero() {
               />
             </div>
           ))}
-        </div>
+        </div> */}
       </div>
     </section>
   );
