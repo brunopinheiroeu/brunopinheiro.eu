@@ -2,19 +2,52 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-First, run the development server:
+This project has **two** servers:
+
+- A Next.js frontend in the repository root
+- A Strapi CMS backend under `backend/`
+
+You need both running locally to view live project data.
+
+### 1. Start the Strapi backend
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+cd backend
+npm install          # first run only
+npm run develop      # starts Strapi on http://localhost:1337
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Once Strapi is running:
+- **Admin Panel**: Open [http://localhost:1337/admin](http://localhost:1337/admin) in your browser
+- **API**: Available at [http://localhost:1337/api](http://localhost:1337/api)
+
+> The first boot will ask you to create an admin user. After logging in, you can create/edit `Products` content types in the admin panel.
+
+Optional: seed demo products
+
+```bash
+cd backend
+npm run seed:projects   # runs scripts/seed-projects.js
+```
+
+### 2. Start the Next.js frontend
+
+From the repository root:
+
+```bash
+npm install          # first run only
+npm run dev          # or yarn dev / pnpm dev / bun dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) to view the site.
+
+### Environment variables
+
+The frontend reads `NEXT_PUBLIC_STRAPI_URL` (defaults to `http://localhost:1337`). If your Strapi server runs elsewhere, create a `.env.local` at the repo root:
+
+```
+NEXT_PUBLIC_STRAPI_URL=http://your-strapi-host:port
+```
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 

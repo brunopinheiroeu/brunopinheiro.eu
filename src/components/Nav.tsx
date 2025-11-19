@@ -1,29 +1,20 @@
 "use client";
-import { useEffect, useRef, useState } from "react";
-import { Menu, X } from "lucide-react";
+import { useEffect, useState } from "react";
+import { usePathname, useRouter } from "next/navigation";
+import { Home, Briefcase, Clock, User, Mail } from "lucide-react";
+import { scrollToSection } from "@/lib/scroll";
 
 export default function Nav() {
-  const navRef = useRef<HTMLElement | null>(null);
-  const [mobileOpen, setMobileOpen] = useState(false);
   const [activeId, setActiveId] = useState<string>("home");
+  const pathname = usePathname();
+  const router = useRouter();
+  const isProductPage = pathname?.startsWith("/products/");
 
-  // Shadow/bg on scroll
+  // Scroll spy (active link by section in view) - only on main page
   useEffect(() => {
-    const onScroll = () => {
-      const nav = navRef.current;
-      if (!nav) return;
-      if (window.scrollY > 50)
-        nav.classList.add("shadow-lg", "bg-white/90", "backdrop-blur");
-      else nav.classList.remove("shadow-lg", "bg-white/90", "backdrop-blur");
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll);
-    return () => window.removeEventListener("scroll", onScroll);
-  }, []);
+    if (isProductPage) return;
 
-  // Scroll spy (active link by section in view)
-  useEffect(() => {
-    const ids = ["home", "projects", "experience", "about", "contact"];
+    const ids = ["home", "products", "experience", "about", "contact"];
     const sections = ids
       .map((id) => document.getElementById(id))
       .filter(Boolean) as HTMLElement[];
@@ -42,153 +33,80 @@ export default function Nav() {
 
     sections.forEach((sec) => obs.observe(sec));
     return () => obs.disconnect();
-  }, []);
-
-  // Close mobile on ESC + lock scroll when open
-  useEffect(() => {
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") setMobileOpen(false);
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, []);
-
-  useEffect(() => {
-    // lock body scroll while menu is open
-    const root = document.documentElement;
-    root.style.overflow = mobileOpen ? "hidden" : "";
-    return () => {
-      root.style.overflow = "";
-    };
-  }, [mobileOpen]);
+  }, [isProductPage]);
 
   const onAnchorClick = (e: React.MouseEvent, id: string) => {
     e.preventDefault();
-    setMobileOpen(false);
-    document
-      .getElementById(id)
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
+    
+    if (isProductPage) {
+      // Navigate to main page with section hash
+      router.push(`/#${id}`);
+      // After navigation, scroll to section (handled by main page)
+    } else {
+      // On main page, just scroll to section
+      scrollToSection(e, id);
+    }
   };
 
   const links = [
-    { id: "projects", label: "Projects" },
-    { id: "experience", label: "Experience" },
-    { id: "about", label: "About" },
-    { id: "contact", label: "Contact" },
+    { id: "home", label: "Home", icon: Home },
+    { id: "products", label: "Products", icon: Briefcase },
+    { id: "experience", label: "Experience", icon: Clock },
+    { id: "about", label: "About", icon: User },
+    { id: "contact", label: "Contact", icon: Mail },
   ];
-
-  const linkBase =
-    "relative inline-block font-bold transition-colors after:absolute after:left-0 after:-bottom-1 after:h-0.5 after:w-0 after:bg-indigo-600 after:transition-all after:duration-300 hover:text-indigo-600 hover:after:w-full focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/40";
 
   return (
     <nav
-      ref={navRef}
-      className="fixed top-0 z-50 w-full bg-white/80 backdrop-blur transition-shadow"
+      className="fixed left-0 top-0 z-50 h-screen w-20 bg-white/80 backdrop-blur shadow-lg transition-all"
       aria-label="Main navigation"
     >
-      <div className="mx-auto max-w-6xl px-6 py-4">
-        <div className="flex items-center justify-between">
-          {/* Brand with hover underline (desktop full name / mobile initials) */}
-          <a
-            href="#home"
-            onClick={(e) => onAnchorClick(e, "home")}
-            className="group relative inline-block text-xl font-bold text-indigo-600"
-            aria-current={activeId === "home" ? "page" : undefined}
-          >
-            <span className="hidden md:inline">Bruno Pinheiro</span>
-            <span className="md:hidden">BP</span>
-            {/* underline animation left->right; stays when active */}
-            <span
-              className={`pointer-events-none absolute -bottom-1 left-0 block h-0.5 bg-indigo-600 transition-all duration-300 ${
-                activeId === "home" ? "w-full" : "w-0 group-hover:w-full"
-              }`}
-            />
-          </a>
+      <div className="flex h-full flex-col items-center py-8">
+        {/* Brand Logo/Initial */}
+        <a
+          href={isProductPage ? "/#home" : "#home"}
+          onClick={(e) => onAnchorClick(e, "home")}
+          className="mb-12 flex h-12 w-12 items-center justify-center rounded-lg bg-indigo-600 text-xl font-bold text-white transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/40"
+          aria-label="Home - Bruno Pinheiro"
+        >
+          BP
+        </a>
 
-          {/* Desktop links */}
-          <ul className="hidden items-center gap-8 md:flex">
-            {links.map((link) => (
-              <li key={link.id}>
+        {/* Navigation Links */}
+        <ul className="flex flex-col items-center gap-6 flex-1">
+          {links.map((link) => {
+            const Icon = link.icon;
+            const isActive = activeId === link.id;
+
+            return (
+              <li key={link.id} className="relative group">
                 <a
-                  href={`#${link.id}`}
+                  href={isProductPage ? `/#${link.id}` : `#${link.id}`}
                   onClick={(e) => onAnchorClick(e, link.id)}
-                  className={`${linkBase} ${
-                    activeId === link.id
-                      ? "text-indigo-600 after:w-full"
-                      : "text-slate-800"
+                  className={`flex h-12 w-12 items-center justify-center rounded-lg transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/40 ${
+                    isActive && !isProductPage
+                      ? "bg-indigo-600 text-white shadow-md"
+                      : "text-slate-700 hover:bg-indigo-50 hover:text-indigo-600"
                   }`}
-                  aria-current={activeId === link.id ? "page" : undefined}
+                  aria-current={isActive && !isProductPage ? "page" : undefined}
+                  aria-label={link.label}
+                >
+                  <Icon className="h-6 w-6" />
+                </a>
+
+                {/* Tooltip on hover */}
+                <span
+                  className="absolute left-full ml-4 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-lg bg-slate-900 px-3 py-2 text-sm font-medium text-white opacity-0 pointer-events-none transition-opacity duration-200 group-hover:opacity-100"
+                  role="tooltip"
                 >
                   {link.label}
-                </a>
+                  {/* Arrow pointing left */}
+                  <span className="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-slate-900" />
+                </span>
               </li>
-            ))}
-          </ul>
-
-          {/* Mobile toggle */}
-          <button
-            className="md:hidden rounded-lg p-2 text-slate-700 hover:bg-slate-100 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/40"
-            aria-label="Toggle menu"
-            aria-controls="mobile-menu"
-            aria-expanded={mobileOpen}
-            onClick={() => setMobileOpen((v) => !v)}
-          >
-            {mobileOpen ? (
-              <X className="h-6 w-6" />
-            ) : (
-              <Menu className="h-6 w-6" />
-            )}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile overlay menu */}
-      {mobileOpen && (
-        <div
-          className="fixed inset-0 z-40 bg-black/30 md:hidden"
-          onClick={() => setMobileOpen(false)}
-          aria-hidden="true"
-        />
-      )}
-
-      {/* Drawer */}
-      <div
-        id="mobile-menu"
-        className={`fixed right-0 top-0 z-50 h-full w-72 transform bg-white shadow-xl transition-transform duration-300 md:hidden ${
-          mobileOpen ? "translate-x-0" : "translate-x-full"
-        }`}
-        role="dialog"
-        aria-modal="true"
-      >
-        <div className="flex items-center justify-between px-6 py-4">
-          <span className="text-lg font-semibold text-indigo-700">Menu</span>
-          <button
-            className="rounded-lg p-2 text-slate-700 hover:bg-slate-100"
-            aria-label="Close menu"
-            onClick={() => setMobileOpen(false)}
-          >
-            <X className="h-6 w-6" />
-          </button>
-        </div>
-        <nav className="px-6">
-          <ul className="space-y-3 pb-10">
-            {links.map((link) => (
-              <li key={link.id}>
-                <a
-                  href={`#${link.id}`}
-                  onClick={(e) => onAnchorClick(e, link.id)}
-                  className={`block ${linkBase} ${
-                    activeId === link.id
-                      ? "text-indigo-600 after:w-full"
-                      : "text-slate-800"
-                  } py-2`}
-                >
-                  {link.label}
-                </a>
-              </li>
-            ))}
-          </ul>
-        </nav>
+            );
+          })}
+        </ul>
       </div>
     </nav>
   );

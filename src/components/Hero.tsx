@@ -1,62 +1,145 @@
 "use client";
-import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import {
+  MotionValue,
+  motion,
+  useMotionValue,
+  useSpring,
+  useTransform,
+} from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useCallback, useRef, useState, useEffect } from "react";
+import { scrollToSection } from "@/lib/scroll";
+
+type BubbleConfig = {
+  text: string;
+  href: string;
+  side: "left" | "right";
+  offsetX: number;
+  offsetY: number;
+};
+
+type HeroCardConfig = {
+  image: {
+    src: string;
+    alt: string;
+  };
+  bubble: BubbleConfig;
+  positionClass: string;
+  depth: number;
+  baseRotation: {
+    x: number;
+    y: number;
+    z: number;
+  };
+};
+
+const heroCards: HeroCardConfig[] = [
+  {
+    image: { src: "/images/photo1.png", alt: "Happy user 1" },
+    bubble: {
+      text: "Virtual Showroom @ Wave VRS",
+      href: "#",
+      side: "left",
+      offsetX: -150,
+      offsetY: -80,
+    },
+    positionClass: "-top-10 left-20",
+    depth: 1,
+    baseRotation: { x: -1.5, y: -2, z: -6 },
+  },
+  {
+    image: { src: "/images/photo2.png", alt: "Happy user 2" },
+    bubble: {
+      text: "structurAR @ McGowans Print",
+      href: "#",
+      side: "right",
+      offsetX: -110,
+      offsetY: -180,
+    },
+    positionClass: "top-10 right-10",
+    depth: 0.85,
+    baseRotation: { x: 1.2, y: 1.5, z: 4 },
+  },
+  {
+    image: { src: "/images/photo3.png", alt: "Happy user 3" },
+    bubble: {
+      text: "AI Expertise @ Life",
+      href: "#",
+      side: "left",
+      offsetX: -120,
+      offsetY: 130,
+    },
+    positionClass: "top-50 left-0",
+    depth: 0.75,
+    baseRotation: { x: -1, y: -1.3, z: -4 },
+  },
+  {
+    image: { src: "/images/photo4.png", alt: "Happy user 4" },
+    bubble: {
+      text: "Unit + Unreal Game Experienced",
+      href: "#",
+      side: "left",
+      offsetX: -100,
+      offsetY: 130,
+    },
+    positionClass: "top-70 right-30",
+    depth: 0.9,
+    baseRotation: { x: 1.6, y: 1.8, z: 5 },
+  },
+  {
+    image: { src: "/images/photo5.png", alt: "Happy user 5" },
+    bubble: {
+      text: "Automation Workflows",
+      href: "#",
+      side: "left",
+      offsetX: -70,
+      offsetY: -160,
+    },
+    positionClass: "top-30 -right-44",
+    depth: 0.8,
+    baseRotation: { x: -1.8, y: -2.2, z: -8 },
+  },
+  {
+    image: { src: "/images/photo6.png", alt: "Happy user 6" },
+    bubble: {
+      text: "Bua na Cainte — Case Study",
+      href: "#",
+      side: "left",
+      offsetX: -180,
+      offsetY: 50,
+    },
+    positionClass: "top-100 -right-28",
+    depth: 0.7,
+    baseRotation: { x: 1.2, y: 1.6, z: 4 },
+  },
+];
+
+type CardTransform = {
+  tRotX: MotionValue<number>;
+  tRotY: MotionValue<number>;
+  tX: MotionValue<number>;
+  tY: MotionValue<number>;
+};
+
+function useHeroCardTransforms(
+  cards: HeroCardConfig[],
+  rotX: MotionValue<number>,
+  rotY: MotionValue<number>,
+  shiftX: MotionValue<number>,
+  shiftY: MotionValue<number>
+): CardTransform[] {
+  return cards.map((card) => ({
+    tRotX: useTransform(rotX, (v) => v * card.depth),
+    tRotY: useTransform(rotY, (v) => v * card.depth),
+    tX: useTransform(shiftX, (v) => v * card.depth),
+    tY: useTransform(shiftY, (v) => v * card.depth),
+  }));
+}
 
 export default function Hero() {
-  const onAnchorClick = (e: React.MouseEvent, id: string) => {
-    e.preventDefault();
-    document
-      .getElementById(id)
-      ?.scrollIntoView({ behavior: "smooth", block: "start" });
-  };
-
-  // Images in /public/images
-  const imgs = [
-    { src: "/images/photo1.png", alt: "Happy user 1" },
-    { src: "/images/photo2.png", alt: "Happy user 2" },
-    { src: "/images/photo3.png", alt: "Happy user 3" },
-    { src: "/images/photo4.png", alt: "Happy user 4" },
-    { src: "/images/photo5.png", alt: "Happy user 5" },
-    { src: "/images/photo6.png", alt: "Happy user 6" },
-  ];
-
-  // Bubbles content (edit links/texts freely)
-  const bubbles = [
-    { text: "Virtual Showroom @ Wave VRS", href: "#" },
-    { text: "structurAR @ McGowans Print", href: "#" },
-    { text: "AI Expertise @ Life", href: "#" },
-    { text: "Unit + Unreal Game Experienced", href: "#" },
-    { text: "Automation Workflows", href: "#" },
-    { text: "Bua na Cainte — Case Study", href: "#" },
-  ];
-
-  // Initial scattered positions (your values)
-  const positions = [
-    "-top-10 left-20", //1
-    "top-10 right-10", //2
-    "top-50 left-0", //3
-    "top-70 right-30", //4
-    "top-30 -right-44", //5
-    "top-100 -right-28", //6
-  ];
-
-  // Organized target offsets (relative motion; tweak freely)
-  // These são deslocamentos (x,y) quando "organizado".
-  const org = [
-    { x: 0, y: 0 },
-    { x: 10, y: 5 },
-    { x: 0, y: 10 },
-    { x: 5, y: 10 },
-    { x: 10, y: 0 },
-    { x: 15, y: 0 },
-  ];
-
-  // Base 3D rotations (wind)
-  const baseRx = [-1.5, 1.2, -1.0, 1.6, -1.8, 1.2];
-  const baseRy = [-2.0, 1.5, -1.3, 1.8, -2.2, 1.6];
-  const baseRz = [-6.0, 4.0, -4.0, 5.0, -8.0, 4.0];
+  const onAnchorClick = (e: React.MouseEvent, id: string) =>
+    scrollToSection(e, id);
 
   // Parallax over the whole Hero
   const heroRef = useRef<HTMLElement | null>(null);
@@ -70,66 +153,13 @@ export default function Hero() {
   const shiftX = useTransform(smx, [-1, 1], [16, -16]);
   const shiftY = useTransform(smy, [-1, 1], [-12, 12]);
 
-  // Depth per card (hooks must be top-level)
-  const d0 = 1.0,
-    d1 = 0.85,
-    d2 = 0.75,
-    d3 = 0.9,
-    d4 = 0.8,
-    d5 = 0.7;
-
-  const tRotX0 = useTransform(rotX, (v) => v * d0);
-  const tRotY0 = useTransform(rotY, (v) => v * d0);
-  const tX0 = useTransform(shiftX, (v) => v * d0);
-  const tY0 = useTransform(shiftY, (v) => v * d0);
-
-  const tRotX1 = useTransform(rotX, (v) => v * d1);
-  const tRotY1 = useTransform(rotY, (v) => v * d1);
-  const tX1 = useTransform(shiftX, (v) => v * d1);
-  const tY1 = useTransform(shiftY, (v) => v * d1);
-
-  const tRotX2 = useTransform(rotX, (v) => v * d2);
-  const tRotY2 = useTransform(rotY, (v) => v * d2);
-  const tX2 = useTransform(shiftX, (v) => v * d2);
-  const tY2 = useTransform(shiftY, (v) => v * d2);
-
-  const tRotX3 = useTransform(rotX, (v) => v * d3);
-  const tRotY3 = useTransform(rotY, (v) => v * d3);
-  const tX3 = useTransform(shiftX, (v) => v * d3);
-  const tY3 = useTransform(shiftY, (v) => v * d3);
-
-  const tRotX4 = useTransform(rotX, (v) => v * d4);
-  const tRotY4 = useTransform(rotY, (v) => v * d4);
-  const tX4 = useTransform(shiftX, (v) => v * d4);
-  const tY4 = useTransform(shiftY, (v) => v * d4);
-
-  const tRotX5 = useTransform(rotX, (v) => v * d5);
-  const tRotY5 = useTransform(rotY, (v) => v * d5);
-  const tX5 = useTransform(shiftX, (v) => v * d5);
-  const tY5 = useTransform(shiftY, (v) => v * d5);
-
-  const transforms = [
-    { tRotX: tRotX0, tRotY: tRotY0, tX: tX0, tY: tY0 },
-    { tRotX: tRotX1, tRotY: tRotY1, tX: tX1, tY: tY1 },
-    { tRotX: tRotX2, tRotY: tRotY2, tX: tX2, tY: tY2 },
-    { tRotX: tRotX3, tRotY: tRotY3, tX: tX3, tY: tY3 },
-    { tRotX: tRotX4, tRotY: tRotY4, tX: tX4, tY: tY4 },
-    { tRotX: tRotX5, tRotY: tRotY5, tX: tX5, tY: tY5 },
-  ];
-
-  // Per-bubble positioning (side, horizontal and vertical offsets)
-  const bubblePos: {
-    side: "left" | "right";
-    offsetX: number;
-    offsetY: number;
-  }[] = [
-    { side: "left", offsetX: -150, offsetY: -80 }, // photo1
-    { side: "right", offsetX: -110, offsetY: -180 }, // photo2
-    { side: "left", offsetX: -120, offsetY: 130 }, // photo3
-    { side: "left", offsetX: -100, offsetY: 130 }, // photo4
-    { side: "left", offsetX: -70, offsetY: -160 }, // photo5
-    { side: "left", offsetX: -180, offsetY: 50 }, // photo6
-  ];
+  const cardTransforms = useHeroCardTransforms(
+    heroCards,
+    rotX,
+    rotY,
+    shiftX,
+    shiftY
+  );
 
   // Organization state: when true, all cards align + bubbles show
   // const [isOrganized, setIsOrganized] = useState(false);
@@ -225,8 +255,8 @@ export default function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.4 }}
-            href="#projects"
-            onClick={(e) => onAnchorClick(e, "projects")}
+            href="#products"
+            onClick={(e) => onAnchorClick(e, "products")}
             className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 py-3 font-medium text-white shadow-lg backdrop-blur-md transition hover:-translate-y-0.5 hover:bg-white/20"
           >
             View My Work <ArrowRight className="h-5 w-5" />
@@ -238,32 +268,18 @@ export default function Hero() {
           className="relative hidden h-[560px] transform-gpu md:block"
           style={{ perspective: "1200px" }}
         >
-          {imgs.map((img, i) => {
-            // When organized, we ignore parallax MotionValues and animate to org[i]
-            const bp = bubblePos[i] ?? {
-              side: "right",
-              offsetX: -210,
-              offsetY: 0,
-            };
-
-            const parallaxStyle = {
-              rotateX: transforms[i].tRotX,
-              rotateY: transforms[i].tRotY,
-              x: transforms[i].tX,
-              y: transforms[i].tY,
-            } as const;
-
+          {heroCards.map((card, i) => {
             return (
               <motion.div
-                key={img.src}
+                key={card.image.src}
                 initial={{ opacity: 0, y: 24 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: 0.35 + i * 0.08 }}
                 style={{
-                  rotateX: transforms[i].tRotX,
-                  rotateY: transforms[i].tRotY,
-                  x: transforms[i].tX,
-                  y: transforms[i].tY,
+                  rotateX: cardTransforms[i].tRotX,
+                  rotateY: cardTransforms[i].tRotY,
+                  x: cardTransforms[i].tX,
+                  y: cardTransforms[i].tY,
                 }}
                 whileHover={{
                   scale: 1.06,
@@ -284,7 +300,7 @@ export default function Hero() {
                   "absolute w-[180px] h-[240px] rounded-2xl select-none",
                   "shadow-[0_12px_30px_rgba(0,0,0,0.28)] ring-1 ring-white/20",
                   "bg-white/10 backdrop-blur-sm",
-                  positions[i],
+                  card.positionClass,
                   "z-10",
                 ].join(" ")}
               >
@@ -292,13 +308,13 @@ export default function Hero() {
                 <div
                   className="relative h-full w-full rounded-2xl"
                   style={{
-                    transform: `rotateX(${baseRx[i]}deg) rotateY(${baseRy[i]}deg) rotateZ(${baseRz[i]}deg)`,
+                    transform: `rotateX(${card.baseRotation.x}deg) rotateY(${card.baseRotation.y}deg) rotateZ(${card.baseRotation.z}deg)`,
                     transformStyle: "preserve-3d",
                   }}
                 >
                   <Image
-                    src={img.src}
-                    alt={img.alt}
+                    src={card.image.src}
+                    alt={card.image.alt}
                     width={180}
                     height={240}
                     className="rounded-2xl object-cover pointer-events-none"
@@ -309,19 +325,19 @@ export default function Hero() {
 
                 {/* bolha: controla visibilidade pelo hoveredIndex */}
                 <motion.a
-                  href={bubbles[i].href}
+                  href={card.bubble.href}
                   target="_self"
                   className="pointer-events-auto absolute w-[200px] rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-center text-white shadow-lg backdrop-blur-md"
                   style={{
                     right:
-                      bubblePos[i].side === "right"
-                        ? bubblePos[i].offsetX
+                      card.bubble.side === "right"
+                        ? card.bubble.offsetX
                         : undefined,
                     left:
-                      bubblePos[i].side === "left"
-                        ? bubblePos[i].offsetX
+                      card.bubble.side === "left"
+                        ? card.bubble.offsetX
                         : undefined,
-                    top: `calc(50% + ${bubblePos[i].offsetY}px)`,
+                    top: `calc(50% + ${card.bubble.offsetY}px)`,
                     transform: "translateY(-50%)",
                   }}
                   initial={{ opacity: 0, y: 6 }}
@@ -340,7 +356,7 @@ export default function Hero() {
                   }}
                 >
                   <span className="block text-sm font-medium leading-snug">
-                    {bubbles[i].text}
+                    {card.bubble.text}
                   </span>
                 </motion.a>
               </motion.div>
