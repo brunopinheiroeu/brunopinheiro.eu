@@ -124,8 +124,9 @@ type HeroCardProps = {
   shiftX: MotionValue<number>;
   shiftY: MotionValue<number>;
   hoveredIndex: number | null;
-  setHoveredIndex: (fn: (current: number | null) => number | null) => void;
+  setHoveredIndex: React.Dispatch<React.SetStateAction<number | null>>;
   hideTimerRef: MutableRefObject<ReturnType<typeof setTimeout> | null>;
+  clearHideTimer: () => void;
 };
 
 function HeroCard({
@@ -138,6 +139,7 @@ function HeroCard({
   hoveredIndex,
   setHoveredIndex,
   hideTimerRef,
+  clearHideTimer,
 }: HeroCardProps) {
   const tRotX = useTransform(rotX, (v) => v * card.depth);
   const tRotY = useTransform(rotY, (v) => v * card.depth);
@@ -371,6 +373,7 @@ export default function Hero() {
               hoveredIndex={hoveredIndex}
               setHoveredIndex={setHoveredIndex}
               hideTimerRef={hideTimerRef}
+              clearHideTimer={clearHideTimer}
             />
           ))}
         </div>

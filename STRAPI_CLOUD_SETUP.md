@@ -5,6 +5,7 @@ Este guia explica como conectar o frontend Next.js ao Strapi Cloud.
 ## 1. Obter URL do Strapi Cloud
 
 Após fazer o deploy do backend no Strapi Cloud, você receberá uma URL como:
+
 - `https://seu-app.strapiapp.com`
 
 ## 2. Configuração Local (Desenvolvimento)
@@ -62,6 +63,6 @@ Se você receber erros de CORS, verifique se o Strapi Cloud está configurado pa
 ### Erro 404 na API
 
 Verifique se a URL está correta e se o Strapi Cloud está rodando. A URL deve terminar sem `/api`:
+
 - ✅ Correto: `https://seu-app.strapiapp.com`
 - ❌ Incorreto: `https://seu-app.strapiapp.com/api`
-
