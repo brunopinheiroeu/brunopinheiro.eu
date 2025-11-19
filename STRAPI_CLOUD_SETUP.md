@@ -10,18 +10,13 @@ Após fazer o deploy do backend no Strapi Cloud, você receberá uma URL como:
 
 ## 2. Configuração Local (Desenvolvimento)
 
-Crie um arquivo `.env.local` na raiz do projeto `frontend/`:
-
-```bash
-cd frontend
-cp .env.example .env.local
-```
-
-Edite o `.env.local` e adicione a URL do seu Strapi Cloud:
+O arquivo `.env.local` já está configurado com:
 
 ```env
-NEXT_PUBLIC_STRAPI_URL=https://seu-app.strapiapp.com
+NEXT_PUBLIC_STRAPI_URL=https://miraculous-animal-a6e1da2121.strapiapp.com
 ```
+
+Se precisar alterar, edite o arquivo `.env.local` na raiz do projeto `frontend/`.
 
 ## 3. Configuração no Vercel (Produção)
 
@@ -30,7 +25,7 @@ NEXT_PUBLIC_STRAPI_URL=https://seu-app.strapiapp.com
 3. Vá em **Settings** → **Environment Variables**
 4. Adicione a variável:
    - **Name**: `NEXT_PUBLIC_STRAPI_URL`
-   - **Value**: `https://seu-app.strapiapp.com`
+   - **Value**: `https://miraculous-animal-a6e1da2121.strapiapp.com`
    - **Environments**: Marque todas (Production, Preview, Development)
 5. Clique em **Save**
 6. Faça um novo deploy para aplicar as mudanças
@@ -55,10 +50,11 @@ Acesse http://localhost:3000 e verifique se os produtos estão sendo carregados 
 
 ### Erro de CORS
 
-Se você receber erros de CORS, verifique se o Strapi Cloud está configurado para permitir requisições do seu domínio:
+O Strapi Cloud geralmente já permite requisições de qualquer origem por padrão. Se você receber erros de CORS:
 
-1. No Strapi Cloud, vá em **Settings** → **Security**
-2. Adicione seu domínio Vercel na lista de origens permitidas
+1. Verifique se a URL do Strapi está correta (sem `/api` no final)
+2. Verifique se o Strapi Cloud está rodando e acessível
+3. Se necessário, configure CORS no código do backend editando `backend/config/middlewares.ts`
 
 ### Erro 404 na API
 
