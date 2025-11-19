@@ -485,6 +485,7 @@ export interface ApiProductProduct extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     excerpt: Schema.Attribute.RichText;
     front_page: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    front_page_order: Schema.Attribute.Integer;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',

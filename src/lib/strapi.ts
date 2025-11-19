@@ -26,6 +26,7 @@ export interface Product {
   slug: string;
   excerpt: string;
   front_page: boolean;
+  front_page_order?: number;
   tags?: string; // Comma-separated tags
   tools?: string; // Comma-separated tool names (figma, photoshop, html5, css3)
   createdAt: string;
@@ -59,9 +60,10 @@ const STRAPI_URL =
  */
 export async function getProjects(): Promise<Product[]> {
   try {
-    const response = await fetch(`${STRAPI_URL}/api/products?populate=*`, {
-      cache: "no-store", // Disable caching for dynamic data
-    });
+    const response = await fetch(
+      `${STRAPI_URL}/api/products?populate=*&sort=front_page_order:asc`,
+      { cache: "no-store" }
+    );
 
     if (!response.ok) {
       throw new Error(`Failed to fetch products: ${response.statusText}`);

@@ -1,5 +1,5 @@
 import Image from "next/image";
-import { ArrowLeft, Calendar, Tag, Users, Zap, Shield } from "lucide-react";
+import { ArrowLeft, Calendar } from "lucide-react";
 import Link from "next/link";
 
 export default function ExampleProjectPage() {
@@ -169,7 +169,7 @@ export default function ExampleProjectPage() {
           <div className="prose prose-lg max-w-none text-gray-700">
             <p className="mb-4">
               The UI/UX design focused on creating a seamless experience that
-              feels natural and augments the user's workflow rather than
+              feels natural and augments the user&rsquo;s workflow rather than
               replacing it.
             </p>
             <p className="mb-4">
@@ -177,7 +177,7 @@ export default function ExampleProjectPage() {
             </p>
             <ul className="mb-4">
               <li>
-                <strong>Transparent AI:</strong> Users always know when they're
+                <strong>Transparent AI:</strong> Users always know when they&rsquo;re
                 interacting with AI vs. humans
               </li>
               <li>
@@ -195,21 +195,21 @@ export default function ExampleProjectPage() {
             </ul>
             <p className="mb-4">
               <strong>Vibe-Coding Approach:</strong> Leveraged my
-              design/frontend background to translate the intended "feeling" of
+              design/frontend background to translate the intended &ldquo;feeling&rdquo; of
               trust and efficiency directly into functional code. The interface
               uses subtle animations and micro-interactions to provide feedback
-              and build confidence in the AI's capabilities.
+              and build confidence in the AI&rsquo;s capabilities.
             </p>
             <div className="bg-gray-50 p-6 rounded-lg my-6">
               <p className="text-sm text-gray-600 italic">
-                "The interface feels like having a knowledgeable colleague
-                looking over your shoulder, ready to help but never intrusive."
+                &ldquo;The interface feels like having a knowledgeable colleague
+                looking over your shoulder, ready to help but never intrusive.&rdquo;
                 - Beta Tester Feedback
               </p>
             </div>
             <p>
               The design serves as a defensive moat by creating a user
-              experience that's difficult to replicate - combining AI
+              experience that&rsquo;s difficult to replicate - combining AI
               intelligence with human-centered design that builds trust and
               efficiency.
             </p>

@@ -19,6 +19,9 @@
       "type": "uid",
       "targetField": "title"
     },
+    "front_page_order": {
+      "type": "integer"
+    },
     "excerpt": {
       "type": "richtext"
     },

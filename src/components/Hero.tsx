@@ -9,6 +9,7 @@ import {
 import { ArrowRight } from "lucide-react";
 import Image from "next/image";
 import { useCallback, useRef, useState, useEffect } from "react";
+import type { MutableRefObject } from "react";
 import { scrollToSection } from "@/lib/scroll";
 
 type BubbleConfig = {
@@ -115,26 +116,116 @@ const heroCards: HeroCardConfig[] = [
   },
 ];
 
-type CardTransform = {
-  tRotX: MotionValue<number>;
-  tRotY: MotionValue<number>;
-  tX: MotionValue<number>;
-  tY: MotionValue<number>;
+type HeroCardProps = {
+  card: HeroCardConfig;
+  index: number;
+  rotX: MotionValue<number>;
+  rotY: MotionValue<number>;
+  shiftX: MotionValue<number>;
+  shiftY: MotionValue<number>;
+  hoveredIndex: number | null;
+  setHoveredIndex: (fn: (current: number | null) => number | null) => void;
+  hideTimerRef: MutableRefObject<ReturnType<typeof setTimeout> | null>;
 };
 
-function useHeroCardTransforms(
-  cards: HeroCardConfig[],
-  rotX: MotionValue<number>,
-  rotY: MotionValue<number>,
-  shiftX: MotionValue<number>,
-  shiftY: MotionValue<number>
-): CardTransform[] {
-  return cards.map((card) => ({
-    tRotX: useTransform(rotX, (v) => v * card.depth),
-    tRotY: useTransform(rotY, (v) => v * card.depth),
-    tX: useTransform(shiftX, (v) => v * card.depth),
-    tY: useTransform(shiftY, (v) => v * card.depth),
-  }));
+function HeroCard({
+  card,
+  index,
+  rotX,
+  rotY,
+  shiftX,
+  shiftY,
+  hoveredIndex,
+  setHoveredIndex,
+  hideTimerRef,
+}: HeroCardProps) {
+  const tRotX = useTransform(rotX, (v) => v * card.depth);
+  const tRotY = useTransform(rotY, (v) => v * card.depth);
+  const tX = useTransform(shiftX, (v) => v * card.depth);
+  const tY = useTransform(shiftY, (v) => v * card.depth);
+
+  return (
+    <motion.div
+      key={card.image.src}
+      initial={{ opacity: 0, y: 24 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.6, delay: 0.35 + index * 0.08 }}
+      style={{
+        rotateX: tRotX,
+        rotateY: tRotY,
+        x: tX,
+        y: tY,
+      }}
+      whileHover={{
+        scale: 1.06,
+        y: -8,
+        transition: { type: "spring", stiffness: 220, damping: 18 },
+      }}
+      onHoverStart={() => {
+        clearHideTimer();
+        setHoveredIndex(index);
+      }}
+      onHoverEnd={() => {
+        hideTimerRef.current = setTimeout(() => {
+          setHoveredIndex((curr) => (curr === index ? null : curr));
+        }, 160);
+      }}
+      className={[
+        "absolute w-[180px] h-[240px] rounded-2xl select-none",
+        "shadow-[0_12px_30px_rgba(0,0,0,0.28)] ring-1 ring-white/20",
+        "bg-white/10 backdrop-blur-sm",
+        card.positionClass,
+        "z-10",
+      ].join(" ")}
+    >
+      <div
+        className="relative h-full w-full rounded-2xl"
+        style={{
+          transform: `rotateX(${card.baseRotation.x}deg) rotateY(${card.baseRotation.y}deg) rotateZ(${card.baseRotation.z}deg)`,
+          transformStyle: "preserve-3d",
+        }}
+      >
+        <Image
+          src={card.image.src}
+          alt={card.image.alt}
+          width={180}
+          height={240}
+          className="rounded-2xl object-cover pointer-events-none"
+          draggable={false}
+          priority={index === 0}
+        />
+      </div>
+
+      <motion.a
+        href={card.bubble.href}
+        target="_self"
+        className="pointer-events-auto absolute w-[200px] rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-center text-white shadow-lg backdrop-blur-md"
+        style={{
+          right: card.bubble.side === "right" ? card.bubble.offsetX : undefined,
+          left: card.bubble.side === "left" ? card.bubble.offsetX : undefined,
+          top: `calc(50% + ${card.bubble.offsetY}px)`,
+          transform: "translateY(-50%)",
+        }}
+        initial={{ opacity: 0, y: 6 }}
+        animate={{
+          opacity: hoveredIndex === index ? 1 : 0,
+          y: hoveredIndex === index ? 0 : 6,
+        }}
+        transition={{ duration: 0.25 }}
+        onHoverStart={() => {
+          clearHideTimer();
+          setHoveredIndex(index);
+        }}
+        onHoverEnd={() => {
+          setHoveredIndex((curr) => (curr === index ? null : curr));
+        }}
+      >
+        <span className="block text-sm font-medium leading-snug">
+          {card.bubble.text}
+        </span>
+      </motion.a>
+    </motion.div>
+  );
 }
 
 export default function Hero() {
@@ -153,14 +244,6 @@ export default function Hero() {
   const shiftX = useTransform(smx, [-1, 1], [16, -16]);
   const shiftY = useTransform(smy, [-1, 1], [-12, 12]);
 
-  const cardTransforms = useHeroCardTransforms(
-    heroCards,
-    rotX,
-    rotY,
-    shiftX,
-    shiftY
-  );
-
   // Organization state: when true, all cards align + bubbles show
   // const [isOrganized, setIsOrganized] = useState(false);
 
@@ -168,11 +251,19 @@ export default function Hero() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const hideTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
+  const clearHideTimer = useCallback(() => {
+    const timer = hideTimerRef.current;
+    if (timer) {
+      clearTimeout(timer);
+      hideTimerRef.current = null;
+    }
+  }, []);
+
   useEffect(() => {
     return () => {
-      if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
+      clearHideTimer();
     };
-  }, []);
+  }, [clearHideTimer]);
 
   const onMouseMoveHero = useCallback(
     (e: React.MouseEvent) => {
@@ -268,100 +359,20 @@ export default function Hero() {
           className="relative hidden h-[560px] transform-gpu md:block"
           style={{ perspective: "1200px" }}
         >
-          {heroCards.map((card, i) => {
-            return (
-              <motion.div
-                key={card.image.src}
-                initial={{ opacity: 0, y: 24 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.35 + i * 0.08 }}
-                style={{
-                  rotateX: cardTransforms[i].tRotX,
-                  rotateY: cardTransforms[i].tRotY,
-                  x: cardTransforms[i].tX,
-                  y: cardTransforms[i].tY,
-                }}
-                whileHover={{
-                  scale: 1.06,
-                  y: -8,
-                  transition: { type: "spring", stiffness: 220, damping: 18 },
-                }}
-                onHoverStart={() => {
-                  if (hideTimerRef.current) clearTimeout(hideTimerRef.current);
-                  setHoveredIndex(i);
-                }}
-                onHoverEnd={() => {
-                  // pequeno atraso para permitir mover da foto até a bolha
-                  hideTimerRef.current = setTimeout(() => {
-                    setHoveredIndex((curr) => (curr === i ? null : curr));
-                  }, 160);
-                }}
-                className={[
-                  "absolute w-[180px] h-[240px] rounded-2xl select-none",
-                  "shadow-[0_12px_30px_rgba(0,0,0,0.28)] ring-1 ring-white/20",
-                  "bg-white/10 backdrop-blur-sm",
-                  card.positionClass,
-                  "z-10",
-                ].join(" ")}
-              >
-                {/* imagem + rotação base */}
-                <div
-                  className="relative h-full w-full rounded-2xl"
-                  style={{
-                    transform: `rotateX(${card.baseRotation.x}deg) rotateY(${card.baseRotation.y}deg) rotateZ(${card.baseRotation.z}deg)`,
-                    transformStyle: "preserve-3d",
-                  }}
-                >
-                  <Image
-                    src={card.image.src}
-                    alt={card.image.alt}
-                    width={180}
-                    height={240}
-                    className="rounded-2xl object-cover pointer-events-none"
-                    draggable={false}
-                    priority={i === 0}
-                  />
-                </div>
-
-                {/* bolha: controla visibilidade pelo hoveredIndex */}
-                <motion.a
-                  href={card.bubble.href}
-                  target="_self"
-                  className="pointer-events-auto absolute w-[200px] rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-center text-white shadow-lg backdrop-blur-md"
-                  style={{
-                    right:
-                      card.bubble.side === "right"
-                        ? card.bubble.offsetX
-                        : undefined,
-                    left:
-                      card.bubble.side === "left"
-                        ? card.bubble.offsetX
-                        : undefined,
-                    top: `calc(50% + ${card.bubble.offsetY}px)`,
-                    transform: "translateY(-50%)",
-                  }}
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{
-                    opacity: hoveredIndex === i ? 1 : 0,
-                    y: hoveredIndex === i ? 0 : 6,
-                  }}
-                  transition={{ duration: 0.25 }}
-                  onHoverStart={() => {
-                    if (hideTimerRef.current)
-                      clearTimeout(hideTimerRef.current);
-                    setHoveredIndex(i);
-                  }}
-                  onHoverEnd={() => {
-                    setHoveredIndex((curr) => (curr === i ? null : curr));
-                  }}
-                >
-                  <span className="block text-sm font-medium leading-snug">
-                    {card.bubble.text}
-                  </span>
-                </motion.a>
-              </motion.div>
-            );
-          })}
+          {heroCards.map((card, i) => (
+            <HeroCard
+              key={card.image.src}
+              card={card}
+              index={i}
+              rotX={rotX}
+              rotY={rotY}
+              shiftX={shiftX}
+              shiftY={shiftY}
+              hoveredIndex={hoveredIndex}
+              setHoveredIndex={setHoveredIndex}
+              hideTimerRef={hideTimerRef}
+            />
+          ))}
         </div>
 
         {/* mobile fallback (2x2)
