@@ -46,7 +46,7 @@ export default function About() {
             <p className="mb-4">
               Hi, my name is
               <strong className="text-indigo-700"> Bruno Pinheiro</strong> and
-              I`m a{" "}
+              I'm a{" "}
               <strong className="text-indigo-700">AI Product Builder</strong>{" "}
               based in Valencia, Spain.{" "}
             </p>

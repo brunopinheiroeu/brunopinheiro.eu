@@ -21,6 +21,11 @@ const eslintConfig = [
       "backend/**",
     ],
   },
+  {
+    rules: {
+      "react/no-unescaped-entities": "off",
+    },
+  },
 ];
 
 export default eslintConfig;
