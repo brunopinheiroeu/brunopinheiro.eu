@@ -7,7 +7,7 @@ import FadeHeader from "@/components/FadeHeader";
 import MarkdownContent from "@/components/MarkdownContent";
 import { ArrowRight } from "lucide-react";
 import type { Product } from "@/lib/contentful";
-import { mapTools, type ToolIcon } from "@/lib/toolIcons";
+import { getToolItems, type ToolItem } from "@/lib/toolIcons";
 
 const fallbackProductImages = [
   { src: "/images/photo6.png", alt: "Project cover 1" },
@@ -25,8 +25,7 @@ type NormalizedProduct = {
   desc: string;
   tags: string[];
   href: string;
-  tools: ToolIcon[];
-  toolLabels: string[];
+  tools: ToolItem[];
   cover: {
     src: string;
     alt: string;
@@ -44,21 +43,17 @@ export default function Products({ products: strapiProducts }: ProductsProps) {
       const fallbackImage =
         fallbackProductImages[index % fallbackProductImages.length];
       const coverSrc = product.coverImage?.url ?? fallbackImage.src;
-      const { icons, labels } = mapTools(product.tools);
+      const toolItems = getToolItems(product.tools);
 
       return {
         title: product.title,
         desc: product.frontPageText,
         tags: product.tags ?? [],
         href: `/products/${product.slug}`,
-        tools: icons,
-        toolLabels: labels,
+        tools: toolItems,
         cover: {
           src: coverSrc,
-          alt:
-            product.coverImage?.alt ||
-            fallbackImage.alt ||
-            product.title,
+          alt: product.coverImage?.alt || fallbackImage.alt || product.title,
         },
       };
     });
@@ -125,18 +120,25 @@ export default function Products({ products: strapiProducts }: ProductsProps) {
                       style={{ transformOrigin: "left center" }}
                     >
                       <div className="flex flex-wrap items-center justify-center gap-3 text-white text-xs font-medium">
-                        {p.tools.map((Icon, idx) => (
-                          <Icon key={`icon-${idx}`} className="h-5 w-5 text-white" />
-                        ))}
-                        {p.toolLabels.map((label) => (
-                          <span
-                            key={label}
-                            className="rounded-full border border-white/30 bg-white/10 px-2.5 py-1 text-[11px] uppercase tracking-wide"
-                          >
-                            {label}
-                          </span>
-                        ))}
-                        {!p.tools.length && !p.toolLabels.length ? (
+                        {p.tools.map((tool) =>
+                          tool.Icon ? (
+                            <span
+                              key={`hover-${tool.key}`}
+                              className="inline-flex h-6 w-6 items-center justify-center rounded-full bg-white/10"
+                              title={tool.label}
+                            >
+                              <tool.Icon className="h-4 w-4 text-white" />
+                            </span>
+                          ) : (
+                            <span
+                              key={`hover-${tool.key}`}
+                              className="rounded-full border border-white/30 bg-white/10 px-2.5 py-1 text-[11px] uppercase tracking-wide"
+                            >
+                              {tool.label}
+                            </span>
+                          )
+                        )}
+                        {!p.tools.length ? (
                           <span className="text-xs uppercase tracking-wide text-white/70">
                             Tooling coming soon
                           </span>
@@ -177,18 +179,25 @@ export default function Products({ products: strapiProducts }: ProductsProps) {
 
                     {/* tools fixed on mobile */}
                     <div className="mb-4 flex flex-wrap items-center gap-3 md:hidden">
-                      {p.tools.map((Icon, idx) => (
-                        <Icon key={`mobile-icon-${idx}`} className="h-5 w-5 text-indigo-600" />
-                      ))}
-                      {p.toolLabels.map((label) => (
-                        <span
-                          key={`mobile-label-${label}`}
-                          className="rounded-full border border-indigo-200 bg-indigo-50 px-2.5 py-1 text-[11px] font-medium uppercase tracking-wide text-indigo-700"
-                        >
-                          {label}
-                        </span>
-                      ))}
-                      {!p.tools.length && !p.toolLabels.length ? (
+                      {p.tools.map((tool) =>
+                        tool.Icon ? (
+                          <span
+                            key={`mobile-${tool.key}`}
+                            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-indigo-200 bg-indigo-50"
+                            title={tool.label}
+                          >
+                            <tool.Icon className="h-4 w-4 text-indigo-600" />
+                          </span>
+                        ) : (
+                          <span
+                            key={`mobile-${tool.key}`}
+                            className="rounded-full border border-indigo-200 bg-indigo-50 px-2.5 py-1 text-[11px] font-medium uppercase tracking-wide text-indigo-700"
+                          >
+                            {tool.label}
+                          </span>
+                        )
+                      )}
+                      {!p.tools.length ? (
                         <span className="text-xs uppercase tracking-wide text-slate-500">
                           Tooling coming soon
                         </span>

@@ -9,18 +9,18 @@ import Footer from "@/components/Footer";
 import HashScrollHandler from "@/components/HashScrollHandler";
 import { getProducts } from "@/lib/contentful";
 
-// Mark page as dynamic since it fetches data from Strapi
+// Mark page as dynamic since it fetches data from Contentful
 export const dynamic = "force-dynamic";
 
 export default async function Page() {
-  // Fetch products from Strapi backend
+  // Fetch products from Contentful
   const products = await getProducts();
 
   return (
     <div className="min-h-screen antialiased text-slate-900">
       <HashScrollHandler />
       <Nav />
-      <div className="pl-20">
+      <div className="pl-0 md:pl-20">
         <Hero />
         <Products products={products} />
         <Experience />

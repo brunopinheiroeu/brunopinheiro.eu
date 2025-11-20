@@ -321,17 +321,28 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="mb-4 text-xl font-semibold text-blue-100"
           >
-            Senior Product Designer & Technologist
+            AI Product Builder & Design Technologist
           </motion.p>
-
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mb-6 text-4xl font-extrabold md:text-6xl"
           >
-            TURNING IDEAS INTO PURE REALITY
+            TURNING IDEAS INTO SHIPPED PRODUCTS
           </motion.h1>
+          <motion.p
+            initial={{ opacity: 0, y: 24 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, delay: 0.3 }}
+            className="mb-8 max-w-xl text-blue-100"
+          >
+            20+ years designing digital experiences → Now building and shipping
+            AI-powered products from 0 to 1. <br />
+            From concept to code to customer. Fast iterations. Real solutions.
+            <br />
+            EdTech platforms · AI tools · Emerging tech.
+          </motion.p>
 
           <motion.p
             initial={{ opacity: 0, y: 24 }}
@@ -339,11 +350,8 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.3 }}
             className="mb-8 max-w-xl text-blue-100"
           >
-            Transforming complex systems into seamless user experiences. 20+
-            years crafting digital solutions that drive business growth and
-            delight users across web, mobile, and emerging technologies.
+            Building with: Cursor · n8n · Supabase · Next.js · AI APIs
           </motion.p>
-
           <motion.a
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
@@ -352,7 +360,8 @@ export default function Hero() {
             onClick={(e) => onAnchorClick(e, "products")}
             className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 py-3 font-medium text-white shadow-lg backdrop-blur-md transition hover:-translate-y-0.5 hover:bg-white/20"
           >
-            View My Work <ArrowRight className="h-5 w-5" />
+            See What I've Built
+            <ArrowRight className="h-5 w-5" />
           </motion.a>
         </div>
 

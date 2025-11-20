@@ -10,7 +10,7 @@ export default function About() {
       <div className="mx-auto max-w-6xl px-6">
         <FadeHeader
           title="About Me"
-          subtitle="Smart Work Over Hard Work — Always Building Better"
+          subtitle="Smart Work Over Hard Work - Always Building Better"
         />
         <div className="grid items-center gap-10 md:grid-cols-[1fr_1.5fr]">
           <motion.div
@@ -44,43 +44,41 @@ export default function About() {
             className="text-base leading-relaxed text-slate-800"
           >
             <p className="mb-4">
-              It`s not that I`m always working — actually, I really don`t
-              believe that heavy work is the answer. I believe in{" "}
-              <strong className="text-indigo-700">smart work</strong>: making
-              the most of our time, learning new tools, and improving processes
-              to build better projects and a better quality of life.
+              Hi, my name is
+              <strong className="text-indigo-700"> Bruno Pinheiro</strong> and
+              I`m a{" "}
+              <strong className="text-indigo-700">AI Product Builder</strong>{" "}
+              based in Valencia, Spain.{" "}
             </p>
             <p className="mb-4">
-              My journey into tech started back in the late `90s. In 1998, I
-              took my first course:{" "}
-              <strong className="text-indigo-700">
-                How to Assemble and Maintain a Computer
-              </strong>
-              , followed by{" "}
-              <strong className="text-indigo-700">Programming in Delphi</strong>
-              . But honestly, my earliest memory of all is way before that —{" "}
-              <em className="text-slate-500">
-                pulling motors from toy cars to build my own fans and boats
-              </em>
-              .
+              It's not that I'm always working—I really don't believe heavy work
+              is the answer. I believe in smart work: using the right tools,
+              learning fast, and improving processes to build better products
+              and a better quality of life.
             </p>
-            <p>
-              Fast forward a bit, in 2001 I began studying Graphic Design while
-              working with web technologies like HTML, Fireworks, Photoshop,
-              Flash and PHP. Since then, I`ve explored multiple fields of
-              design, with a special focus on 3D, Video, Games, Web, VR, AR, 3D
-              printing, UX and now AI.{" "}
+
+            <p className="mb-4">
+              My tech journey started in the late '90s with my first course:
+              "How to Assemble and Maintain a Computer." But honestly, my
+              earliest memory is way before that—pulling motors from toy cars to
+              build my own fans and boats. That curiosity never left.
             </p>
-            <p>
-              Outside of work, my passions are{" "}
-              <strong className="text-indigo-700">
-                running, photography, cooking, and playing guitar.{" "}
-              </strong>
-              <em className="text-slate-500">
-                Would you believe if I said that I went from Obese to Run a Full
-                marathon?
-              </em>
-              .
+
+            <p className="mb-4">
+              For 20 years, I designed products. Then AI tools arrived and I
+              realized: why hand off when I can just build it myself? So I
+              learned to code with AI, and now I ship complete products—from
+              concept to deployment—in weeks.
+            </p>
+
+            <p className="mb-4">
+              Outside of work: running (went from obese to full marathon
+              runner), photography, cooking, and guitar.
+            </p>
+
+            <p className="mb-4">
+              Currently building AI tools, managing educational gaming
+              platforms, and helping designers become builders.
             </p>
           </motion.div>
         </div>

@@ -26,6 +26,8 @@ import {
   SiBlender,
   SiUnity,
   SiUnrealengine,
+  SiOpenai,
+  SiFastapi,
 } from "react-icons/si";
 
 export type ToolIcon = ComponentType<{ className?: string }>;
@@ -93,28 +95,41 @@ const toolMap: Record<string, ToolIcon> = {
   siunrealengine: SiUnrealengine,
   unrealengine: SiUnrealengine,
   unreal: SiUnrealengine,
+  siopenai: SiOpenai,
+  openai: SiOpenai,
+  sifastapi: SiFastapi,
+  fastapi: SiFastapi,
 };
 
-export function mapTools(tools?: string[]) {
-  const icons: ToolIcon[] = [];
-  const labels: string[] = [];
+export type ToolItem = {
+  key: string;
+  label: string;
+  Icon?: ToolIcon;
+};
 
-  if (!tools?.length) {
-    return { icons, labels };
-  }
-
-  tools.forEach((tool) => {
-    const trimmed = tool.trim();
-    if (!trimmed) return;
-    const key = trimmed.toLowerCase();
-    const Icon = toolMap[key];
-    if (Icon) {
-      icons.push(Icon);
-    } else {
-      labels.push(trimmed);
-    }
-  });
-
-  return { icons, labels };
+function normalizeToolsInput(tools?: string[] | string): string[] {
+  if (!tools) return [];
+  if (Array.isArray(tools)) return tools;
+  return tools
+    .split(",")
+    .map((tool) => tool.trim())
+    .filter(Boolean);
 }
 
+export function getToolItems(tools?: string[] | string): ToolItem[] {
+  const normalized = normalizeToolsInput(tools);
+  if (!normalized.length) return [];
+
+  return normalized
+    .map((tool, index) => {
+      const key = `${tool}-${index}`;
+      const lookup = tool.toLowerCase();
+      const Icon = toolMap[lookup];
+      return {
+        key,
+        label: tool,
+        Icon,
+      };
+    })
+    .filter((item) => !!item.label);
+}

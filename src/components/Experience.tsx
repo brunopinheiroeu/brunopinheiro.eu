@@ -14,11 +14,21 @@ export default function Experience() {
       company: "Edco - Ireland's Leading Educational Platform - Ireland",
       period: "05/2022 - Present",
       bullets: [
-        "Led remote development teams and managed cross-functional stakeholder relationships",
-        "Spearheaded Flash-to-HTML5 migration, increasing monthly game delivery from 30 to 100",
-        "Reduced game rework by 70% through improved testing practices",
-        "Optimized processes, reducing developer hours from 100 to 50 weekly while maintaining productivity",
-        "Active member of company's AI research group, implementing automation solutions",
+        "Led Flash-to-HTML5 migration for educational gaming platform serving 50,000+ students, increasing monthly game delivery from 30 to 100 (3x improvement)",
+        "Reduced game rework by 70% through improved testing practices and automated workflows using Python and AI tools",
+        "Optimized development processes for distributed team, reducing developer hours from 100 to 50 weekly while maintaining productivity (50% cost savings)",
+        "Redesigned flagship learning platform with 11% more usable screen space, improving student focus and engagement",
+        "Active member of company's AI research group, implementing automation solutions and exploring AI integration opportunities",
+      ],
+    },
+    {
+      title: "AI Product Manager Bootcamp (Maven)",
+      company: "Capstone Project: Artori.app",
+      period: "2025",
+      bullets: [
+        "Built full-stack AI art generator using Next.js, Supabase, and OpenAI APIs in 4-week sprint",
+        "Managed end-to-end product lifecycle from concept to deployment using AI-assisted development (Snapdev)",
+        "Currently live at artori.app, demonstrating rapid prototyping and AI product development capabilities'",
       ],
     },
     {
@@ -26,34 +36,8 @@ export default function Experience() {
       company: "Imvizar - Augmented Reality Startup - Ireland",
       period: "01/2022 - 04/2022",
       bullets: [
-        "Led end-to-end mobile and web application redesign",
-        "Complete visual identity overhaul including new logo, website, and app styling",
-        "Contributed directly to securing new partnerships and investments post-rebranding",
-        "Created foundational design system still in use today",
-      ],
-    },
-    {
-      title: "Motion Designer",
-      company:
-        "Thérapie Clinic - Europe's No.1 Medical Aesthetic Clinic - Ireland",
-      period: "01/2021 - 10/2021",
-      bullets: [
-        "Primary Motion Designer for Marketing team",
-        "Delivered 40+ publicity videos, 100 images, and 10 3D animations",
-        "Contributed to creation of company podcast 'Fertility Talks'",
-        "Enhanced creative production processes with new tools and technologies",
-      ],
-    },
-    {
-      title: "3D Product Designer",
-      company: "MacGowans Print - ",
-      period: "06/2018 - 01/2021",
-      bullets: [
-        "Founded and led innovative virtual reality startup",
-        "Developed 'VR Showroom' real estate platform and 'Go There' tourism app",
-        "Managed development in Unity 3D and Unreal Engine",
-        "Secured incubation and mentorship from InovAtiva Brasil",
-        "Integrated 360º video, 3D modeling, and real-time animation",
+        "Led complete redesign of mobile/web application and visual identity overhaul, directly contributing to securing new partnerships and investment",
+        "Created foundational design system (still in use today) ensuring consistency and scalability across 3 user experiences",
       ],
     },
     {
@@ -61,11 +45,9 @@ export default function Experience() {
       company: "Wave VR Studio - VR/AR Startup",
       period: "06/2014 - 08/2017",
       bullets: [
-        "Founded and led innovative virtual reality startup",
-        "Developed 'VR Showroom' real estate platform and 'Go There' tourism app",
-        "Managed development in Unity 3D and Unreal Engine",
-        "Secured incubation and mentorship from InovAtiva Brasil",
-        "Integrated 360º video, 3D modeling, and real-time animation",
+        "Founded and led VR startup, managing end-to-end product lifecycle for multiple VR/AR solutions (VR Showroom, Go There tourism app)",
+        "Developed products in Unity 3D and Unreal Engine, conducted user research, pivoted to B2B based on market analysis",
+        "Secured incubation and mentorship (InovAtiva Brasil, Paraíba Technological Park) for MVP development",
       ],
     },
   ];
@@ -75,7 +57,7 @@ export default function Experience() {
       <div className="mx-auto max-w-6xl px-6">
         <FadeHeader
           title="Professional Experience"
-          subtitle="Two decades of design leadership across diverse industries and emerging technologies"
+          subtitle="From design leadership to shipping AI-powered products."
         />
         <div className="mx-auto max-w-3xl">
           {experience.map((exp, idx) => (

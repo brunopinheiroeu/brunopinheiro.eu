@@ -3,7 +3,7 @@ import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import FadeHeader from "@/components/FadeHeader";
 import SkillCard from "@/components/SkillCard";
-import { Palette, Code, Users } from "lucide-react";
+import { Palette, Bot, Settings } from "lucide-react";
 
 export default function Skills() {
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -75,7 +75,7 @@ export default function Skills() {
       <div className="relative z-10 mx-auto max-w-6xl px-6">
         <FadeHeader
           title="Core Expertise"
-          subtitle="A unique blend of design thinking, technical expertise, and leadership experience"
+          subtitle="The intersection of design, AI, and rapid execution."
           titleClassName="text-white"
           subtitleClassName="text-white/90"
         />
@@ -85,32 +85,35 @@ export default function Skills() {
             title="Product & UX Design"
             items={[
               "Design Thinking & Strategy",
-              "User-Centric Design",
-              "Prototyping & Wireframing",
-              "Usability Testing",
-              "Figma & Adobe Suite",
+              "End-to-End Product Design",
+              "Rapid Prototyping",
+              "Usability Testing & Research",
+              "Figma & Design Systems",
+              "20+ Years Experience",
             ]}
           />
           <SkillCard
-            icon={<Code className="h-12 w-12 text-white" />}
-            title="Technical Development"
+            icon={<Bot className="h-12 w-12 text-white" />}
+            title="AI Product Building"
+            items={[
+              "AI Integration & Prompting",
+              "No-Code/Low-Code Tools",
+              "Cursor, Lovable, n8n",
+              "Supabase & Backend Setup",
+              "Next.js & Vercel Deploy",
+              "Ship Products in Weeks",
+            ]}
+          />
+          <SkillCard
+            icon={<Settings className="h-12 w-12 text-white" />}
+            title="Technical & Leadership"
             items={[
               "HTML, CSS, JavaScript",
-              "AI Integration & Prompting",
-              "DevOps & CI/CD",
-              "Git & Linux",
-              "Python Automation",
-            ]}
-          />
-          <SkillCard
-            icon={<Users className="h-12 w-12 text-white" />}
-            title="Leadership & Process"
-            items={[
-              "Agile Methodologies",
-              "Remote Team Leadership",
-              "Project Management",
+              "DevOps, CI/CD, Git",
+              "Agile & Remote Teams",
               "Process Optimization",
               "Stakeholder Management",
+              "Python Automation",
             ]}
           />
         </div>

@@ -2,10 +2,10 @@ import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
 import { getProductBySlug, getProducts } from "@/lib/contentful";
-import { mapTools } from "@/lib/toolIcons";
+import { getToolItems } from "@/lib/toolIcons";
 import { ArrowRight } from "lucide-react";
 import Nav from "@/components/Nav";
-import BackButton from "./BackButton";
+// import BackButton from "./BackButton";
 import FadeHeader from "@/components/FadeHeader";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
@@ -17,7 +17,7 @@ interface ProductPageProps {
   }>;
 }
 
-// Mark page as dynamic since it fetches data from Strapi
+// Mark page as dynamic since it fetches data from Contentful
 export const dynamic = "force-dynamic";
 
 export default async function ProductPage({ params }: ProductPageProps) {
@@ -29,16 +29,18 @@ export default async function ProductPage({ params }: ProductPageProps) {
   }
 
   const coverImageUrl = product.coverImage?.url;
-  const { icons: toolIcons, labels: toolLabels } = mapTools(product.tools);
+  const toolItems = getToolItems(product.tools);
 
   // Fetch all projects for related projects section
   const allProducts = await getProducts();
-  const relatedProducts = allProducts.filter((p) => p.slug !== slug).slice(0, 4);
+  const relatedProducts = allProducts
+    .filter((p) => p.slug !== slug)
+    .slice(0, 4);
 
   return (
     <div className="min-h-screen antialiased text-slate-900 bg-indigo-50">
       <Nav />
-      <div className="pl-20">
+      <div className="pl-0 md:pl-20">
         {/* Hero Header Section */}
         <header className="relative overflow-hidden bg-gradient-to-br from-indigo-500 via-purple-500 to-indigo-700 py-16 text-white">
           {/* Angled overlay */}
@@ -48,14 +50,14 @@ export default async function ProductPage({ params }: ProductPageProps) {
             </svg>
           </div>
 
-          <div className="relative z-10 mx-auto max-w-6xl px-6">
-            <BackButton
+          <div className="relative z-10 mx-auto max-w-5xl px-6">
+            {/* <BackButton
               href="/#products"
               sectionId="products"
               className="inline-flex items-center gap-2 mb-8 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white shadow-lg backdrop-blur-md transition hover:-translate-y-0.5 hover:bg-white/20"
-            />
+            /> */}
 
-            <div className="grid md:grid-cols-2 gap-8 items-center">
+            <div className="grid md:grid-cols-[2.3fr_1fr] gap-8 items-center">
               {/* Text Content */}
               <div>
                 <h1 className="text-4xl text-transform: uppercase font-extrabold mb-4 md:text-5xl">
@@ -72,49 +74,52 @@ export default async function ProductPage({ params }: ProductPageProps) {
                   </div>
                 )}
 
-                <div className="flex flex-wrap items-center gap-4 mb-6">
-                  {product.tags.length > 0 && (
-                    <div className="flex flex-wrap gap-2">
-                      {product.tags.map((tag: string, index: number) => (
-                        <span
-                          key={`${tag}-${index}`}
-                          className={`px-3 py-1 text-sm rounded-full font-medium backdrop-blur-md border ${
-                            index % 2 === 0
-                              ? "bg-indigo-400/20 text-white border-white/20"
-                              : "bg-violet-400/20 text-white border-white/20"
-                          }`}
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  )}
-                  {(toolIcons.length > 0 || toolLabels.length > 0) && (
+                {product.tags.length > 0 && (
+                  <div className="mb-4 flex flex-wrap gap-2">
+                    {product.tags.map((tag: string, index: number) => (
+                      <span
+                        key={`${tag}-${index}`}
+                        className={`px-3 py-1 text-sm rounded-full font-medium backdrop-blur-md border ${
+                          index % 2 === 0
+                            ? "bg-indigo-400/20 text-white border-white/20"
+                            : "bg-violet-400/20 text-white border-white/20"
+                        }`}
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+
+                {toolItems.length > 0 && (
+                  <div className="mt-4 space-y-2">
+                    <p className="text-sm font-semibold uppercase tracking-wide text-blue-100">
+                      Tools &amp; Stack
+                    </p>
                     <div className="flex flex-wrap gap-3">
-                      {toolIcons.map((Icon, idx) => (
-                        <span
-                          key={`hero-tool-icon-${idx}`}
-                          className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-white/10"
-                        >
-                          <Icon className="h-5 w-5 text-white" />
-                        </span>
-                      ))}
-                      {toolLabels.map((label) => (
-                        <span
-                          key={`hero-tool-label-${label}`}
-                          className="rounded-full border border-white/30 bg-white/10 px-3 py-1 text-sm font-medium text-white"
-                        >
-                          {label}
-                        </span>
-                      ))}
+                      {toolItems.map((tool) =>
+                        tool.Icon ? (
+                          <tool.Icon
+                            key={tool.key}
+                            className="h-8 w-8 text-white"
+                          />
+                        ) : (
+                          <span
+                            key={tool.key}
+                            className="inline-flex items-center gap-2 rounded-full border border-white/30 bg-white/10 px-3 py-1 text-sm font-medium text-white"
+                          >
+                            {tool.label}
+                          </span>
+                        )
+                      )}
                     </div>
-                  )}
-                </div>
+                  </div>
+                )}
               </div>
 
               {/* Cover Image - 50% size, vertical layout */}
               {coverImageUrl && (
-                <div className="w-full max-w-md mx-auto md:mx-0">
+                <div className="w-full max-w-sm md:max-w-[242px] lg:max-w-[286px] mx-auto md:ml-auto">
                   <div className="relative aspect-[3/4] w-full bg-gradient-to-br from-indigo-500 to-violet-700 rounded-2xl overflow-hidden shadow-xl">
                     <Image
                       src={coverImageUrl}
@@ -132,37 +137,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
         </header>
 
         {/* Content Section */}
-        <article className="mx-auto max-w-5xl px-6 py-12">
-          {(toolIcons.length > 0 || toolLabels.length > 0) && (
-            <section className="mb-10">
-              <div className="rounded-2xl bg-indigo-600/5 p-6 shadow-inner border border-indigo-100">
-                <h2 className="mb-4 text-base font-semibold uppercase tracking-wide text-indigo-700">
-                  Tools & Stack
-                </h2>
-                <div className="flex flex-wrap gap-3">
-                  {toolIcons.map((Icon, idx) => (
-                    <span
-                      key={`body-tool-icon-${idx}`}
-                      className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-indigo-200 bg-white shadow-sm"
-                    >
-                      <Icon className="h-5 w-5 text-indigo-600" />
-                    </span>
-                  ))}
-                  {toolLabels.map((label) => (
-                    <span
-                      key={`body-tool-label-${label}`}
-                      className="rounded-full border border-indigo-200 bg-white px-4 py-2 text-sm font-medium text-indigo-700 shadow-sm"
-                    >
-                      {label}
-                    </span>
-                  ))}
-                </div>
-              </div>
-            </section>
-          )}
-
+        <article className="mx-auto max-w-5xl px-6 py-8">
           {product.content ? (
-            <section className="mb-16">
+            <section className="mb-10">
               <div className="bg-white rounded-2xl shadow-md p-8 md:p-12">
                 <MarkdownContent
                   content={product.content}
@@ -175,7 +152,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
         {/* Related Products Section */}
         {relatedProducts.length > 0 && (
-          <section className="bg-indigo-50 py-24">
+          <section className="bg-indigo-50 py-16">
             <div className="mx-auto max-w-6xl px-6">
               <FadeHeader
                 title="Related Products"

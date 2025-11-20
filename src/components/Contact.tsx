@@ -47,8 +47,9 @@ export default function Contact() {
         <FadeHeader
           titleClassName="text-white"
           subtitleClassName="text-white/90"
-          title="Let's Work Together"
-          subtitle="Ready to transform your next product? Let's discuss how we can create something amazing."
+          title="Let's Build Something"
+          subtitle="Got an idea that needs to ship fast? Let's talk about turning it 
+into reality."
         />
 
         <motion.div
