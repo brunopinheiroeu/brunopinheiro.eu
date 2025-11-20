@@ -1,43 +1,13 @@
 // === File: components/Projects.tsx ===
 "use client";
 import { useMemo } from "react";
-import type { ComponentType } from "react";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import FadeHeader from "@/components/FadeHeader";
 import MarkdownContent from "@/components/MarkdownContent";
 import { ArrowRight } from "lucide-react";
-import {
-  SiFigma,
-  SiAdobephotoshop,
-  SiHtml5,
-  SiCss3,
-  SiJavascript,
-  SiTypescript,
-  SiReact,
-  SiNextdotjs,
-  SiNodedotjs,
-  SiTailwindcss,
-  SiGit,
-  SiGithub,
-  SiVite,
-  SiWebpack,
-  SiDocker,
-  SiMongodb,
-  SiPostgresql,
-  SiGraphql,
-  SiRedis,
-  SiAdobeillustrator,
-  SiAdobexd,
-  SiSketch,
-  SiFramer,
-  SiBlender,
-  SiUnity,
-  SiUnrealengine,
-} from "react-icons/si";
-import { Project, getStrapiImageUrl } from "@/lib/strapi";
-
-type ToolIcon = ComponentType<{ className?: string }>;
+import type { Product } from "@/lib/contentful";
+import { mapTools, type ToolIcon } from "@/lib/toolIcons";
 
 const fallbackProductImages = [
   { src: "/images/photo6.png", alt: "Project cover 1" },
@@ -46,92 +16,8 @@ const fallbackProductImages = [
   { src: "/images/photo3.png", alt: "Project cover 4" },
 ];
 
-const toolMap: Record<string, ToolIcon> = {
-  // Design Tools
-  sifigma: SiFigma,
-  figma: SiFigma,
-  siadobephotoshop: SiAdobephotoshop,
-  photoshop: SiAdobephotoshop,
-  siadobeillustrator: SiAdobeillustrator,
-  illustrator: SiAdobeillustrator,
-  siadobexd: SiAdobexd,
-  adobexd: SiAdobexd,
-  xd: SiAdobexd,
-  sisketch: SiSketch,
-  sketch: SiSketch,
-  siframer: SiFramer,
-  framer: SiFramer,
-
-  // Web Technologies
-  sihtml5: SiHtml5,
-  html5: SiHtml5,
-  html: SiHtml5,
-  sicss3: SiCss3,
-  css3: SiCss3,
-  css: SiCss3,
-  sijavascript: SiJavascript,
-  javascript: SiJavascript,
-  js: SiJavascript,
-  sitypescript: SiTypescript,
-  typescript: SiTypescript,
-  ts: SiTypescript,
-  sireact: SiReact,
-  react: SiReact,
-  sinextdotjs: SiNextdotjs,
-  nextjs: SiNextdotjs,
-  next: SiNextdotjs,
-  sinodedotjs: SiNodedotjs,
-  nodejs: SiNodedotjs,
-  node: SiNodedotjs,
-  sitailwindcss: SiTailwindcss,
-  tailwindcss: SiTailwindcss,
-  tailwind: SiTailwindcss,
-
-  // Build Tools & Version Control
-  sivite: SiVite,
-  vite: SiVite,
-  siwebpack: SiWebpack,
-  webpack: SiWebpack,
-  sigit: SiGit,
-  git: SiGit,
-  sigithub: SiGithub,
-  github: SiGithub,
-
-  // Backend & Databases
-  sidocker: SiDocker,
-  docker: SiDocker,
-  simongodb: SiMongodb,
-  mongodb: SiMongodb,
-  sipostgresql: SiPostgresql,
-  postgresql: SiPostgresql,
-  postgres: SiPostgresql,
-  sigraphql: SiGraphql,
-  graphql: SiGraphql,
-  siredis: SiRedis,
-  redis: SiRedis,
-
-  // 3D & Game Engines
-  siblender: SiBlender,
-  blender: SiBlender,
-  siunity: SiUnity,
-  unity: SiUnity,
-  siunrealengine: SiUnrealengine,
-  unrealengine: SiUnrealengine,
-  unreal: SiUnrealengine,
-};
-
-const getToolIcons = (toolsString?: string): ToolIcon[] => {
-  if (!toolsString) return [];
-
-  const toolNames = toolsString.split(",").map((t) => t.trim().toLowerCase());
-
-  return toolNames
-    .map((name) => toolMap[name] || null)
-    .filter(Boolean) as ToolIcon[];
-};
-
 interface ProductsProps {
-  products: Project[];
+  products: Product[];
 }
 
 type NormalizedProduct = {
@@ -140,6 +26,7 @@ type NormalizedProduct = {
   tags: string[];
   href: string;
   tools: ToolIcon[];
+  toolLabels: string[];
   cover: {
     src: string;
     alt: string;
@@ -148,7 +35,7 @@ type NormalizedProduct = {
 
 export default function Products({ products: strapiProducts }: ProductsProps) {
   const frontPageProducts = useMemo(
-    () => strapiProducts.filter((product) => product?.front_page),
+    () => strapiProducts.filter((product) => product?.frontPage),
     [strapiProducts]
   );
 
@@ -156,22 +43,20 @@ export default function Products({ products: strapiProducts }: ProductsProps) {
     return frontPageProducts.map((product, index) => {
       const fallbackImage =
         fallbackProductImages[index % fallbackProductImages.length];
-      const coverSrc = product.cover_image?.url
-        ? getStrapiImageUrl(product.cover_image.url)
-        : fallbackImage.src;
+      const coverSrc = product.coverImage?.url ?? fallbackImage.src;
+      const { icons, labels } = mapTools(product.tools);
 
       return {
         title: product.title,
-        desc: product.excerpt,
-        tags: product.tags
-          ? product.tags.split(",").map((t: string) => t.trim())
-          : [],
+        desc: product.frontPageText,
+        tags: product.tags ?? [],
         href: `/products/${product.slug}`,
-        tools: getToolIcons(product.tools),
+        tools: icons,
+        toolLabels: labels,
         cover: {
           src: coverSrc,
           alt:
-            product.cover_image?.alternativeText ||
+            product.coverImage?.alt ||
             fallbackImage.alt ||
             product.title,
         },
@@ -180,10 +65,6 @@ export default function Products({ products: strapiProducts }: ProductsProps) {
   }, [frontPageProducts]);
 
   const hasProducts = products.length > 0;
-
-  const handleRetry = () => {
-    window.location.reload();
-  };
 
   return (
     <section id="products" className="bg-indigo-50 py-24">
@@ -243,16 +124,23 @@ export default function Products({ products: strapiProducts }: ProductsProps) {
                       ].join(" ")}
                       style={{ transformOrigin: "left center" }}
                     >
-                      <div className="flex items-center justify-center gap-4 text-white">
-                        {p.tools.length ? (
-                          p.tools.map((Icon, idx) => (
-                            <Icon key={idx} className="h-5 w-5 text-white" />
-                          ))
-                        ) : (
+                      <div className="flex flex-wrap items-center justify-center gap-3 text-white text-xs font-medium">
+                        {p.tools.map((Icon, idx) => (
+                          <Icon key={`icon-${idx}`} className="h-5 w-5 text-white" />
+                        ))}
+                        {p.toolLabels.map((label) => (
+                          <span
+                            key={label}
+                            className="rounded-full border border-white/30 bg-white/10 px-2.5 py-1 text-[11px] uppercase tracking-wide"
+                          >
+                            {label}
+                          </span>
+                        ))}
+                        {!p.tools.length && !p.toolLabels.length ? (
                           <span className="text-xs uppercase tracking-wide text-white/70">
                             Tooling coming soon
                           </span>
-                        )}
+                        ) : null}
                       </div>
                     </div>
                   </div>
@@ -288,16 +176,23 @@ export default function Products({ products: strapiProducts }: ProductsProps) {
                     )}
 
                     {/* tools fixed on mobile */}
-                    <div className="mb-4 flex items-center gap-3 md:hidden">
-                      {p.tools.length ? (
-                        p.tools.map((Icon, idx) => (
-                          <Icon key={idx} className="h-5 w-5 text-indigo-600" />
-                        ))
-                      ) : (
+                    <div className="mb-4 flex flex-wrap items-center gap-3 md:hidden">
+                      {p.tools.map((Icon, idx) => (
+                        <Icon key={`mobile-icon-${idx}`} className="h-5 w-5 text-indigo-600" />
+                      ))}
+                      {p.toolLabels.map((label) => (
+                        <span
+                          key={`mobile-label-${label}`}
+                          className="rounded-full border border-indigo-200 bg-indigo-50 px-2.5 py-1 text-[11px] font-medium uppercase tracking-wide text-indigo-700"
+                        >
+                          {label}
+                        </span>
+                      ))}
+                      {!p.tools.length && !p.toolLabels.length ? (
                         <span className="text-xs uppercase tracking-wide text-slate-500">
                           Tooling coming soon
                         </span>
-                      )}
+                      ) : null}
                     </div>
 
                     {/* Footer colado no bottom */}
@@ -318,20 +213,12 @@ export default function Products({ products: strapiProducts }: ProductsProps) {
         ) : (
           <div className="mt-12 rounded-2xl border border-dashed border-indigo-200 bg-white/60 p-10 text-center shadow-inner">
             <p className="text-lg font-semibold text-slate-900">
-              Warming up the content server…
+              Featured products coming soon
             </p>
             <p className="mt-3 text-sm text-slate-600">
-              Strapi Cloud takes a few seconds to wake up after inactivity.
-              Leave this tab open and the projects will appear automatically
-              once the cached data refreshes.
+              Assim que liberarmos novos estudos no Contentful, eles aparecerão
+              automaticamente aqui.
             </p>
-            <button
-              type="button"
-              onClick={handleRetry}
-              className="mt-6 inline-flex items-center rounded-full bg-indigo-600 px-5 py-2 text-sm font-semibold text-white shadow hover:bg-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/70"
-            >
-              Try again now
-            </button>
           </div>
         )}
       </div>

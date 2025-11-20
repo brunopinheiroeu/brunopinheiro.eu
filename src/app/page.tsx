@@ -7,14 +7,14 @@ import About from "@/components/About";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import HashScrollHandler from "@/components/HashScrollHandler";
-import { getProjects } from "@/lib/strapi";
+import { getProducts } from "@/lib/contentful";
 
 // Mark page as dynamic since it fetches data from Strapi
 export const dynamic = "force-dynamic";
 
 export default async function Page() {
   // Fetch products from Strapi backend
-  const products = await getProjects();
+  const products = await getProducts();
 
   return (
     <div className="min-h-screen antialiased text-slate-900">

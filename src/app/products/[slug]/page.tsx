@@ -1,17 +1,17 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
 import Link from "next/link";
-import { getProjectBySlug, getProjects, getStrapiImageUrl } from "@/lib/strapi";
-import { Calendar, ArrowRight } from "lucide-react";
+import { getProductBySlug, getProducts } from "@/lib/contentful";
+import { mapTools } from "@/lib/toolIcons";
+import { ArrowRight } from "lucide-react";
 import Nav from "@/components/Nav";
 import BackButton from "./BackButton";
 import FadeHeader from "@/components/FadeHeader";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import MarkdownContent from "@/components/MarkdownContent";
-import FormattedDate from "@/components/FormattedDate";
 
-interface ProjectPageProps {
+interface ProductPageProps {
   params: Promise<{
     slug: string;
   }>;
@@ -20,21 +20,20 @@ interface ProjectPageProps {
 // Mark page as dynamic since it fetches data from Strapi
 export const dynamic = "force-dynamic";
 
-export default async function ProjectPage({ params }: ProjectPageProps) {
+export default async function ProductPage({ params }: ProductPageProps) {
   const { slug } = await params;
-  const project = await getProjectBySlug(slug);
+  const product = await getProductBySlug(slug);
 
-  if (!project) {
+  if (!product) {
     notFound();
   }
 
-  const coverImageUrl = getStrapiImageUrl(project.cover_image?.url);
+  const coverImageUrl = product.coverImage?.url;
+  const { icons: toolIcons, labels: toolLabels } = mapTools(product.tools);
 
   // Fetch all projects for related projects section
-  const allProjects = await getProjects();
-  const relatedProjects = allProjects
-    .filter((p) => p.slug !== slug)
-    .slice(0, 4);
+  const allProducts = await getProducts();
+  const relatedProducts = allProducts.filter((p) => p.slug !== slug).slice(0, 4);
 
   return (
     <div className="min-h-screen antialiased text-slate-900 bg-indigo-50">
@@ -60,13 +59,13 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
               {/* Text Content */}
               <div>
                 <h1 className="text-4xl text-transform: uppercase font-extrabold mb-4 md:text-5xl">
-                  {project.title}
+                  {product.title}
                 </h1>
 
-                {project.excerpt && (
+                {product.frontPageText && (
                   <div className="text-xl text-blue-100 mb-6">
                     <MarkdownContent
-                      content={project.excerpt}
+                      content={product.frontPageText}
                       inline
                       className="text-blue-100"
                     />
@@ -74,29 +73,40 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                 )}
 
                 <div className="flex flex-wrap items-center gap-4 mb-6">
-                  {project.publishedAt && (
-                    <div className="flex items-center gap-2 text-sm text-blue-100">
-                      <Calendar className="h-4 w-4" />
-                      <FormattedDate dateString={project.publishedAt} />
+                  {product.tags.length > 0 && (
+                    <div className="flex flex-wrap gap-2">
+                      {product.tags.map((tag: string, index: number) => (
+                        <span
+                          key={`${tag}-${index}`}
+                          className={`px-3 py-1 text-sm rounded-full font-medium backdrop-blur-md border ${
+                            index % 2 === 0
+                              ? "bg-indigo-400/20 text-white border-white/20"
+                              : "bg-violet-400/20 text-white border-white/20"
+                          }`}
+                        >
+                          {tag}
+                        </span>
+                      ))}
                     </div>
                   )}
-                  {/* Tags */}
-                  {project.tags && (
-                    <div className="flex flex-wrap gap-2">
-                      {project.tags
-                        .split(",")
-                        .map((tag: string, index: number) => (
-                          <span
-                            key={index}
-                            className={`px-3 py-1 text-sm rounded-full font-medium backdrop-blur-md border ${
-                              index % 2 === 0
-                                ? "bg-indigo-400/20 text-white border-white/20"
-                                : "bg-violet-400/20 text-white border-white/20"
-                            }`}
-                          >
-                            {tag.trim()}
-                          </span>
-                        ))}
+                  {(toolIcons.length > 0 || toolLabels.length > 0) && (
+                    <div className="flex flex-wrap gap-3">
+                      {toolIcons.map((Icon, idx) => (
+                        <span
+                          key={`hero-tool-icon-${idx}`}
+                          className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/30 bg-white/10"
+                        >
+                          <Icon className="h-5 w-5 text-white" />
+                        </span>
+                      ))}
+                      {toolLabels.map((label) => (
+                        <span
+                          key={`hero-tool-label-${label}`}
+                          className="rounded-full border border-white/30 bg-white/10 px-3 py-1 text-sm font-medium text-white"
+                        >
+                          {label}
+                        </span>
+                      ))}
                     </div>
                   )}
                 </div>
@@ -108,7 +118,7 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                   <div className="relative aspect-[3/4] w-full bg-gradient-to-br from-indigo-500 to-violet-700 rounded-2xl overflow-hidden shadow-xl">
                     <Image
                       src={coverImageUrl}
-                      alt={project.title}
+                      alt={product.title}
                       fill
                       className="object-cover"
                       priority
@@ -123,11 +133,39 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
 
         {/* Content Section */}
         <article className="mx-auto max-w-5xl px-6 py-12">
-          {project.content ? (
+          {(toolIcons.length > 0 || toolLabels.length > 0) && (
+            <section className="mb-10">
+              <div className="rounded-2xl bg-indigo-600/5 p-6 shadow-inner border border-indigo-100">
+                <h2 className="mb-4 text-base font-semibold uppercase tracking-wide text-indigo-700">
+                  Tools & Stack
+                </h2>
+                <div className="flex flex-wrap gap-3">
+                  {toolIcons.map((Icon, idx) => (
+                    <span
+                      key={`body-tool-icon-${idx}`}
+                      className="inline-flex h-11 w-11 items-center justify-center rounded-2xl border border-indigo-200 bg-white shadow-sm"
+                    >
+                      <Icon className="h-5 w-5 text-indigo-600" />
+                    </span>
+                  ))}
+                  {toolLabels.map((label) => (
+                    <span
+                      key={`body-tool-label-${label}`}
+                      className="rounded-full border border-indigo-200 bg-white px-4 py-2 text-sm font-medium text-indigo-700 shadow-sm"
+                    >
+                      {label}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </section>
+          )}
+
+          {product.content ? (
             <section className="mb-16">
               <div className="bg-white rounded-2xl shadow-md p-8 md:p-12">
                 <MarkdownContent
-                  content={project.content}
+                  content={product.content}
                   className="text-slate-700"
                 />
               </div>
@@ -135,30 +173,28 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
           ) : null}
         </article>
 
-        {/* Related Projects Section */}
-        {relatedProjects.length > 0 && (
+        {/* Related Products Section */}
+        {relatedProducts.length > 0 && (
           <section className="bg-indigo-50 py-24">
             <div className="mx-auto max-w-6xl px-6">
               <FadeHeader
-                title="Related Projects"
+                title="Related Products"
                 subtitle="Explore more of my work"
               />
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mt-8">
-                {relatedProjects.map((relatedProject) => {
-                  const relatedImageUrl = getStrapiImageUrl(
-                    relatedProject.cover_image?.url
-                  );
+                {relatedProducts.map((relatedProduct) => {
+                  const relatedImageUrl = relatedProduct.coverImage?.url;
                   return (
                     <Link
-                      key={relatedProject.slug}
-                      href={`/products/${relatedProject.slug}`}
+                      key={relatedProduct.slug}
+                      href={`/products/${relatedProduct.slug}`}
                       className="group relative overflow-hidden rounded-2xl bg-white shadow-md transition hover:-translate-y-1 hover:shadow-xl"
                     >
                       <div className="relative h-48 overflow-hidden bg-gradient-to-br from-indigo-500 to-violet-700">
                         {relatedImageUrl ? (
                           <Image
                             src={relatedImageUrl}
-                            alt={relatedProject.title}
+                            alt={relatedProduct.title}
                             fill
                             className="object-cover transition-transform group-hover:scale-105"
                             sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
@@ -168,12 +204,12 @@ export default async function ProjectPage({ params }: ProjectPageProps) {
                       </div>
                       <div className="p-4">
                         <h3 className="mb-2 text-sm font-semibold text-slate-900 line-clamp-2">
-                          {relatedProject.title}
+                          {relatedProduct.title}
                         </h3>
-                        {relatedProject.excerpt && (
+                        {relatedProduct.frontPageText && (
                           <div className="mb-3 line-clamp-2 text-xs text-slate-600">
                             <MarkdownContent
-                              content={relatedProject.excerpt}
+                              content={relatedProduct.frontPageText}
                               inline
                               className="text-slate-600"
                             />

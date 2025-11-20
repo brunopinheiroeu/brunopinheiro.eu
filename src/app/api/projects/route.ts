@@ -1,11 +1,12 @@
 import { NextResponse } from "next/server";
-import { getProjects } from "@/lib/strapi";
+import { getProducts } from "@/lib/contentful";
 
 export const revalidate = 300; // Cache the API response for 5 minutes
+export const dynamic = "force-dynamic";
 
 export async function GET() {
   try {
-    const projects = await getProjects();
+    const projects = await getProducts();
 
     return NextResponse.json(
       {
@@ -21,7 +22,7 @@ export async function GET() {
   } catch (error) {
     console.error("[API /projects] Failed to fetch projects", error);
     return NextResponse.json(
-      { error: "Failed to fetch projects from Strapi" },
+      { error: "Failed to fetch products from Contentful" },
       { status: 500 }
     );
   }

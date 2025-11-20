@@ -2,38 +2,10 @@ This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-
 
 ## Getting Started
 
-This project has **two** servers:
+### Development workflow
 
-- A Next.js frontend in the repository root
-- A Strapi CMS backend under `backend/`
-
-You need both running locally to view live project data.
-
-### 1. Start the Strapi backend
-
-```bash
-cd backend
-npm install          # first run only
-npm run develop      # starts Strapi on http://localhost:1337
-```
-
-Once Strapi is running:
-
-- **Admin Panel**: Open [http://localhost:1337/admin](http://localhost:1337/admin) in your browser
-- **API**: Available at [http://localhost:1337/api](http://localhost:1337/api)
-
-> The first boot will ask you to create an admin user. After logging in, you can create/edit `Products` content types in the admin panel.
-
-Optional: seed demo products
-
-```bash
-cd backend
-npm run seed:projects   # runs scripts/seed-projects.js
-```
-
-### 2. Start the Next.js frontend
-
-From the repository root:
+Content is now hosted in **Contentful**, so only the Next.js server needs to run
+locally.
 
 ```bash
 npm install          # first run only
@@ -44,23 +16,18 @@ Open [http://localhost:3000](http://localhost:3000) to view the site.
 
 ### Environment variables
 
-The frontend reads `NEXT_PUBLIC_STRAPI_URL` (defaults to `http://localhost:1337`).
-
-**For local development** (with local Strapi):
+Create `frontend/.env.local` with the Contentful credentials:
 
 ```bash
-# Create .env.local in the frontend/ directory
-NEXT_PUBLIC_STRAPI_URL=http://localhost:1337
+CONTENTFUL_SPACE_ID=xxxxxxxx
+CONTENTFUL_ENVIRONMENT=master
+CONTENTFUL_DELIVERY_TOKEN=xxxxxxxx
+# Optional: enables draft previews when we add preview routes
+CONTENTFUL_PREVIEW_TOKEN=xxxxxxxx
 ```
 
-**For Strapi Cloud** (production):
-
-```bash
-# Create .env.local in the frontend/ directory
-NEXT_PUBLIC_STRAPI_URL=https://your-app.strapiapp.com
-```
-
-> 📖 See [STRAPI_CLOUD_SETUP.md](./STRAPI_CLOUD_SETUP.md) for detailed instructions on connecting to Strapi Cloud and configuring Vercel.
+See [`CONTENTFUL_SETUP.md`](./CONTENTFUL_SETUP.md) for the exact content model
+and entry requirements.
 
 You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
@@ -77,6 +44,5 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 
 ## Deploy on Vercel
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Follow [`VERCEL_DEPLOY.md`](./VERCEL_DEPLOY.md) for a Contentful-specific
+checklist covering environment variables, image domains, and sanity checks.

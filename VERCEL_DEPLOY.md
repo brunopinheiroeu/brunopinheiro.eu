@@ -2,9 +2,9 @@
 
 ## ✅ O que já está configurado
 
-- ✅ `next.config.ts` - Configurado para aceitar imagens do Strapi Cloud
-- ✅ `package.json` - Scripts de build prontos
-- ✅ Código pronto para produção
+- ✅ `next.config.ts` aceita imagens de `images.ctfassets.net`
+- ✅ `package.json` possui scripts de build/teste
+- ✅ Código pronto para consumir o Contentful Delivery API
 
 ## 🔧 Configuração necessária no Vercel
 
@@ -42,27 +42,21 @@ npm install
 
 ### 3. Configurar Variáveis de Ambiente (OBRIGATÓRIO)
 
-1. No painel do projeto, vá em **Settings** → **Environment Variables**
-2. Adicione a seguinte variável:
+1. No painel do projeto, vá em **Settings → Environment Variables**
+2. Adicione as variáveis abaixo (marcando Production, Preview e Development):
 
-| Name                     | Value                                                | Environments                     |
-| ------------------------ | ---------------------------------------------------- | -------------------------------- |
-| `NEXT_PUBLIC_STRAPI_URL` | `https://miraculous-animal-a6e1da2121.strapiapp.com` | Production, Preview, Development |
+| Name                        | Value                                   |
+| --------------------------- | --------------------------------------- |
+| `CONTENTFUL_SPACE_ID`       | ID do espaço no Contentful              |
+| `CONTENTFUL_ENVIRONMENT`    | Ambiente (ex.: `master`)                |
+| `CONTENTFUL_DELIVERY_TOKEN` | Token do Content Delivery API           |
+| `CONTENTFUL_PREVIEW_TOKEN`  | (Opcional) Token do Content Preview API |
 
 3. Clique em **Save**
 
-> ⚠️ **Importante:** Sem essa variável, o frontend não conseguirá buscar dados do Strapi Cloud.
+> ⚠️ Sem esses tokens o frontend não consegue buscar dados do Contentful.
 
-### 4. Configurar CORS no Strapi Cloud (se necessário)
-
-Se você receber erros de CORS após o deploy, você pode precisar configurar CORS no código do backend. O Strapi Cloud geralmente já permite requisições por padrão, mas se necessário:
-
-1. No projeto `backend/`, edite `config/middlewares.ts`
-2. Configure o middleware de CORS para permitir seu domínio Vercel
-
-**Nota:** Na maioria dos casos, o Strapi Cloud já está configurado para aceitar requisições de qualquer origem. Se você receber erros de CORS, verifique primeiro se a URL do Strapi está correta.
-
-### 5. Fazer o Deploy
+### 4. Fazer o Deploy
 
 1. Clique em **Deploy**
 2. Aguarde o build completar
@@ -81,13 +75,14 @@ Após o deploy, verifique:
 
 ### Erro: "Failed to fetch products"
 
-- Verifique se `NEXT_PUBLIC_STRAPI_URL` está configurada corretamente
-- Verifique se o Strapi Cloud está rodando
-- Verifique as configurações de CORS no Strapi Cloud
+- Confirme se os IDs/tokens do Contentful estão corretos
+- Verifique se existem entradas publicadas
+- Veja os logs do Vercel para eventuais `errors` retornados pela API GraphQL
 
 ### Erro: "Image hostname not configured"
 
-- O `next.config.ts` já está configurado, mas você precisa fazer um novo deploy após qualquer mudança nesse arquivo
+- Confira se `images.ctfassets.net` está cadastrado em `next.config.ts`
+- Refaça o deploy após qualquer alteração nesse arquivo
 
 ### Build falha
 
@@ -99,7 +94,6 @@ Após o deploy, verifique:
 
 - [ ] Repositório conectado ao Vercel
 - [ ] Root Directory configurado (se necessário)
-- [ ] Variável `NEXT_PUBLIC_STRAPI_URL` adicionada
-- [ ] CORS verificado (geralmente já funciona por padrão no Strapi Cloud)
-- [ ] Build executado com sucesso
-- [ ] Site funcionando em produção
+- [ ] Variáveis `CONTENTFUL_*` adicionadas
+- [ ] Build executado com sucesso (`npm run build`)
+- [ ] Site funcionando em produção (produtos e imagens carregando)
