@@ -54,25 +54,61 @@ export interface StrapiResponse {
 const STRAPI_URL =
   process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
 
+// Timeout for fetch requests (8 seconds)
+const FETCH_TIMEOUT = 8000;
+
+/**
+ * Creates a fetch request with timeout
+ */
+async function fetchWithTimeout(
+  url: string,
+  options: RequestInit = {}
+): Promise<Response> {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), FETCH_TIMEOUT);
+
+  try {
+    const response = await fetch(url, {
+      ...options,
+      signal: controller.signal,
+    });
+    clearTimeout(timeoutId);
+    return response;
+  } catch (error) {
+    clearTimeout(timeoutId);
+    if (error instanceof Error && error.name === "AbortError") {
+      throw new Error(
+        `Request timeout: ${url} took longer than ${FETCH_TIMEOUT}ms`
+      );
+    }
+    throw error;
+  }
+}
+
 /**
  * Fetches all products from the Strapi API
  * @returns Promise with the list of products
  */
 export async function getProjects(): Promise<Product[]> {
   try {
-    const response = await fetch(
+    const response = await fetchWithTimeout(
       `${STRAPI_URL}/api/products?populate=*&sort=front_page_order:asc`,
-      { cache: "no-store" }
+      {
+        cache: "no-store", // Force fresh data on each request
+      }
     );
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch products: ${response.statusText}`);
+      throw new Error(
+        `Failed to fetch products: ${response.status} ${response.statusText}`
+      );
     }
 
     const data: StrapiResponse = await response.json();
     return data.data;
   } catch (error) {
     console.error("Error fetching products from Strapi:", error);
+    // Return empty array to prevent page crash
     return [];
   }
 }
@@ -83,15 +119,17 @@ export async function getProjects(): Promise<Product[]> {
  */
 export async function getProjectBySlug(slug: string): Promise<Product | null> {
   try {
-    const response = await fetch(
+    const response = await fetchWithTimeout(
       `${STRAPI_URL}/api/products?filters[slug][$eq]=${slug}&populate=*`,
       {
-        cache: "no-store",
+        cache: "no-store", // Force fresh data on each request
       }
     );
 
     if (!response.ok) {
-      throw new Error(`Failed to fetch product: ${response.statusText}`);
+      throw new Error(
+        `Failed to fetch product: ${response.status} ${response.statusText}`
+      );
     }
 
     const data: StrapiResponse = await response.json();
