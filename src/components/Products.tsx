@@ -181,6 +181,10 @@ export default function Products({ products: strapiProducts }: ProductsProps) {
 
   const hasProducts = products.length > 0;
 
+  const handleRetry = () => {
+    window.location.reload();
+  };
+
   return (
     <section id="products" className="bg-indigo-50 py-24">
       <div className="mx-auto max-w-6xl px-6">
@@ -314,12 +318,20 @@ export default function Products({ products: strapiProducts }: ProductsProps) {
         ) : (
           <div className="mt-12 rounded-2xl border border-dashed border-indigo-200 bg-white/60 p-10 text-center shadow-inner">
             <p className="text-lg font-semibold text-slate-900">
-              Featured work is on the way.
+              Warming up the content server…
             </p>
-            <p className="mt-2 text-sm text-slate-600">
-              Check back soon to explore new case studies and interactive
-              builds.
+            <p className="mt-3 text-sm text-slate-600">
+              Strapi Cloud takes a few seconds to wake up after inactivity.
+              Leave this tab open and the projects will appear automatically
+              once the cached data refreshes.
             </p>
+            <button
+              type="button"
+              onClick={handleRetry}
+              className="mt-6 inline-flex items-center rounded-full bg-indigo-600 px-5 py-2 text-sm font-semibold text-white shadow hover:bg-indigo-500 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-400/70"
+            >
+              Try again now
+            </button>
           </div>
         )}
       </div>

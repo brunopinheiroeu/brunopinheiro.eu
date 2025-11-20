@@ -54,8 +54,41 @@ export interface StrapiResponse {
 const STRAPI_URL =
   process.env.NEXT_PUBLIC_STRAPI_URL || "http://localhost:1337";
 
+const ENABLE_STRAPI_DEBUG = process.env.NEXT_PUBLIC_LOG_FETCH_ERRORS === "true";
+
 // Timeout for fetch requests (8 seconds)
 const FETCH_TIMEOUT = 8000;
+const CACHE_TTL = 1000 * 60 * 5; // 5 minutes
+
+type CacheEntry<T> = {
+  data?: T;
+  timestamp?: number;
+  promise?: Promise<T>;
+};
+
+const strapiCache = new Map<string, CacheEntry<unknown>>();
+
+function logStrapi(
+  message: string,
+  error?: unknown,
+  level: "error" | "warn" = "error"
+) {
+  const prefix = `[Strapi] ${message}`;
+  if (ENABLE_STRAPI_DEBUG && error) {
+    if (level === "warn") {
+      console.warn(prefix, error);
+    } else {
+      console.error(prefix, error);
+    }
+    return;
+  }
+
+  if (level === "warn") {
+    console.warn(prefix);
+  } else {
+    console.error(prefix);
+  }
+}
 
 /**
  * Creates a fetch request with timeout
@@ -85,29 +118,82 @@ async function fetchWithTimeout(
   }
 }
 
+function getFreshCacheValue<T>(key: string): T | undefined {
+  const entry = strapiCache.get(key) as CacheEntry<T> | undefined;
+  if (!entry?.data || !entry.timestamp) {
+    return undefined;
+  }
+
+  const isFresh = Date.now() - entry.timestamp < CACHE_TTL;
+  return isFresh ? entry.data : undefined;
+}
+
+async function withCache<T>(
+  key: string,
+  fetcher: () => Promise<T>
+): Promise<T> {
+  const freshValue = getFreshCacheValue<T>(key);
+  if (freshValue !== undefined) {
+    return freshValue;
+  }
+
+  const existing = strapiCache.get(key) as CacheEntry<T> | undefined;
+  if (existing?.promise) {
+    return existing.promise;
+  }
+
+  const promise = (async () => {
+    try {
+      const data = await fetcher();
+      strapiCache.set(key, { data, timestamp: Date.now() });
+      return data;
+    } catch (error) {
+      if (existing?.data !== undefined) {
+        logStrapi(
+          `Serving stale cache for ${key} after fetch error`,
+          error,
+          "warn"
+        );
+        return existing.data;
+      }
+      throw error;
+    } finally {
+      const current = strapiCache.get(key) as CacheEntry<T> | undefined;
+      if (current) {
+        current.promise = undefined;
+      }
+    }
+  })();
+
+  strapiCache.set(key, { ...(existing ?? {}), promise });
+  return promise;
+}
+
 /**
  * Fetches all products from the Strapi API
  * @returns Promise with the list of products
  */
 export async function getProjects(): Promise<Product[]> {
   try {
-    const response = await fetchWithTimeout(
-      `${STRAPI_URL}/api/products?populate=*&sort=front_page_order:asc`,
-      {
-        cache: "no-store", // Force fresh data on each request
-      }
-    );
-
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch products: ${response.status} ${response.statusText}`
+    return await withCache<Product[]>("products:all", async () => {
+      const response = await fetchWithTimeout(
+        `${STRAPI_URL}/api/products?populate=*&sort=front_page_order:asc`,
+        {
+          cache: "no-store", // Force fresh data on each request
+        }
       );
-    }
 
-    const data: StrapiResponse = await response.json();
-    return data.data;
+      if (!response.ok) {
+        throw new Error(
+          `Failed to fetch products: ${response.status} ${response.statusText}`
+        );
+      }
+
+      const data: StrapiResponse = await response.json();
+      return data.data;
+    });
   } catch (error) {
-    console.error("Error fetching products from Strapi:", error);
+    logStrapi("Error fetching products from Strapi", error);
     // Return empty array to prevent page crash
     return [];
   }
@@ -119,26 +205,28 @@ export async function getProjects(): Promise<Product[]> {
  */
 export async function getProjectBySlug(slug: string): Promise<Product | null> {
   try {
-    const response = await fetchWithTimeout(
-      `${STRAPI_URL}/api/products?filters[slug][$eq]=${slug}&populate=*`,
-      {
-        cache: "no-store", // Force fresh data on each request
+    return await withCache<Product | null>(
+      `products:slug:${slug}`,
+      async () => {
+        const response = await fetchWithTimeout(
+          `${STRAPI_URL}/api/products?filters[slug][$eq]=${slug}&populate=*`,
+          {
+            cache: "no-store", // Force fresh data on each request
+          }
+        );
+
+        if (!response.ok) {
+          throw new Error(
+            `Failed to fetch product: ${response.status} ${response.statusText}`
+          );
+        }
+
+        const data: StrapiResponse = await response.json();
+        return data.data.length > 0 ? data.data[0] : null;
       }
     );
-
-    if (!response.ok) {
-      throw new Error(
-        `Failed to fetch product: ${response.status} ${response.statusText}`
-      );
-    }
-
-    const data: StrapiResponse = await response.json();
-    return data.data.length > 0 ? data.data[0] : null;
   } catch (error) {
-    console.error(
-      `Error fetching product with slug "${slug}" from Strapi:`,
-      error
-    );
+    logStrapi(`Error fetching product with slug "${slug}" from Strapi`, error);
     return null;
   }
 }

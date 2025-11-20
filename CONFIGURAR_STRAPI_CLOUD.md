@@ -10,6 +10,7 @@ cd frontend
 ```
 
 **Exemplo:**
+
 ```bash
 ./configure-strapi-cloud.sh https://brunopinheiro.strapiapp.com
 ```
@@ -72,6 +73,6 @@ Se você receber erros de CORS, configure no Strapi Cloud:
 ### Verificar URL
 
 Certifique-se de que a URL está correta:
+
 - ✅ Correto: `https://seu-app.strapiapp.com`
 - ❌ Incorreto: `https://seu-app.strapiapp.com/api` (não inclua `/api`)
-
