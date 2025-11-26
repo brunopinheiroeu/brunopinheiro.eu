@@ -149,83 +149,90 @@ function HeroCard({
   return (
     <motion.div
       key={card.image.src}
-      initial={{ opacity: 0, y: 24 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.6, delay: 0.35 + index * 0.08 }}
+      className={[
+        "absolute w-[180px] h-[240px] select-none",
+        card.positionClass,
+        "z-10",
+      ].join(" ")}
       style={{
         rotateX: tRotX,
         rotateY: tRotY,
         x: tX,
         y: tY,
       }}
-      whileHover={{
-        scale: 1.06,
-        y: -8,
-        transition: { type: "spring", stiffness: 220, damping: 18 },
-      }}
-      onHoverStart={() => {
-        clearHideTimer();
-        setHoveredIndex(index);
-      }}
-      onHoverEnd={() => {
-        hideTimerRef.current = setTimeout(() => {
-          setHoveredIndex((curr) => (curr === index ? null : curr));
-        }, 160);
-      }}
-      className={[
-        "absolute w-[180px] h-[240px] rounded-2xl select-none",
-        "shadow-[0_12px_30px_rgba(0,0,0,0.28)] ring-1 ring-white/20",
-        "bg-white/10 backdrop-blur-sm",
-        card.positionClass,
-        "z-10",
-      ].join(" ")}
     >
-      <div
-        className="relative h-full w-full rounded-2xl"
-        style={{
-          transform: `rotateX(${card.baseRotation.x}deg) rotateY(${card.baseRotation.y}deg) rotateZ(${card.baseRotation.z}deg)`,
-          transformStyle: "preserve-3d",
+      <motion.div
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.6, delay: 0.35 + index * 0.08 }}
+        whileHover={{
+          scale: 1.06,
+          y: -8,
+          transition: { type: "spring", stiffness: 220, damping: 18 },
         }}
-      >
-        <Image
-          src={card.image.src}
-          alt={card.image.alt}
-          width={180}
-          height={240}
-          className="rounded-2xl object-cover pointer-events-none"
-          draggable={false}
-          priority={index === 0}
-        />
-      </div>
-
-      <motion.a
-        // href={card.bubble.href}
-        target="_self"
-        className="pointer-events-auto absolute w-[200px] rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-center text-white shadow-lg backdrop-blur-md"
-        style={{
-          right: card.bubble.side === "right" ? card.bubble.offsetX : undefined,
-          left: card.bubble.side === "left" ? card.bubble.offsetX : undefined,
-          top: `calc(50% + ${card.bubble.offsetY}px)`,
-          transform: "translateY(-50%)",
-        }}
-        initial={{ opacity: 0, y: 6 }}
-        animate={{
-          opacity: hoveredIndex === index ? 1 : 0,
-          y: hoveredIndex === index ? 0 : 6,
-        }}
-        transition={{ duration: 0.25 }}
         onHoverStart={() => {
           clearHideTimer();
           setHoveredIndex(index);
         }}
         onHoverEnd={() => {
-          setHoveredIndex((curr) => (curr === index ? null : curr));
+          hideTimerRef.current = setTimeout(() => {
+            setHoveredIndex((curr) => (curr === index ? null : curr));
+          }, 160);
         }}
+        className={[
+          "relative h-full w-full rounded-2xl",
+          "shadow-[0_12px_30px_rgba(0,0,0,0.28)] ring-1 ring-white/20",
+          "bg-white/10 backdrop-blur-sm",
+        ].join(" ")}
       >
-        <span className="block text-sm font-medium leading-snug">
-          {card.bubble.text}
-        </span>
-      </motion.a>
+        <div
+          className="relative h-full w-full rounded-2xl"
+          style={{
+            transform: `rotateX(${card.baseRotation.x}deg) rotateY(${card.baseRotation.y}deg) rotateZ(${card.baseRotation.z}deg)`,
+            transformStyle: "preserve-3d",
+          }}
+        >
+          <Image
+            src={card.image.src}
+            alt={card.image.alt}
+            width={180}
+            height={240}
+            className="rounded-2xl object-cover pointer-events-none"
+            draggable={false}
+            priority={index === 0}
+          />
+        </div>
+
+        <motion.a
+          // href={card.bubble.href}
+          target="_self"
+          className="pointer-events-auto absolute w-[200px] rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-center text-white shadow-lg backdrop-blur-md"
+          style={{
+            right:
+              card.bubble.side === "right" ? card.bubble.offsetX : undefined,
+            left: card.bubble.side === "left" ? card.bubble.offsetX : undefined,
+            top: `calc(50% + ${card.bubble.offsetY}px)`,
+            transform: "translateY(-50%)",
+          }}
+          initial={{ opacity: 0, y: 6 }}
+          animate={{
+            opacity: hoveredIndex === index ? 1 : 0,
+            y: hoveredIndex === index ? 0 : 6,
+          }}
+          transition={{ duration: 0.25 }}
+          onHoverStart={() => {
+            clearHideTimer();
+            setHoveredIndex(index);
+          }}
+          onHoverEnd={() => {
+            setHoveredIndex((curr) => (curr === index ? null : curr));
+          }}
+        >
+          <span className="block text-sm font-medium leading-snug">
+            {card.bubble.text}
+          </span>
+        </motion.a>
+      </motion.div>
     </motion.div>
   );
 }
@@ -303,7 +310,7 @@ export default function Hero() {
       onMouseEnter={onMouseEnterHero}
       onMouseMove={onMouseMoveHero}
       onMouseLeave={onMouseLeaveHero}
-      className="relative overflow-hidden bg-gradient-to-br from-indigo-500 via-purple-500 to-indigo-700 py-24 text-white"
+      className="relative overflow-hidden bg-gradient-to-br from-gradient-start via-gradient-mid to-gradient-end py-24 text-white"
     >
       {/* angled overlay */}
       <div className="absolute inset-0 opacity-20">
@@ -319,7 +326,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1 }}
-            className="mb-4 text-xl font-semibold text-blue-100"
+            className="mb-4 text-xl font-semibold text-highlight"
           >
             AI Product Builder & Design Technologist
           </motion.p>
@@ -335,7 +342,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="mb-8 max-w-xl text-blue-100"
+            className="mb-8 max-w-xl text-highlight"
           >
             20+ years designing digital experiences → Now building and shipping
             AI-powered products from 0 to 1. <br />
@@ -348,7 +355,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="mb-8 max-w-xl text-blue-100"
+            className="mb-8 max-w-xl text-highlight"
           >
             Building with: Cursor · n8n · Supabase · Next.js · AI APIs
           </motion.p>

@@ -66,24 +66,24 @@ export default function Experience() {
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
-              className="mb-4 overflow-hidden rounded-xl border border-slate-200"
+              className="mb-4 overflow-hidden rounded-xl border border-border"
             >
               <button
                 onClick={() => setOpenIdx(openIdx === idx ? -1 : idx)}
-                className="flex w-full items-center justify-between bg-white px-6 py-4 text-left transition hover:bg-slate-50"
+                className="flex w-full items-center justify-between bg-white px-6 py-4 text-left transition hover:bg-muted/10"
               >
                 <div>
-                  <div className="text-base font-semibold text-slate-900">
+                  <div className="text-base font-semibold text-surface-foreground">
                     {exp.title}
                   </div>
-                  <div className="mt-0.5 text-sm font-medium text-indigo-700">
+                  <div className="mt-0.5 text-sm font-medium text-primary">
                     {exp.company}
                   </div>
                 </div>
-                <div className="flex items-center gap-3 text-sm text-slate-500">
+                <div className="flex items-center gap-3 text-sm text-muted">
                   <span>{exp.period}</span>
                   <ChevronDown
-                    className={`h-5 w-5 text-indigo-600 transition-transform ${
+                    className={`h-5 w-5 text-primary transition-transform ${
                       openIdx === idx ? "rotate-180" : ""
                     }`}
                   />
@@ -95,11 +95,11 @@ export default function Experience() {
                 }`}
               >
                 <div className="overflow-hidden">
-                  <div className="bg-indigo-50 px-6 pb-6 pt-2">
-                    <ul className="mt-4 list-none space-y-2 text-sm text-slate-700">
+                  <div className="bg-primary/5 px-6 pb-6 pt-2">
+                    <ul className="mt-4 list-none space-y-2 text-sm text-surface-foreground/80">
                       {exp.bullets.map((b, i) => (
                         <li key={i} className="relative pl-5">
-                          <span className="absolute left-0 top-1 text-indigo-600">
+                          <span className="absolute left-0 top-1 text-primary">
                             ▶
                           </span>
                           {b}
@@ -118,7 +118,7 @@ export default function Experience() {
         <a
           href="https://linkedin.com/in/brunopinheiroeu"
           target="_blank"
-          className="inline-flex items-center gap-2 rounded-full border-2 border-violet-500/50 bg-violet-500/10 px-6 py-3 font-medium text-violet-700 backdrop-blur transition hover:-translate-y-0.5 hover:bg-violet-500/20"
+          className="inline-flex items-center gap-2 rounded-full border-2 border-secondary/50 bg-secondary/10 px-6 py-3 font-medium text-secondary backdrop-blur transition hover:-translate-y-0.5 hover:bg-secondary/20"
         >
           <SiLinkedin className="h-5 w-5" />
           LinkedIn
@@ -127,7 +127,7 @@ export default function Experience() {
         <a
           href="https://www.dropbox.com/scl/fi/azapa13akewcfgjoddiu2/BrunoPinheiroResume.pdf?rlkey=ionedq7nzbs7jlqcg402mbx37&dl=1"
           target="_blank"
-          className="inline-flex items-center gap-2 rounded-full border-2 border-violet-500/50 bg-violet-500/10 px-6 py-3 font-medium text-violet-700 backdrop-blur transition hover:-translate-y-0.5 hover:bg-violet-500/20"
+          className="inline-flex items-center gap-2 rounded-full border-2 border-secondary/50 bg-secondary/10 px-6 py-3 font-medium text-secondary backdrop-blur transition hover:-translate-y-0.5 hover:bg-secondary/20"
         >
           <GrDocumentDownload className="h-5 w-5" />
           Download my CV

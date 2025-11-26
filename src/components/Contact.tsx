@@ -34,7 +34,7 @@ export default function Contact() {
   return (
     <section
       id="contact"
-      className="relative overflow-hidden bg-gradient-to-br from-indigo-500 via-violet-500 to-purple-700 py-24 text-white"
+      className="relative overflow-hidden bg-gradient-to-br from-gradient-start via-gradient-mid to-gradient-end py-24 text-white"
     >
       {/* angled overlay (static, sem parallax) */}
       <div className="absolute inset-0 opacity-20">

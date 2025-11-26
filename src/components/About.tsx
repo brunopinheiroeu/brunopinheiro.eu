@@ -19,7 +19,7 @@ export default function About() {
             viewport={{ once: true, amount: 0.2 }}
             className="relative h-80 overflow-hidden rounded-2xl shadow-xl md:h-[420px]"
           >
-            <div className="absolute inset-0 bg-gradient-to-br from-indigo-500 to-violet-700" />
+            <div className="absolute inset-0 bg-gradient-to-br from-primary to-secondary" />
             <Image
               src="/images/aboutMe.png"
               alt="Bruno Pinheiro"
@@ -27,7 +27,7 @@ export default function About() {
               className="relative z-10 h-full w-full object-cover transition-transform duration-300 hover:scale-[1.03]"
               onError={(e) => (e.currentTarget.style.display = "none")}
             />
-            <div className="absolute inset-0 z-20 flex items-center justify-center bg-violet-600/0 opacity-0 transition-opacity duration-300 hover:opacity-100">
+            <div className="absolute inset-0 z-20 flex items-center justify-center bg-secondary/0 opacity-0 transition-opacity duration-300 hover:opacity-100">
               <div className="flex gap-6 text-white">
                 <Footprints className="h-8 w-8" />
                 <Camera className="h-8 w-8" />
@@ -41,13 +41,13 @@ export default function About() {
             initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
-            className="text-base leading-relaxed text-slate-800"
+            className="text-base leading-relaxed text-surface-foreground"
           >
             <p className="mb-4">
               Hi, my name is
-              <strong className="text-indigo-700"> Bruno Pinheiro</strong> and
+              <strong className="text-primary"> Bruno Pinheiro</strong> and
               I'm a{" "}
-              <strong className="text-indigo-700">AI Product Builder</strong>{" "}
+              <strong className="text-primary">AI Product Builder</strong>{" "}
               based in Valencia, Spain.{" "}
             </p>
             <p className="mb-4">

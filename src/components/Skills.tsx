@@ -30,7 +30,7 @@ export default function Skills() {
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden bg-gradient-to-br from-indigo-500 via-violet-500 to-purple-700 py-24 text-white"
+      className="relative overflow-hidden bg-gradient-to-br from-gradient-start via-gradient-mid to-gradient-end py-24 text-white"
     >
       {/* Background polygons (scroll parallax) */}
       {mounted ? (

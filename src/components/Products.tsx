@@ -62,7 +62,7 @@ export default function Products({ products: strapiProducts }: ProductsProps) {
   const hasProducts = products.length > 0;
 
   return (
-    <section id="products" className="bg-indigo-50 py-24">
+    <section id="products" className="bg-primary/5 py-24">
       <div className="mx-auto max-w-6xl px-6">
         <FadeHeader
           title="Featured Products"
@@ -92,7 +92,7 @@ export default function Products({ products: strapiProducts }: ProductsProps) {
                     className={[
                       "relative w-full shrink-0 overflow-hidden",
                       "sm:w-[46%]",
-                      "bg-gradient-to-br from-indigo-500 to-violet-700",
+                      "bg-gradient-to-br from-primary to-secondary",
                     ].join(" ")}
                   >
                     <div className="relative h-64 sm:h-full">
@@ -149,14 +149,14 @@ export default function Products({ products: strapiProducts }: ProductsProps) {
 
                   {/* Content side */}
                   <div className="flex flex-1 flex-col p-6">
-                    <h3 className="mb-2 text-lg font-semibold text-slate-900">
+                    <h3 className="mb-2 text-lg font-semibold text-surface-foreground">
                       {p.title}
                     </h3>
                     <div className="mb-4 text-sm text-slate-600">
                       <MarkdownContent
                         content={p.desc}
                         inline
-                        className="text-slate-600"
+                        className="text-muted"
                       />
                     </div>
 
@@ -165,14 +165,14 @@ export default function Products({ products: strapiProducts }: ProductsProps) {
                         {p.tags.map((t: string) => (
                           <span
                             key={t}
-                            className="rounded-full bg-violet-100 px-3 py-1 text-xs font-medium text-violet-800"
+                            className="rounded-full bg-secondary/10 px-3 py-1 text-xs font-medium text-secondary"
                           >
                             {t}
                           </span>
                         ))}
                       </div>
                     ) : (
-                      <p className="mb-4 text-sm text-slate-500">
+                      <p className="mb-4 text-sm text-muted">
                         Tags are being curated for this project.
                       </p>
                     )}
@@ -183,22 +183,22 @@ export default function Products({ products: strapiProducts }: ProductsProps) {
                         tool.Icon ? (
                           <span
                             key={`mobile-${tool.key}`}
-                            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-indigo-200 bg-indigo-50"
+                            className="inline-flex h-8 w-8 items-center justify-center rounded-full border border-primary/20 bg-primary/5"
                             title={tool.label}
                           >
-                            <tool.Icon className="h-4 w-4 text-indigo-600" />
+                            <tool.Icon className="h-4 w-4 text-primary" />
                           </span>
                         ) : (
                           <span
                             key={`mobile-${tool.key}`}
-                            className="rounded-full border border-indigo-200 bg-indigo-50 px-2.5 py-1 text-[11px] font-medium uppercase tracking-wide text-indigo-700"
+                            className="rounded-full border border-primary/20 bg-primary/5 px-2.5 py-1 text-[11px] font-medium uppercase tracking-wide text-primary"
                           >
                             {tool.label}
                           </span>
                         )
                       )}
                       {!p.tools.length ? (
-                        <span className="text-xs uppercase tracking-wide text-slate-500">
+                        <span className="text-xs uppercase tracking-wide text-muted">
                           Tooling coming soon
                         </span>
                       ) : null}
@@ -206,10 +206,10 @@ export default function Products({ products: strapiProducts }: ProductsProps) {
 
                     {/* Footer colado no bottom */}
                     <div className="mt-auto">
-                      <div className="h-px w-full bg-violet-100" />
+                      <div className="h-px w-full bg-secondary/10" />
                       <a
                         href={p.href}
-                        className="mt-4 inline-flex items-center gap-2 font-medium text-indigo-600 hover:text-violet-700"
+                        className="mt-4 inline-flex items-center gap-2 font-medium text-primary hover:text-secondary"
                       >
                         Case Study <ArrowRight className="h-4 w-4" />
                       </a>
@@ -220,11 +220,11 @@ export default function Products({ products: strapiProducts }: ProductsProps) {
             })}
           </div>
         ) : (
-          <div className="mt-12 rounded-2xl border border-dashed border-indigo-200 bg-white/60 p-10 text-center shadow-inner">
-            <p className="text-lg font-semibold text-slate-900">
+          <div className="mt-12 rounded-2xl border border-dashed border-primary/20 bg-white/60 p-10 text-center shadow-inner">
+            <p className="text-lg font-semibold text-surface-foreground">
               Featured products coming soon
             </p>
-            <p className="mt-3 text-sm text-slate-600">
+            <p className="mt-3 text-sm text-muted">
               Assim que liberarmos novos estudos no Contentful, eles aparecerão
               automaticamente aqui.
             </p>

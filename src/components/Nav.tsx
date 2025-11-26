@@ -74,7 +74,7 @@ export default function Nav() {
           <a
             href={isProductPage ? "/#home" : "#home"}
             onClick={(e) => onAnchorClick(e, "home")}
-            className="mb-12 flex h-12 w-12 items-center justify-center rounded-lg bg-indigo-600 text-xl font-bold text-white transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/40"
+            className="mb-12 flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-xl font-bold text-white transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
             aria-label="Home - Bruno Pinheiro"
           >
             BP
@@ -91,10 +91,10 @@ export default function Nav() {
                   <a
                     href={isProductPage ? `/#${link.id}` : `#${link.id}`}
                     onClick={(e) => onAnchorClick(e, link.id)}
-                    className={`flex h-12 w-12 items-center justify-center rounded-lg transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-indigo-500/40 ${
+                    className={`flex h-12 w-12 items-center justify-center rounded-lg transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40 ${
                       isActive && !isProductPage
-                        ? "bg-indigo-600 text-white shadow-md"
-                        : "text-slate-700 hover:bg-indigo-50 hover:text-indigo-600"
+                        ? "bg-primary text-white shadow-md"
+                        : "text-surface-foreground hover:bg-primary/10 hover:text-primary"
                     }`}
                     aria-current={
                       isActive && !isProductPage ? "page" : undefined
@@ -106,12 +106,12 @@ export default function Nav() {
 
                   {/* Tooltip on hover */}
                   <span
-                    className="absolute left-full ml-4 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-lg bg-slate-900 px-3 py-2 text-sm font-medium text-white opacity-0 pointer-events-none transition-opacity duration-200 group-hover:opacity-100"
+                    className="absolute left-full ml-4 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-lg bg-surface-foreground px-3 py-2 text-sm font-medium text-white opacity-0 pointer-events-none transition-opacity duration-200 group-hover:opacity-100"
                     role="tooltip"
                   >
                     {link.label}
                     {/* Arrow pointing left */}
-                    <span className="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-slate-900" />
+                    <span className="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-surface-foreground" />
                   </span>
                 </li>
               );
@@ -123,7 +123,7 @@ export default function Nav() {
       {/* Mobile hamburger */}
       <button
         type="button"
-        className="fixed left-4 top-4 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-slate-800 shadow-lg ring-1 ring-slate-200 backdrop-blur transition hover:bg-white md:hidden"
+        className="fixed left-4 top-4 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-surface-foreground shadow-lg ring-1 ring-border backdrop-blur transition hover:bg-white md:hidden"
         onClick={() => setIsMenuOpen((prev) => !prev)}
         aria-label="Toggle navigation menu"
         aria-expanded={isMenuOpen}
@@ -140,11 +140,11 @@ export default function Nav() {
         }`}
       >
         <div
-          className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"
+          className="absolute inset-0 bg-surface-foreground/60 backdrop-blur-sm"
           onClick={() => setIsMenuOpen(false)}
         />
         <div className="absolute top-20 left-1/2 w-full max-w-xl -translate-x-1/2 px-4">
-          <div className="rounded-full bg-white/90 px-4 py-4 shadow-[0_25px_80px_rgba(99,102,241,0.35)] ring-1 ring-indigo-100 backdrop-blur-xl">
+          <div className="rounded-full bg-white/90 px-4 py-4 shadow-[0_25px_80px_rgba(99,102,241,0.35)] ring-1 ring-primary/20 backdrop-blur-xl">
             <div className="flex flex-wrap items-center justify-center gap-3">
               {links.map((link) => {
                 const Icon = link.icon;
@@ -156,8 +156,8 @@ export default function Nav() {
                     onClick={(e) => handleNavClick(e, link.id)}
                     className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition ${
                       isActive && !isProductPage
-                        ? "bg-gradient-to-r from-indigo-500 to-violet-500 text-white shadow-[0_0_30px_rgba(139,92,246,0.45)]"
-                        : "bg-white/70 text-slate-700 shadow-sm ring-1 ring-slate-200 hover:bg-indigo-50"
+                        ? "bg-gradient-to-r from-primary to-secondary text-white shadow-[0_0_30px_rgba(139,92,246,0.45)]"
+                        : "bg-white/70 text-surface-foreground shadow-sm ring-1 ring-border hover:bg-primary/10"
                     }`}
                   >
                     <Icon className="h-4 w-4" />
