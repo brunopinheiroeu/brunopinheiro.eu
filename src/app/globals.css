@@ -5,22 +5,22 @@
   --foreground: #171717;
   
   /* Brand Colors */
-  --primary: #4f46e5; /* indigo-600 */
+  --primary: #7C3AED; /* Dark Purple */
   --primary-foreground: #ffffff;
-  --secondary: #8b5cf6; /* violet-500 */
-  --accent: #a855f7; /* purple-500 */
+  --secondary: #3B82F6; /* Electric Blue */
+  --accent: #14B8A6; /* Teal */
   
   /* UI Colors */
   --surface: #ffffff;
   --surface-foreground: #1e293b; /* slate-800 */
   --muted: #64748b; /* slate-500 */
   --border: #e2e8f0; /* slate-200 */
-  --highlight: #dbeafe; /* blue-100 */
+  --highlight: #ede9fe; /* violet-100 */
   
   /* Gradient Colors */
-  --gradient-start: #6366f1; /* indigo-500 */
-  --gradient-mid: #a855f7; /* purple-500 */
-  --gradient-end: #4338ca; /* indigo-700 */
+  --gradient-start: #7C3AED;
+  --gradient-mid: #3B82F6;
+  --gradient-end: #14B8A6;
 }
 
 @theme inline {
