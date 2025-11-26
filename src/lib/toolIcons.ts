@@ -20,15 +20,17 @@ import {
   SiGraphql,
   SiRedis,
   SiAdobeillustrator,
-  SiAdobexd,
-  SiSketch,
   SiFramer,
   SiBlender,
   SiUnity,
   SiUnrealengine,
   SiOpenai,
   SiFastapi,
+  SiVercel,
+  SiPython,
 } from "react-icons/si";
+
+import { FaPhotoVideo, FaUnity } from "react-icons/fa";
 
 export type ToolIcon = ComponentType<{ className?: string }>;
 
@@ -39,11 +41,6 @@ const toolMap: Record<string, ToolIcon> = {
   photoshop: SiAdobephotoshop,
   siadobeillustrator: SiAdobeillustrator,
   illustrator: SiAdobeillustrator,
-  siadobexd: SiAdobexd,
-  adobexd: SiAdobexd,
-  xd: SiAdobexd,
-  sisketch: SiSketch,
-  sketch: SiSketch,
   siframer: SiFramer,
   framer: SiFramer,
   sihtml5: SiHtml5,
@@ -99,6 +96,12 @@ const toolMap: Record<string, ToolIcon> = {
   openai: SiOpenai,
   sifastapi: SiFastapi,
   fastapi: SiFastapi,
+  sivercel: SiVercel,
+  vercel: SiVercel,
+  sipython: SiPython,
+  python: SiPython,
+  py: SiPython,
+  faphotovideo: FaPhotoVideo,
 };
 
 export type ToolItem = {

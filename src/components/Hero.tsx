@@ -14,7 +14,7 @@ import { scrollToSection } from "@/lib/scroll";
 
 type BubbleConfig = {
   text: string;
-  href: string;
+  // href: string;
   side: "left" | "right";
   offsetX: number;
   offsetY: number;
@@ -39,8 +39,8 @@ const heroCards: HeroCardConfig[] = [
   {
     image: { src: "/images/photo1.png", alt: "Happy user 1" },
     bubble: {
-      text: "Virtual Showroom @ Wave VRS",
-      href: "#",
+      text: "Virtual Reality",
+      // href: "#",
       side: "left",
       offsetX: -150,
       offsetY: -80,
@@ -52,11 +52,11 @@ const heroCards: HeroCardConfig[] = [
   {
     image: { src: "/images/photo2.png", alt: "Happy user 2" },
     bubble: {
-      text: "structurAR @ McGowans Print",
-      href: "#",
+      text: "Augmented Reality",
+      // href: "#",
       side: "right",
-      offsetX: -110,
-      offsetY: -180,
+      offsetX: -70,
+      offsetY: -160,
     },
     positionClass: "top-10 right-10",
     depth: 0.85,
@@ -65,8 +65,8 @@ const heroCards: HeroCardConfig[] = [
   {
     image: { src: "/images/photo3.png", alt: "Happy user 3" },
     bubble: {
-      text: "AI Expertise @ Life",
-      href: "#",
+      text: "AI Enhanced Product Design",
+      // href: "#",
       side: "left",
       offsetX: -120,
       offsetY: 130,
@@ -78,8 +78,8 @@ const heroCards: HeroCardConfig[] = [
   {
     image: { src: "/images/photo4.png", alt: "Happy user 4" },
     bubble: {
-      text: "Unit + Unreal Game Experienced",
-      href: "#",
+      text: "Unit & Unreal Engine Expertise",
+      // href: "#",
       side: "left",
       offsetX: -100,
       offsetY: 130,
@@ -92,7 +92,7 @@ const heroCards: HeroCardConfig[] = [
     image: { src: "/images/photo5.png", alt: "Happy user 5" },
     bubble: {
       text: "Automation Workflows",
-      href: "#",
+      // href: "#",
       side: "left",
       offsetX: -70,
       offsetY: -160,
@@ -104,8 +104,8 @@ const heroCards: HeroCardConfig[] = [
   {
     image: { src: "/images/photo6.png", alt: "Happy user 6" },
     bubble: {
-      text: "Bua na Cainte — Case Study",
-      href: "#",
+      text: "EdTech Platforms Expertise",
+      // href: "#",
       side: "left",
       offsetX: -180,
       offsetY: 50,
@@ -199,7 +199,7 @@ function HeroCard({
       </div>
 
       <motion.a
-        href={card.bubble.href}
+        // href={card.bubble.href}
         target="_self"
         className="pointer-events-auto absolute w-[200px] rounded-2xl border border-white/20 bg-white/10 px-4 py-3 text-center text-white shadow-lg backdrop-blur-md"
         style={{
