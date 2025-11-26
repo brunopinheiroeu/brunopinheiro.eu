@@ -2,6 +2,7 @@
 import { useEffect, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { Home, Briefcase, Clock, User, Mail, Menu, X } from "lucide-react";
+import Image from "next/image";
 import { scrollToSection } from "@/lib/scroll";
 
 export default function Nav() {
@@ -74,10 +75,16 @@ export default function Nav() {
           <a
             href={isProductPage ? "/#home" : "#home"}
             onClick={(e) => onAnchorClick(e, "home")}
-            className="mb-12 flex h-12 w-12 items-center justify-center rounded-lg bg-primary text-xl font-bold text-white transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+            className="mb-12 flex h-12 w-12 items-center justify-center rounded-lg transition-transform hover:scale-110 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
             aria-label="Home - Bruno Pinheiro"
           >
-            BP
+            <Image
+              src="/images/bp-icon.png"
+              alt="BP"
+              width={48}
+              height={48}
+              className="h-full w-full object-contain"
+            />
           </a>
 
           {/* Navigation Links */}
