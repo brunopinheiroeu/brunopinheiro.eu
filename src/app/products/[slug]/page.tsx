@@ -38,11 +38,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
     .slice(0, 4);
 
   return (
-    <div className="min-h-screen antialiased text-slate-900 bg-indigo-50">
+    <div className="min-h-screen antialiased text-surface-foreground bg-primary/5">
       <Nav />
       <div className="pl-0 md:pl-20">
         {/* Hero Header Section */}
-        <header className="relative overflow-hidden bg-gradient-to-br from-indigo-500 via-purple-500 to-indigo-700 py-16 text-white">
+        <header className="relative overflow-hidden bg-gradient-to-br from-gradient-start via-gradient-mid to-gradient-end py-16 text-white">
           {/* Angled overlay */}
           <div className="absolute inset-0 opacity-20">
             <svg viewBox="0 0 1000 1000" className="h-full w-full">
@@ -65,11 +65,11 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 </h1>
 
                 {product.frontPageText && (
-                  <div className="text-xl text-blue-100 mb-6">
+                  <div className="text-xl text-highlight mb-6">
                     <MarkdownContent
                       content={product.frontPageText}
                       inline
-                      className="text-blue-100"
+                      className="text-highlight"
                     />
                   </div>
                 )}
@@ -81,8 +81,8 @@ export default async function ProductPage({ params }: ProductPageProps) {
                         key={`${tag}-${index}`}
                         className={`px-3 py-1 text-sm rounded-full font-medium backdrop-blur-md border ${
                           index % 2 === 0
-                            ? "bg-indigo-400/20 text-white border-white/20"
-                            : "bg-violet-400/20 text-white border-white/20"
+                            ? "bg-primary/20 text-white border-white/20"
+                            : "bg-secondary/20 text-white border-white/20"
                         }`}
                       >
                         {tag}
@@ -93,7 +93,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
                 {toolItems.length > 0 && (
                   <div className="mt-4 space-y-2">
-                    <p className="text-sm font-semibold uppercase tracking-wide text-blue-100">
+                    <p className="text-sm font-semibold uppercase tracking-wide text-highlight">
                       Tools &amp; Stack
                     </p>
                     <div className="flex flex-wrap gap-3">
@@ -120,7 +120,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               {/* Cover Image - 50% size, vertical layout */}
               {coverImageUrl && (
                 <div className="w-full max-w-sm md:max-w-[242px] lg:max-w-[286px] mx-auto md:ml-auto">
-                  <div className="relative aspect-[3/4] w-full bg-gradient-to-br from-indigo-500 to-violet-700 rounded-2xl overflow-hidden shadow-xl">
+                  <div className="relative aspect-[3/4] w-full bg-gradient-to-br from-primary to-secondary rounded-2xl overflow-hidden shadow-xl">
                     <Image
                       src={coverImageUrl}
                       alt={product.title}
@@ -143,7 +143,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               <div className="bg-white rounded-2xl shadow-md p-8 md:p-12">
                 <MarkdownContent
                   content={product.content}
-                  className="text-slate-700"
+                  className="text-surface-foreground/80"
                 />
               </div>
             </section>
@@ -152,7 +152,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
         {/* Related Products Section */}
         {relatedProducts.length > 0 && (
-          <section className="bg-indigo-50 py-16">
+          <section className="bg-primary/5 py-16">
             <div className="mx-auto max-w-6xl px-6">
               <FadeHeader
                 title="Related Products"
@@ -167,7 +167,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                       href={`/products/${relatedProduct.slug}`}
                       className="group relative overflow-hidden rounded-2xl bg-white shadow-md transition hover:-translate-y-1 hover:shadow-xl"
                     >
-                      <div className="relative h-48 overflow-hidden bg-gradient-to-br from-indigo-500 to-violet-700">
+                      <div className="relative h-48 overflow-hidden bg-gradient-to-br from-primary to-secondary">
                         {relatedImageUrl ? (
                           <Image
                             src={relatedImageUrl}
@@ -180,19 +180,19 @@ export default async function ProductPage({ params }: ProductPageProps) {
                         <div className="absolute inset-0 bg-white/10 [mask-image:radial-gradient(40%_40%_at_30%_20%,black,transparent)]" />
                       </div>
                       <div className="p-4">
-                        <h3 className="mb-2 text-sm font-semibold text-slate-900 line-clamp-2">
+                        <h3 className="mb-2 text-sm font-semibold text-surface-foreground line-clamp-2">
                           {relatedProduct.title}
                         </h3>
                         {relatedProduct.frontPageText && (
-                          <div className="mb-3 line-clamp-2 text-xs text-slate-600">
+                          <div className="mb-3 line-clamp-2 text-xs text-muted">
                             <MarkdownContent
                               content={relatedProduct.frontPageText}
                               inline
-                              className="text-slate-600"
+                              className="text-muted"
                             />
                           </div>
                         )}
-                        <div className="inline-flex items-center gap-1 text-xs font-medium text-indigo-600 group-hover:text-violet-700">
+                        <div className="inline-flex items-center gap-1 text-xs font-medium text-primary group-hover:text-secondary">
                           View Project <ArrowRight className="h-3 w-3" />
                         </div>
                       </div>

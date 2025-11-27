@@ -30,7 +30,7 @@ import {
   SiPython,
 } from "react-icons/si";
 
-import { FaPhotoVideo, FaUnity } from "react-icons/fa";
+import { FaPhotoVideo, } from "react-icons/fa";
 
 export type ToolIcon = ComponentType<{ className?: string }>;
 
