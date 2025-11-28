@@ -10,7 +10,7 @@ export default function Experience() {
   const [openIdx, setOpenIdx] = useState(0);
   const experience = [
     {
-      title: "Product Design & Technology Lead",
+      title: "Product Design Manager",
       company: "Edco - Ireland's Leading Educational Platform - Ireland",
       period: "05/2022 - Present",
       bullets: [
@@ -18,17 +18,17 @@ export default function Experience() {
         "Reduced game rework by 70% through improved testing practices and automated workflows using Python and AI tools",
         "Optimized development processes for distributed team, reducing developer hours from 100 to 50 weekly while maintaining productivity (50% cost savings)",
         "Redesigned flagship learning platform with 11% more usable screen space, improving student focus and engagement",
-        "Active member of company's AI research group, implementing automation solutions and exploring AI integration opportunities",
+        "Former member of company's AI research group, implementing automation solutions and exploring AI integration opportunities",
       ],
     },
     {
-      title: "AI Product Manager Bootcamp (Maven)",
-      company: "Capstone Project: Artori.app",
+      title: "AI Product Manager",
+      company: "Artori.app",
       period: "2025",
       bullets: [
-        "Built full-stack AI art generator using Next.js, Supabase, and OpenAI APIs in 4-week sprint",
-        "Managed end-to-end product lifecycle from concept to deployment using AI-assisted development (Snapdev)",
-        "Currently live at artori.app, demonstrating rapid prototyping and AI product development capabilities'",
+        "Built full-stack AI Educational Platform using Next.js, Python, and OpenAI APIs in 4-week sprint",
+        "Managed end-to-end product lifecycle from concept to deployment using AI-assisted development (chatGPT, Perplexity AI Deep research, Cursor)",
+        "Currently live at artori.app (Vercel + Render + Mongo), demonstrating rapid prototyping and AI product development capabilities",
       ],
     },
     {
