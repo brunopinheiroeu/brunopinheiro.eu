@@ -52,7 +52,24 @@
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
-    /* Add dark mode overrides here if needed later */
+    
+    /* Brand Colors - adjusted for dark mode */
+    --primary: #9333EA; /* Lighter purple for better contrast */
+    --primary-foreground: #ffffff;
+    --secondary: #60A5FA; /* Lighter blue */
+    --accent: #2DD4BF; /* Lighter teal */
+    
+    /* UI Colors - dark mode palette */
+    --surface: #1e1e1e;
+    --surface-foreground: #e2e8f0; /* Light text on dark surface */
+    --muted: #94a3b8; /* Lighter muted for readability */
+    --border: #334155; /* Darker border */
+    --highlight: #2e1065; /* Dark violet for highlights */
+    
+    /* Gradient Colors - adjusted */
+    --gradient-start: #9333EA;
+    --gradient-mid: #60A5FA;
+    --gradient-end: #2DD4BF;
   }
 }
 

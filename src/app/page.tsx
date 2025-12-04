@@ -17,7 +17,7 @@ export default async function Page() {
   const products = await getProducts();
 
   return (
-    <div className="min-h-screen antialiased text-slate-900">
+    <div className="min-h-screen antialiased text-foreground">
       <HashScrollHandler />
       <Nav />
       <div className="pl-0 md:pl-20">

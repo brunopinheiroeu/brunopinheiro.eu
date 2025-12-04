@@ -67,7 +67,7 @@ export default function Nav() {
     <>
       {/* Desktop sidebar */}
       <nav
-        className="fixed left-0 top-0 z-40 hidden h-screen w-20 bg-white/80 backdrop-blur shadow-lg transition-all md:block"
+        className="fixed left-0 top-0 z-40 hidden h-screen w-20 bg-white/80 dark:bg-slate-900/80 backdrop-blur shadow-lg transition-all md:block"
         aria-label="Main navigation"
       >
         <div className="flex h-full flex-col items-center py-8">
@@ -113,12 +113,12 @@ export default function Nav() {
 
                   {/* Tooltip on hover */}
                   <span
-                    className="absolute left-full ml-4 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-lg bg-surface-foreground px-3 py-2 text-sm font-medium text-white opacity-0 pointer-events-none transition-opacity duration-200 group-hover:opacity-100"
+                    className="absolute left-full ml-4 top-1/2 -translate-y-1/2 whitespace-nowrap rounded-lg bg-slate-800 dark:bg-slate-700 px-3 py-2 text-sm font-medium text-white opacity-0 pointer-events-none transition-opacity duration-200 group-hover:opacity-100"
                     role="tooltip"
                   >
                     {link.label}
                     {/* Arrow pointing left */}
-                    <span className="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-surface-foreground" />
+                    <span className="absolute right-full top-1/2 -translate-y-1/2 border-4 border-transparent border-r-slate-800 dark:border-r-slate-700" />
                   </span>
                 </li>
               );
@@ -130,7 +130,7 @@ export default function Nav() {
       {/* Mobile hamburger */}
       <button
         type="button"
-        className="fixed left-4 top-4 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-white/90 text-surface-foreground shadow-lg ring-1 ring-border backdrop-blur transition hover:bg-white md:hidden"
+        className="fixed left-4 top-4 z-40 flex h-12 w-12 items-center justify-center rounded-full bg-white/90 dark:bg-slate-800/90 text-surface-foreground shadow-lg ring-1 ring-border backdrop-blur transition hover:bg-white dark:hover:bg-slate-800 md:hidden"
         onClick={() => setIsMenuOpen((prev) => !prev)}
         aria-label="Toggle navigation menu"
         aria-expanded={isMenuOpen}
@@ -151,7 +151,7 @@ export default function Nav() {
           onClick={() => setIsMenuOpen(false)}
         />
         <div className="absolute top-20 left-1/2 w-full max-w-xl -translate-x-1/2 px-4">
-          <div className="rounded-full bg-white/90 px-4 py-4 shadow-[0_25px_80px_rgba(99,102,241,0.35)] ring-1 ring-primary/20 backdrop-blur-xl">
+          <div className="rounded-full bg-white/90 dark:bg-slate-800/90 px-4 py-4 shadow-[0_25px_80px_rgba(99,102,241,0.35)] ring-1 ring-primary/20 backdrop-blur-xl">
             <div className="flex flex-wrap items-center justify-center gap-3">
               {links.map((link) => {
                 const Icon = link.icon;

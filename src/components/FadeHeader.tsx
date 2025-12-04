@@ -18,7 +18,7 @@ export default function FadeHeader({
         initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
-        className={`mb-3 text-3xl font-bold text-slate-900 md:text-4xl ${titleClassName}`}
+        className={`mb-3 text-3xl font-bold text-slate-900 dark:text-slate-100 md:text-4xl ${titleClassName}`}
       >
         {title}
       </motion.h2>
@@ -26,7 +26,7 @@ export default function FadeHeader({
         initial={{ opacity: 0, y: 12 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.2 }}
-        className={`text-sm text-slate-600 md:text-base ${subtitleClassName}`}
+        className={`text-sm text-slate-600 dark:text-slate-400 md:text-base ${subtitleClassName}`}
       >
         {subtitle}
       </motion.p>

@@ -70,7 +70,7 @@ export default function Experience() {
             >
               <button
                 onClick={() => setOpenIdx(openIdx === idx ? -1 : idx)}
-                className="flex w-full items-center justify-between bg-white px-6 py-4 text-left transition hover:bg-muted/10"
+                className="flex w-full items-center justify-between bg-white dark:bg-slate-800 px-6 py-4 text-left transition hover:bg-muted/10 dark:hover:bg-slate-700/50"
               >
                 <div>
                   <div className="text-base font-semibold text-surface-foreground">

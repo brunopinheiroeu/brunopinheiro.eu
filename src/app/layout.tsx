@@ -17,19 +17,19 @@ const openSans = Open_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "Bruno Pinheiro - Senior Product Designer & Technologist",
+  title: "Bruno Pinheiro - 20+ years designing digital experiences",
   description:
-    "Bruno Pinheiro is a Senior Product Designer & Technologist with 20+ years of experience creating digital products across web, mobile, AR/VR, and edtech. Passionate about blending design and technology to turn complex ideas into seamless, human-centered experiences.",
+    "Bruno Pinheiro is a AI Product Builder & Design Technologist with 20+ years of experience creating digital products across web, mobile, AR/VR, and edtech. Passionate about blending design and technology to turn complex ideas into seamless, human-centered experiences.",
   openGraph: {
-    title: "Bruno Pinheiro - Senior Product Designer & Technologist",
+    title: "Bruno Pinheiro - 20+ years designing digital experiences",
     description:
-      "Bruno Pinheiro is a Senior Product Designer & Technologist with 20+ years of experience creating digital products across web, mobile, AR/VR, and edtech. Passionate about blending design and technology to turn complex ideas into seamless, human-centered experiences.",
+      "Bruno Pinheiro is a AI Product Builder & Design Technologist with 20+ years of experience creating digital products across web, mobile, AR/VR, and edtech. Passionate about blending design and technology to turn complex ideas into seamless, human-centered experiences.",
     images: [
       {
         url: "/images/cover.png",
         width: 1200,
-        height: 630,
-        alt: "Bruno Pinheiro - Senior Product Designer & Technologist",
+        height: 627,
+        alt: "Bruno Pinheiro - AI Product Builder & Design Technologist",
       },
     ],
     type: "website",

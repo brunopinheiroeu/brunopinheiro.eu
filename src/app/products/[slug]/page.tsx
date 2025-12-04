@@ -140,7 +140,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
         <article className="mx-auto max-w-5xl px-6 py-8">
           {product.content ? (
             <section className="mb-10">
-              <div className="bg-white rounded-2xl shadow-md p-8 md:p-12">
+              <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-md p-8 md:p-12">
                 <MarkdownWithEmbeds
                   content={product.content}
                   className="text-surface-foreground/80"
@@ -165,7 +165,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                     <Link
                       key={relatedProduct.slug}
                       href={`/products/${relatedProduct.slug}`}
-                      className="group relative overflow-hidden rounded-2xl bg-white shadow-md transition hover:-translate-y-1 hover:shadow-xl"
+                      className="group relative overflow-hidden rounded-2xl bg-white dark:bg-slate-800 shadow-md transition hover:-translate-y-1 hover:shadow-xl"
                     >
                       <div className="relative h-48 overflow-hidden bg-gradient-to-br from-primary to-secondary">
                         {relatedImageUrl ? (

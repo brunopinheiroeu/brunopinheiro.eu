@@ -82,7 +82,7 @@ export default function Products({ products: strapiProducts }: ProductsProps) {
                   viewport={{ once: true, amount: 0.2 }}
                   transition={{ duration: 0.5, delay: 0.05 * i }}
                   className={[
-                    "group relative flex h-full overflow-hidden rounded-2xl bg-white shadow-md transition hover:-translate-y-1 hover:shadow-xl",
+                    "group relative flex h-full overflow-hidden rounded-2xl bg-white dark:bg-slate-800 shadow-md transition hover:-translate-y-1 hover:shadow-xl",
                     "flex-col",
                     reversed ? "sm:flex-row-reverse" : "sm:flex-row",
                   ].join(" ")}
@@ -152,7 +152,7 @@ export default function Products({ products: strapiProducts }: ProductsProps) {
                     <h3 className="mb-2 text-lg font-semibold text-surface-foreground">
                       {p.title}
                     </h3>
-                    <div className="mb-4 text-sm text-slate-600">
+                    <div className="mb-4 text-sm text-slate-600 dark:text-slate-400">
                       <MarkdownContent
                         content={p.desc}
                         inline
