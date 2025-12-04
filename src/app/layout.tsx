@@ -20,6 +20,20 @@ export const metadata: Metadata = {
   title: "Bruno Pinheiro - Senior Product Designer & Technologist",
   description:
     "Bruno Pinheiro is a Senior Product Designer & Technologist with 20+ years of experience creating digital products across web, mobile, AR/VR, and edtech. Passionate about blending design and technology to turn complex ideas into seamless, human-centered experiences.",
+  openGraph: {
+    title: "Bruno Pinheiro - Senior Product Designer & Technologist",
+    description:
+      "Bruno Pinheiro is a Senior Product Designer & Technologist with 20+ years of experience creating digital products across web, mobile, AR/VR, and edtech. Passionate about blending design and technology to turn complex ideas into seamless, human-centered experiences.",
+    images: [
+      {
+        url: "/images/cover.png",
+        width: 1200,
+        height: 630,
+        alt: "Bruno Pinheiro - Senior Product Designer & Technologist",
+      },
+    ],
+    type: "website",
+  },
 };
 
 export default function RootLayout({
