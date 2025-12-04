@@ -164,7 +164,7 @@ export default function Nav() {
                     className={`flex items-center gap-2 rounded-full px-4 py-2 text-sm font-semibold transition ${
                       isActive && !isProductPage
                         ? "bg-gradient-to-r from-primary to-secondary text-white shadow-[0_0_30px_rgba(139,92,246,0.45)]"
-                        : "bg-white/70 text-surface-foreground shadow-sm ring-1 ring-border hover:bg-primary/10"
+                        : "bg-white/70 dark:bg-slate-700/90 text-surface-foreground dark:text-slate-100 shadow-sm ring-1 ring-border hover:bg-primary/10 dark:hover:bg-primary/20"
                     }`}
                   >
                     <Icon className="h-4 w-4" />
