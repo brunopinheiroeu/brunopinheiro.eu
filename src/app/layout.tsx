@@ -1,5 +1,6 @@
 import { Analytics } from "@vercel/analytics/react";
 import type { Metadata } from "next";
+import Script from "next/script";
 import { Oswald, Open_Sans } from "next/font/google";
 import "./globals.css";
 
@@ -34,6 +35,10 @@ export default function RootLayout({
       >
         {children}
         <Analytics />
+        <Script
+          src="https://cdn.embedly.com/widgets/platform.js"
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   );

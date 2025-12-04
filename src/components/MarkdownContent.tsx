@@ -1,5 +1,7 @@
 "use client";
+import { useEffect, useRef } from "react";
 import ReactMarkdown from "react-markdown";
+import rehypeRaw from "rehype-raw";
 
 interface MarkdownContentProps {
   content: string;
@@ -12,11 +14,76 @@ export default function MarkdownContent({
   className, 
   inline = false 
 }: MarkdownContentProps) {
+  const contentRef = useRef<HTMLDivElement>(null);
+
+  // Trigger Embedly to process cards after content is rendered
+  useEffect(() => {
+    const processEmbeds = () => {
+      if (typeof window !== "undefined") {
+        const embedlyFunc = (window as any).embedly;
+        
+        if (embedlyFunc) {
+          console.log("Embedly found, processing cards in:", contentRef.current);
+          
+          // Find all embedly-card elements
+          const cards = contentRef.current?.querySelectorAll('.embedly-card');
+          console.log("Found embedly-card elements:", cards?.length);
+          
+          // Try different API methods
+          try {
+            // Method 1: Call embedly as a function
+            if (typeof embedlyFunc === 'function') {
+              embedlyFunc('card', contentRef.current);
+            }
+            // Method 2: Use embedly.card if available
+            else if (embedlyFunc.card && typeof embedlyFunc.card === 'function') {
+              embedlyFunc.card();
+            }
+            console.log("Embedly processing triggered");
+            return true;
+          } catch (error) {
+            console.error("Error calling Embedly:", error);
+          }
+        } else {
+          console.log("Embedly not loaded yet");
+        }
+      }
+      return false;
+    };
+
+    // Small delay to ensure DOM is ready
+    const initialTimeout = setTimeout(() => {
+      // Try immediately
+      if (!processEmbeds()) {
+        // If Embedly isn't loaded yet, wait for it
+        const checkInterval = setInterval(() => {
+          if (processEmbeds()) {
+            clearInterval(checkInterval);
+          }
+        }, 200);
+
+        // Clean up after 10 seconds
+        const timeout = setTimeout(() => {
+          console.warn("Embedly timeout - script may not have loaded properly");
+          clearInterval(checkInterval);
+        }, 10000);
+
+        return () => {
+          clearInterval(checkInterval);
+          clearTimeout(timeout);
+        };
+      }
+    }, 100);
+
+    return () => clearTimeout(initialTimeout);
+  }, [content]);
+
   // For inline rendering, use span and convert block elements to inline
   if (inline) {
     return (
       <span className={className}>
         <ReactMarkdown
+          rehypePlugins={[rehypeRaw]}
           components={{
             // Convert all block elements to inline spans, preserving content
             p: ({ children }) => <span>{children}</span>,
@@ -43,8 +110,9 @@ export default function MarkdownContent({
 
   // Default block rendering with proper styling
   return (
-    <div className={className}>
+    <div ref={contentRef} className={className}>
       <ReactMarkdown
+        rehypePlugins={[rehypeRaw]}
         components={{
           // Ensure headings are properly rendered with correct styling
           h1: ({ children }) => <h1 className="text-3xl font-bold mb-4 mt-6 text-slate-900 first:mt-0">{children}</h1>,

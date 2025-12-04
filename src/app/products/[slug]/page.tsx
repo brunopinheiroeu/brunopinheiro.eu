@@ -9,7 +9,7 @@ import Nav from "@/components/Nav";
 import FadeHeader from "@/components/FadeHeader";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
-import MarkdownContent from "@/components/MarkdownContent";
+import MarkdownWithEmbeds from "@/components/MarkdownWithEmbeds";
 
 interface ProductPageProps {
   params: Promise<{
@@ -66,7 +66,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
 
                 {product.frontPageText && (
                   <div className="text-xl text-highlight mb-6">
-                    <MarkdownContent
+                    <MarkdownWithEmbeds
                       content={product.frontPageText}
                       inline
                       className="text-highlight"
@@ -141,7 +141,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
           {product.content ? (
             <section className="mb-10">
               <div className="bg-white rounded-2xl shadow-md p-8 md:p-12">
-                <MarkdownContent
+                <MarkdownWithEmbeds
                   content={product.content}
                   className="text-surface-foreground/80"
                 />
@@ -185,7 +185,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                         </h3>
                         {relatedProduct.frontPageText && (
                           <div className="mb-3 line-clamp-2 text-xs text-muted">
-                            <MarkdownContent
+                            <MarkdownWithEmbeds
                               content={relatedProduct.frontPageText}
                               inline
                               className="text-muted"
