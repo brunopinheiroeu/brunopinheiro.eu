@@ -150,12 +150,12 @@ export default async function ProductPage({ params }: ProductPageProps) {
           ) : null}
         </article>
 
-        {/* Related Products Section */}
+        {/* More Cases Section */}
         {relatedProducts.length > 0 && (
           <section className="bg-primary/5 py-16">
             <div className="mx-auto max-w-6xl px-6">
               <FadeHeader
-                title="Related Products"
+                title="More Cases"
                 subtitle="Explore more of my work"
               />
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mt-8">
@@ -193,7 +193,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
                           </div>
                         )}
                         <div className="inline-flex items-center gap-1 text-xs font-medium text-primary group-hover:text-secondary">
-                          View Project <ArrowRight className="h-3 w-3" />
+                          Case Study <ArrowRight className="h-3 w-3" />
                         </div>
                       </div>
                     </Link>

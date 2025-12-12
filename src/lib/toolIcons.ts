@@ -28,6 +28,7 @@ import {
   SiFastapi,
   SiVercel,
   SiPython,
+  SiWebflow,
 } from "react-icons/si";
 
 import { FaPhotoVideo, } from "react-icons/fa";
@@ -101,6 +102,8 @@ const toolMap: Record<string, ToolIcon> = {
   sipython: SiPython,
   python: SiPython,
   py: SiPython,
+  webflow: SiWebflow,
+  siwebflow: SiWebflow,
   faphotovideo: FaPhotoVideo,
 };
 
