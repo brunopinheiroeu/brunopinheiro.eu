@@ -125,7 +125,7 @@ export default function Experience() {
         </a>
 
         <a
-          href="/cv/Bruno_Pinheiro_Resume.pdf"
+          href="/cv/Bruno_Pinheiro_CV_Master.pdf"
           target="_blank"
           className="inline-flex items-center gap-2 rounded-full border-2 border-secondary/50 bg-secondary/10 px-6 py-3 font-medium text-secondary backdrop-blur transition hover:-translate-y-0.5 hover:bg-secondary/20"
         >
