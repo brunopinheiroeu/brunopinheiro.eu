@@ -45,40 +45,44 @@ export default function About() {
           >
             <p className="mb-4">
               Hi, my name is
-              <strong className="text-primary"> Bruno Pinheiro</strong> and
-              I'm a{" "}
-              <strong className="text-primary">AI Product Builder</strong>{" "}
-              based in Valencia, Spain.{" "}
+              <strong className="text-primary"> Bruno Pinheiro</strong> and I'm
+              a{" "}
+              <strong className="text-primary">
+                Lead Product Designer and Design Engineer
+              </strong>{" "}
+              working across UX, automation, and AI-assisted prototyping.
             </p>
+
             <p className="mb-4">
-              It's not that I'm always working—I really don't believe heavy work
-              is the answer. I believe in smart work: using the right tools,
-              learning fast, and improving processes to build better products
-              and a better quality of life.
+              I like turning ambiguous problems into working products. My work
+              sits between product strategy, design, and technical execution:
+              understanding what needs to change, shaping the experience,
+              translating between stakeholders and developers, and building the
+              prototypes or workflows that move things forward.
             </p>
 
             <p className="mb-4">
               My tech journey started in the late '90s with my first course:
               "How to Assemble and Maintain a Computer." But honestly, my
-              earliest memory is way before that—pulling motors from toy cars to
-              build my own fans and boats. That curiosity never left.
+              earliest memory is way before that: pulling motors from toy cars
+              to build my own fans and boats. That curiosity never left.
             </p>
 
             <p className="mb-4">
-              For 20 years, I designed products. Then AI tools arrived and I
-              realized: why hand off when I can just build it myself? So I
-              learned to code with AI, and now I ship complete products—from
-              concept to deployment—in weeks.
+              For years, I designed products and handed them off. With
+              AI-assisted tools like Codex, Claude Code, Lovable, and Cursor, I
+              can now move faster from concept to prototype, from prototype to
+              test, and from test to shipped product.
             </p>
 
             <p className="mb-4">
-              Outside of work: running (went from obese to full marathon
-              runner), photography, cooking, and guitar.
+              Today, I lead product design for large-scale educational platforms
+              while building AI-assisted products, internal tools, and
+              automations from 0 to 1.
             </p>
 
             <p className="mb-4">
-              Currently building AI tools, managing educational gaming
-              platforms, and helping designers become builders.
+              Outside of work: running, photography, cooking, and guitar.
             </p>
           </motion.div>
         </div>

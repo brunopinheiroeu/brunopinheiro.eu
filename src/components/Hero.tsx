@@ -284,7 +284,7 @@ export default function Hero() {
       mx.set(px * 2 - 1);
       my.set(py * 2 - 1);
     },
-    [mx, my]
+    [mx, my],
   );
 
   const onMouseEnterHero = useCallback(
@@ -293,7 +293,7 @@ export default function Hero() {
       // setIsOrganized(false);
       onMouseMoveHero(e);
     },
-    [onMouseMoveHero]
+    [onMouseMoveHero],
   );
 
   const onMouseLeaveHero = useCallback(() => {
@@ -328,41 +328,49 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.1 }}
             className="mb-4 text-xl font-semibold text-highlight"
           >
-            AI Product Builder & Design Technologist
+            Lead Product Designer & Design Engineer
           </motion.p>
+
           <motion.h1
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mb-6 text-4xl font-extrabold md:text-6xl"
+            className="mb-6 max-w-5xl text-4xl font-extrabold leading-tight md:text-6xl"
           >
-            TURNING IDEAS INTO SHIPPED PRODUCTS
+            TURNING MESSY IDEAS INTO SHIPPED PRODUCTS
           </motion.h1>
-          <motion.p
+
+          <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="mb-8 max-w-xl text-highlight"
+            className="mb-8 max-w-2xl space-y-3 text-highlight"
           >
-            20+ years designing digital experiences → Now building and shipping
-            AI-powered products from 0 to 1. <br />
-            From concept to code to customer. Fast iterations. Real solutions.
-            <br />
-            EdTech platforms · AI tools · Emerging tech.
-          </motion.p>
+            <p>
+              I turn ambiguous problems into usable systems, MVPs, automations,
+              and shipped product experiences.
+            </p>
+            <p>
+              From concept to code to customer: Digital platforms, AI tools, and
+              <br></br>
+              0-to-1 products.
+            </p>
+          </motion.div>
 
           <motion.p
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            className="mb-8 max-w-xl text-highlight"
+            transition={{ duration: 0.6, delay: 0.4 }}
+            className="mb-8 max-w-2xl text-highlight"
           >
-            Building with: Cursor · n8n · Supabase · Next.js · AI APIs
+            AI-assisted builds with:<br></br> Codex · Claude Code · Lovable ·
+            React · Next.js · Supabase · Vercel
           </motion.p>
+
           <motion.a
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.4 }}
+            transition={{ duration: 0.6, delay: 0.5 }}
             href="#products"
             onClick={(e) => onAnchorClick(e, "products")}
             className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-6 py-3 font-medium text-white shadow-lg backdrop-blur-md transition hover:-translate-y-0.5 hover:bg-white/20"

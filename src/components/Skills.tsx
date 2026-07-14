@@ -84,36 +84,38 @@ export default function Skills() {
             icon={<Palette className="h-12 w-12 text-white" />}
             title="Product & UX Design"
             items={[
-              "Design Thinking & Strategy",
+              "Product Discovery & UX Strategy",
+              "Design Systems at Scale",
               "End-to-End Product Design",
-              "Rapid Prototyping",
+              "Stakeholder-to-Developer Translation",
               "Usability Testing & Research",
-              "Figma & Design Systems",
-              "20+ Years Experience",
+              "Shipped Product Experiences",
             ]}
           />
+
           <SkillCard
             icon={<Bot className="h-12 w-12 text-white" />}
-            title="AI Product Building"
+            title="AI-Assisted Prototyping"
             items={[
-              "AI Integration & Prompting",
-              "No-Code/Low-Code Tools",
-              "Cursor, Lovable, n8n",
-              "Supabase & Backend Setup",
-              "Next.js & Vercel Deploy",
-              "Ship Products in Weeks",
+              "Codex, Claude Code, Lovable",
+              "Cursor & AI Coding Workflows",
+              "React, Next.js & Vercel",
+              "Supabase & Neon",
+              "LLM Integration & Prompting",
+              "0-to-1 MVPs in Weeks",
             ]}
           />
+
           <SkillCard
             icon={<Settings className="h-12 w-12 text-white" />}
-            title="Technical & Leadership"
+            title="Automation & Delivery"
             items={[
-              "HTML, CSS, JavaScript",
-              "DevOps, CI/CD, Git",
-              "Agile & Remote Teams",
-              "Process Optimization",
-              "Stakeholder Management",
-              "Python Automation",
+              "Python & Shell Automation",
+              "Workflow Optimization",
+              "Internal Tools & Dashboards",
+              "HTML, CSS & JavaScript",
+              "Git & Deployment Workflows",
+              "Cross-Functional Delivery",
             ]}
           />
         </div>

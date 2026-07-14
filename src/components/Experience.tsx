@@ -10,25 +10,25 @@ export default function Experience() {
   const [openIdx, setOpenIdx] = useState(0);
   const experience = [
     {
-      title: "Product Design Manager",
+      title: "Lead Product Designer",
       company: "Edco - Ireland's Leading Educational Platform - Ireland",
       period: "05/2022 - Present",
       bullets: [
-        "Led Flash-to-HTML5 migration for educational gaming platform serving 50,000+ students, increasing monthly game delivery from 30 to 100 (3x improvement)",
-        "Reduced game rework by 70% through improved testing practices and automated workflows using Python and AI tools",
-        "Optimized development processes for distributed team, reducing developer hours from 100 to 50 weekly while maintaining productivity (50% cost savings)",
-        "Redesigned flagship learning platform with 11% more usable screen space, improving student focus and engagement",
-        "Former member of company's AI research group, implementing automation solutions and exploring AI integration opportunities",
+        "Led Flash-to-HTML5 migration, increasing monthly delivery from 30 to 100 products while cutting developer hours by 50% through process optimisation",
+        "Redesigned the main learning platform using a component-based design system, expanding usable screen space by 11% and improving focus and engagement for 50,000+ students",
+        "Built and scaled a unified design system adopted across 3,500+ products, enabling faster handoffs and consistent user experience",
+        "Developed Python and Shell automation scripts to eliminate repetitive tasks, enabling async collaboration and accelerating team productivity",
+        "Translated stakeholder needs into clear product and technical direction, and made engineering constraints understandable to non-technical teams while shipping workflows, prototypes, and automation tools",
       ],
     },
     {
-      title: "AI Product Manager",
-      company: "Artori.app",
+      title: "Founder & Design Engineer",
+      company: "Brunix Studio",
       period: "2025",
       bullets: [
-        "Built full-stack AI Educational Platform using Next.js, Python, and OpenAI APIs in 4-week sprint",
-        "Managed end-to-end product lifecycle from concept to deployment using AI-assisted development (chatGPT, Perplexity AI Deep research, Cursor)",
-        "Currently live at artori.app (Vercel + Render + Mongo), demonstrating rapid prototyping and AI product development capabilities",
+        "Built AI-assisted mobile, web, and internal products from 0 to 1, taking them through user tests, live pilots, team adoption, and Android launch prep",
+        "Designed and deployed MVPs with Codex, Claude Code, Lovable, React/Next.js, React Native, Vercel, Supabase, and Neon",
+        "Created Edco/Bua automation tools that cut resource-production tasks by 10x+, turning PDF, thumbnail, title, and SVG workflows from hours into seconds",
       ],
     },
     {
@@ -36,8 +36,8 @@ export default function Experience() {
       company: "Imvizar - Augmented Reality Startup - Ireland",
       period: "01/2022 - 04/2022",
       bullets: [
-        "Led complete redesign of mobile/web application and visual identity overhaul, directly contributing to securing new partnerships and investment",
-        "Created foundational design system (still in use today) ensuring consistency and scalability across 3 user experiences",
+        "Led end-to-end redesign of mobile and web platform plus complete visual identity overhaul, directly contributing to the company securing new partnerships and investment",
+        "Built foundational design system still scaling across the product today",
       ],
     },
     {
@@ -45,9 +45,8 @@ export default function Experience() {
       company: "Wave VR Studio - VR/AR Startup",
       period: "06/2014 - 08/2017",
       bullets: [
-        "Founded and led VR startup, managing end-to-end product lifecycle for multiple VR/AR solutions (VR Showroom, Go There tourism app)",
-        "Developed products in Unity 3D and Unreal Engine, conducted user research, pivoted to B2B based on market analysis",
-        "Secured incubation and mentorship (InovAtiva Brasil, Paraíba Technological Park) for MVP development",
+        "Founded and led VR startup building architectural visualisation and tourism platforms in Unity 3D and Unreal Engine, securing incubation at InovAtiva Brasil",
+        "Pivoted from B2C to B2B based on user research, resulting in partnerships with real estate developers and tourism boards",
       ],
     },
   ];
@@ -125,7 +124,7 @@ export default function Experience() {
         </a>
 
         <a
-          href="/cv/Bruno_Pinheiro_CV_Master.pdf"
+          href="/cv/Bruno_Pinheiro_CV_EN.pdf"
           target="_blank"
           className="inline-flex items-center gap-2 rounded-full border-2 border-secondary/50 bg-secondary/10 px-6 py-3 font-medium text-secondary backdrop-blur transition hover:-translate-y-0.5 hover:bg-secondary/20"
         >
