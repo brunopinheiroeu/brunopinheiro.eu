@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg id="Layer_1" xmlns="http://www.w3.org/2000/svg" width="23" height="24" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 23 24">
+  <defs>
+    <style>
+      .st0 {
+        mask: url(#mask);
+      }
+
+      .st1 {
+        fill: #fff;
+      }
+
+      .st2 {
+        fill: url(#linear-gradient);
+        fill-rule: evenodd;
+      }
+    </style>
+    <linearGradient id="linear-gradient" x1="5.933" y1="21.109" x2="13.269" y2="1.46" gradientTransform="translate(0 26) scale(1 -1)" gradientUnits="userSpaceOnUse">
+      <stop offset=".025" stop-color="#ff8e63"/>
+      <stop offset=".56" stop-color="#ff7eb0"/>
+      <stop offset=".95" stop-color="#4b73ff"/>
+    </linearGradient>
+    <mask id="mask" x="-8.137" y="-12.994" width="39.862" height="41.782" maskUnits="userSpaceOnUse">
+      <g id="lovable-logo_svg__b">
+        <path class="st2" d="M6.898,0c3.81,0,6.898,3.179,6.898,7.1v2.7h2.295c3.81,0,6.898,3.178,6.898,7.1s-3.088,7.1-6.898,7.1H0V7.1C0,3.18,3.088,0,6.898,0"/>
+      </g>
+    </mask>
+  </defs>
+  <g class="st0">
+    <g>
+      <ellipse class="st1" cx="10.084" cy="12.811" rx="15.562" ry="15.977"/>
+      <ellipse class="st1" cx="11.794" cy="4.043" rx="19.931" ry="15.977"/>
+      <ellipse class="st1" cx="15.045" cy="1.037" rx="15.562" ry="14.031"/>
+      <ellipse class="st1" cx="12.071" cy="4.039" rx="9.359" ry="9.608"/>
+    </g>
+  </g>
+</svg>

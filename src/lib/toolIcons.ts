@@ -1,4 +1,5 @@
 import type { ComponentType } from "react";
+import { createElement } from "react";
 import * as SimpleIcons from "react-icons/si";
 import { FaPhotoVideo } from "react-icons/fa";
 import { Code2 } from "lucide-react";
@@ -6,6 +7,16 @@ import { Code2 } from "lucide-react";
 export type ToolIcon = ComponentType<{ className?: string }>;
 
 const simpleIcons = SimpleIcons as Record<string, ToolIcon | undefined>;
+
+function LovableIcon({ className }: { className?: string }) {
+  return createElement("img", {
+    src: "/icons/lovable.svg",
+    alt: "",
+    "aria-hidden": true,
+    className,
+    draggable: false,
+  });
+}
 
 const iconAliases: Record<string, ToolIcon> = {
   ai: simpleIcons.SiOpenai!,
@@ -19,6 +30,7 @@ const iconAliases: Record<string, ToolIcon> = {
   html: simpleIcons.SiHtml5!,
   html5: simpleIcons.SiHtml5!,
   js: simpleIcons.SiJavascript!,
+  lovable: LovableIcon,
   mongodb: simpleIcons.SiMongodb!,
   n8n: simpleIcons.SiN8N!,
   neon: simpleIcons.SiPostgresql!,
