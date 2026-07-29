@@ -10,6 +10,17 @@ interface MarkdownWithEmbedsProps {
   inline?: boolean;
 }
 
+const getExternalLinkProps = (href?: string) => {
+  if (!href || !/^https?:\/\//i.test(href)) {
+    return {};
+  }
+
+  return {
+    target: "_blank",
+    rel: "noopener noreferrer",
+  };
+};
+
 export default function MarkdownWithEmbeds({ content, className, inline = false }: MarkdownWithEmbedsProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -106,7 +117,7 @@ export default function MarkdownWithEmbeds({ content, className, inline = false 
             strong: ({ children }) => <strong className="font-bold text-slate-900 dark:text-slate-100">{children}</strong>,
             em: ({ children }) => <em className="italic">{children}</em>,
             code: ({ children }) => <code className="bg-slate-100 dark:bg-slate-700 px-1.5 py-0.5 rounded text-sm font-mono text-slate-800 dark:text-slate-200">{children}</code>,
-            a: ({ href, children }) => <a href={href} className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 underline">{children}</a>,
+            a: ({ href, children }) => <a href={href} {...getExternalLinkProps(href)} className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 underline">{children}</a>,
             br: () => <br />,
           }}
         >
@@ -139,7 +150,7 @@ export default function MarkdownWithEmbeds({ content, className, inline = false 
                 strong: ({ children }) => <strong className="font-bold text-slate-900 dark:text-slate-100">{children}</strong>,
                 em: ({ children }) => <em className="italic">{children}</em>,
                 code: ({ children }) => <code className="bg-slate-100 dark:bg-slate-700 px-1.5 py-0.5 rounded text-sm font-mono text-slate-800 dark:text-slate-200">{children}</code>,
-                a: ({ href, children }) => <a href={href} className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 underline">{children}</a>,
+                a: ({ href, children }) => <a href={href} {...getExternalLinkProps(href)} className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 underline">{children}</a>,
                 br: () => <br />,
               }}
             >

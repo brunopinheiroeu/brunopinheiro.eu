@@ -9,6 +9,17 @@ interface MarkdownContentProps {
   inline?: boolean; // If true, renders inline markdown (for excerpts in cards/headers)
 }
 
+const getExternalLinkProps = (href?: string) => {
+  if (!href || !/^https?:\/\//i.test(href)) {
+    return {};
+  }
+
+  return {
+    target: "_blank",
+    rel: "noopener noreferrer",
+  };
+};
+
 export default function MarkdownContent({ 
   content, 
   className, 
@@ -99,7 +110,8 @@ export default function MarkdownContent({
             blockquote: ({ children }) => <span>{children}</span>,
             // Preserve line breaks as spaces
             br: () => <span> </span>,
-            // Keep other inline elements as-is (strong, em, code, links, etc.)
+            a: ({ href, children }) => <a href={href} {...getExternalLinkProps(href)}>{children}</a>,
+            // Keep other inline elements as-is (strong, em, code, etc.)
           }}
         >
           {content}
@@ -129,7 +141,7 @@ export default function MarkdownContent({
           strong: ({ children }) => <strong className="font-bold text-slate-900 dark:text-slate-100">{children}</strong>,
           em: ({ children }) => <em className="italic">{children}</em>,
           code: ({ children }) => <code className="bg-slate-100 dark:bg-slate-700 px-1.5 py-0.5 rounded text-sm font-mono text-slate-800 dark:text-slate-200">{children}</code>,
-          a: ({ href, children }) => <a href={href} className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 underline">{children}</a>,
+          a: ({ href, children }) => <a href={href} {...getExternalLinkProps(href)} className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 underline">{children}</a>,
           // Preserve line breaks
           br: () => <br />,
         }}
