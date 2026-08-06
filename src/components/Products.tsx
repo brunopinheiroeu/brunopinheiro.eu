@@ -34,7 +34,7 @@ type NormalizedProduct = {
 
 export default function Products({ products: strapiProducts }: ProductsProps) {
   const frontPageProducts = useMemo(
-    () => strapiProducts.filter((product) => product?.frontPage),
+    () => strapiProducts.filter((product) => product?.frontPage).slice(0, 4),
     [strapiProducts]
   );
 

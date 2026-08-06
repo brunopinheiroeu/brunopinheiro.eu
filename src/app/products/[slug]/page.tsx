@@ -31,11 +31,9 @@ export default async function ProductPage({ params }: ProductPageProps) {
   const coverImageUrl = product.coverImage?.url;
   const toolItems = getToolItems(product.tools);
 
-  // Fetch all projects for related projects section
+  // Fetch all projects for the case index section
   const allProducts = await getProducts();
-  const relatedProducts = allProducts
-    .filter((p) => p.slug !== slug)
-    .slice(0, 4);
+  const relatedProducts = allProducts.filter((p) => p.slug !== slug);
 
   return (
     <div className="min-h-screen antialiased text-surface-foreground bg-primary/5">
@@ -150,13 +148,13 @@ export default async function ProductPage({ params }: ProductPageProps) {
           ) : null}
         </article>
 
-        {/* More Cases Section */}
+        {/* All Cases Section */}
         {relatedProducts.length > 0 && (
           <section className="bg-primary/5 py-16">
             <div className="mx-auto max-w-6xl px-6">
               <FadeHeader
-                title="More Cases"
-                subtitle="Explore more of my work"
+                title="All Cases"
+                subtitle="Explore the full archive of projects"
               />
               <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mt-8">
                 {relatedProducts.map((relatedProduct) => {
