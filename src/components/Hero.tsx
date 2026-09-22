@@ -45,7 +45,7 @@ type ShowcaseCard = {
 };
 
 const COLLAGE_GAP = 16; // px, matches gap-4
-const COLLAGE_HEIGHT = 610; // px - both columns sum to exactly this
+const COLLAGE_HEIGHT = 698; // px - both columns sum to exactly this
 
 // Real product screenshots, replacing the old AI-generated portrait photos.
 // Two independent columns (like a masonry layout), each card keeping its
@@ -66,7 +66,7 @@ const showcaseCards: ShowcaseCard[] = [
     description: "From work logs to invoices",
     href: "/products/remonkei",
     column: "right",
-    boxHeight: 176,
+    boxHeight: 202,
     captionCorner: "top-left",
     captionPull: "translate(10%, 10%)",
   },
@@ -82,7 +82,7 @@ const showcaseCards: ShowcaseCard[] = [
     description: "Design systems & platform modernization",
     href: "/products/bua-na-cainte",
     column: "right",
-    boxHeight: 200,
+    boxHeight: 230,
     captionCorner: "top-left",
     captionPull: "translate(10%, 10%)",
   },
@@ -99,7 +99,7 @@ const showcaseCards: ShowcaseCard[] = [
     href: "https://pdfbuddy.brunix.studio/",
     external: true,
     column: "right",
-    boxHeight: 202,
+    boxHeight: 234,
     captionCorner: "top-left",
     captionPull: "translate(10%, 10%)",
   },
@@ -115,7 +115,7 @@ const showcaseCards: ShowcaseCard[] = [
     description: "From song requests to a shared queue",
     href: "/products/karakue",
     column: "left",
-    boxHeight: 160,
+    boxHeight: 184,
     captionCorner: "top-left",
     captionPull: "translate(10%, 10%)",
   },
@@ -131,7 +131,7 @@ const showcaseCards: ShowcaseCard[] = [
     description: "Medication routines made simpler",
     href: "/products/tomei",
     column: "left",
-    boxHeight: 264,
+    boxHeight: 304,
     captionCorner: "bottom-left",
     // Extra 30px lift on top of the usual 10% pull - there's a lot of
     // empty space beside this one.
@@ -150,7 +150,7 @@ const showcaseCards: ShowcaseCard[] = [
     href: "https://sortandgo.brunix.studio/",
     external: true,
     column: "left",
-    boxHeight: 154,
+    boxHeight: 178,
     captionCorner: "top-left",
     captionPull: "translate(10%, 10%)",
   },
@@ -370,7 +370,7 @@ export default function Hero() {
         </svg>
       </div>
 
-      <div className="relative z-10 mx-auto grid max-w-6xl items-center gap-12 px-6 md:grid-cols-[40fr_60fr]">
+      <div className="relative z-10 mx-auto grid max-w-6xl items-center gap-12 px-6 md:grid-cols-[55fr_45fr]">
         {/* left: text */}
         <div>
           <motion.p
@@ -386,7 +386,7 @@ export default function Hero() {
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="mb-6 max-w-5xl text-[2.7rem] font-extrabold leading-[0.95] tracking-tight md:text-[4rem]"
+            className="mb-6 max-w-5xl text-[2.7rem] font-extrabold leading-[0.95] tracking-tight md:text-[3.7rem]"
           >
             TURNING MESSY IDEAS INTO SHIPPED PRODUCTS
           </motion.h1>
@@ -426,6 +426,11 @@ export default function Hero() {
                 gap: COLLAGE_GAP,
                 height: COLLAGE_HEIGHT,
                 perspective: "1400px",
+                // Bleeds left into the gap and the text column's own
+                // unused margin (the paragraphs are capped at max-w-2xl,
+                // narrower than the column) - shares that slack instead
+                // of shrinking the text column itself.
+                marginLeft: -100,
               }}
             >
               {(["left", "right"] as const).map((column) => (

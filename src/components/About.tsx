@@ -10,7 +10,7 @@ export default function About() {
       <div className="mx-auto max-w-6xl px-6">
         <FadeHeader
           title="About Me"
-          subtitle="Smart Work Over Hard Work - Always Building Better"
+          subtitle="Curiosity, business thinking, and hands-on building."
         />
         <div className="grid items-center gap-10 md:grid-cols-[1fr_1.5fr]">
           <motion.div
@@ -44,45 +44,46 @@ export default function About() {
             className="text-base leading-relaxed text-surface-foreground"
           >
             <p className="mb-4">
-              Hi, my name is
-              <strong className="text-primary"> Bruno Pinheiro</strong> and I'm
-              a{" "}
+              I'm <strong className="text-primary">Bruno Pinheiro</strong>, a{" "}
               <strong className="text-primary">
                 Lead Product Designer and Design Engineer
               </strong>{" "}
-              working across UX, automation, and AI-assisted prototyping.
+              connecting product strategy, user experience, and development.
             </p>
 
             <p className="mb-4">
-              I like turning ambiguous problems into working products. My work
-              sits between product strategy, design, and technical execution:
-              understanding what needs to change, shaping the experience,
-              translating between stakeholders and developers, and building the
-              prototypes or workflows that move things forward.
+              My studies in{" "}
+              <strong className="text-primary">
+                Entrepreneurial Management and Innovation (MBA)
+              </strong>{" "}
+              inform how I approach product decisions: understanding the
+              opportunity, setting priorities, and balancing user needs with
+              business viability. I work with teams to define a realistic
+              scope and stay involved through implementation and testing.
             </p>
 
             <p className="mb-4">
-              My tech journey started in the late '90s with my first course:
-              "How to Assemble and Maintain a Computer." But honestly, my
-              earliest memory is way before that: pulling motors from toy cars
-              to build my own fans and boats. That curiosity never left.
+              My interest in building started with taking motors out of toy
+              cars to make small fans and boats. That curiosity eventually
+              took me into design, interactive experiences, VR, and software
+              development.
             </p>
 
             <p className="mb-4">
-              For years, I designed products and handed them off. With
-              AI-assisted tools like Codex, Claude Code, Lovable, and Cursor, I
-              can now move faster from concept to prototype, from prototype to
-              test, and from test to shipped product.
+              I've built with Unity, Unreal, and HTML/CSS, alongside leading
+              design and improving production workflows. Today, AI-assisted
+              development helps me prototype, test, and iterate faster.
             </p>
 
             <p className="mb-4">
-              Today, I lead product design for large-scale educational platforms
-              while building AI-assisted products, internal tools, and
-              automations from 0 to 1.
+              I currently lead product design for educational platforms while
+              building independent products and tools that address everyday
+              problems.
             </p>
 
             <p className="mb-4">
-              Outside of work: running, photography, cooking, and guitar.
+              Outside of work, I enjoy running, photography, cooking, and
+              playing guitar.
             </p>
           </motion.div>
         </div>
