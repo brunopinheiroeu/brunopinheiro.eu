@@ -10,7 +10,11 @@ export default function Nav() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
-  const isProductPage = pathname?.startsWith("/products/");
+  // The section anchors (#home, #products, ...) only exist on the home
+  // page. Any other route (/products/[slug], /projects, ...) needs to
+  // navigate back to "/" first instead of trying to scroll in place.
+  const isHomePage = pathname === "/";
+  const isProductPage = !isHomePage;
 
   // Scroll spy (active link by section in view) - only on main page
   useEffect(() => {

@@ -30,6 +30,17 @@ type ContentfulProduct = {
   tools?: (string | null)[] | null;
   tags?: (string | null)[] | null;
   coverImage?: ContentfulImage | null;
+  productUrl?: string | null;
+  homeProjectName?: string | null;
+  homeHeadline?: string | null;
+  homeProductImage?: ContentfulImage | null;
+  homeImageDescription?: string | null;
+  homeCategory?: string | null;
+  homeRole?: string | null;
+  homeStatus?: string | null;
+  homeEvidence?: string | null;
+  homeBeforeShortText?: string | null;
+  homeAfterShortText?: string | null;
 };
 
 export type Product = {
@@ -47,6 +58,23 @@ export type Product = {
     alt?: string;
     width?: number;
     height?: number;
+  };
+  productUrl?: string;
+  home: {
+    projectName?: string;
+    headline?: string;
+    image?: {
+      url: string;
+      alt?: string;
+      width?: number;
+      height?: number;
+    };
+    category?: string;
+    role?: string;
+    status?: string;
+    evidence?: string;
+    before?: string;
+    after?: string;
   };
 };
 
@@ -73,6 +101,28 @@ const PRODUCT_FIELDS = `
   tools
   tags
   coverImage {
+    url
+    description
+    width
+    height
+  }
+`;
+
+// Fields feeding the redesigned "Featured Products" home slider.
+// Fetched separately with a fallback (see getProducts) because the
+// Contentful GraphQL schema cache can lag behind newly created fields.
+const HOME_FIELDS = `
+  productUrl
+  homeProjectName
+  homeHeadline
+  homeImageDescription
+  homeCategory
+  homeRole
+  homeStatus
+  homeEvidence
+  homeBeforeShortText
+  homeAfterShortText
+  homeProductImage {
     url
     description
     width
@@ -134,8 +184,20 @@ function normalizeUrl(url?: string | null): string | undefined {
   return `https://${url.replace(/^\/+/, "")}`;
 }
 
+function normalizeImage(image?: ContentfulImage | null) {
+  const url = normalizeUrl(image?.url);
+  if (!url) return undefined;
+  return {
+    url,
+    alt: image?.description ?? undefined,
+    width: image?.width ?? undefined,
+    height: image?.height ?? undefined,
+  };
+}
+
 function normalizeProduct(entry: ContentfulProduct): Product {
-  const coverUrl = normalizeUrl(entry.coverImage?.url);
+  const coverImage = normalizeImage(entry.coverImage);
+  const homeImage = normalizeImage(entry.homeProductImage);
   const slugFallback =
     entry.slug ??
     (entry.frontPageOrder !== null && entry.frontPageOrder !== undefined
@@ -152,14 +214,21 @@ function normalizeProduct(entry: ContentfulProduct): Product {
     content: entry.content ?? undefined,
     tools: entry.tools?.filter(Boolean).map((tool) => tool!.trim()) ?? [],
     tags: entry.tags?.filter(Boolean).map((tag) => tag!.trim()) ?? [],
-    coverImage: coverUrl
-      ? {
-          url: coverUrl,
-          alt: entry.coverImage?.description ?? undefined,
-          width: entry.coverImage?.width ?? undefined,
-          height: entry.coverImage?.height ?? undefined,
-        }
-      : undefined,
+    coverImage,
+    productUrl: normalizeUrl(entry.productUrl) ?? undefined,
+    home: {
+      projectName: entry.homeProjectName ?? undefined,
+      headline: entry.homeHeadline ?? undefined,
+      image: homeImage
+        ? { ...homeImage, alt: entry.homeImageDescription ?? homeImage.alt }
+        : undefined,
+      category: entry.homeCategory ?? undefined,
+      role: entry.homeRole ?? undefined,
+      status: entry.homeStatus ?? undefined,
+      evidence: entry.homeEvidence ?? undefined,
+      before: entry.homeBeforeShortText ?? undefined,
+      after: entry.homeAfterShortText ?? undefined,
+    },
   };
 }
 
@@ -175,6 +244,34 @@ export async function getProducts(): Promise<Product[]> {
     const data = await contentfulFetch<ProductsQuery>(
       `
       query Products {
+        productCollection(order: frontPageOrder_ASC, limit: 100) {
+          items {
+            ${PRODUCT_FIELDS}
+            ${HOME_FIELDS}
+          }
+        }
+      }
+    `
+    );
+
+    return (
+      data.productCollection.items?.map(normalizeProduct).filter(Boolean) ?? []
+    );
+  } catch (error) {
+    // The Home · fields are new; if the GraphQL schema cache hasn't picked
+    // them up yet (or an ID was guessed wrong), fall back to the base
+    // fields instead of breaking the whole product list.
+    console.warn(
+      "[Contentful] Query with Home fields failed, falling back to base fields. " +
+        "Check that the Home · field API IDs in contentful.ts match Contentful.",
+      error
+    );
+  }
+
+  try {
+    const data = await contentfulFetch<ProductsQuery>(
+      `
+      query ProductsBase {
         productCollection(order: frontPageOrder_ASC, limit: 100) {
           items {
             ${PRODUCT_FIELDS}
