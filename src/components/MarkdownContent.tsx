@@ -140,7 +140,7 @@ export default function MarkdownContent({
           blockquote: ({ children }) => <blockquote className="border-l-4 border-indigo-500 dark:border-indigo-400 pl-4 italic my-4 text-slate-600 dark:text-slate-400">{children}</blockquote>,
           strong: ({ children }) => <strong className="font-bold text-slate-900 dark:text-slate-100">{children}</strong>,
           em: ({ children }) => <em className="italic">{children}</em>,
-          code: ({ children }) => <code className="bg-slate-100 dark:bg-slate-700 px-1.5 py-0.5 rounded text-sm font-mono text-slate-800 dark:text-slate-200">{children}</code>,
+          code: ({ children }) => <code className="bg-slate-100 dark:bg-slate-700 px-1.5 py-0.5 rounded-2xl text-sm font-mono text-slate-800 dark:text-slate-200">{children}</code>,
           a: ({ href, children }) => <a href={href} {...getExternalLinkProps(href)} className="text-indigo-600 dark:text-indigo-400 hover:text-indigo-800 dark:hover:text-indigo-300 underline">{children}</a>,
           // Preserve line breaks
           br: () => <br />,

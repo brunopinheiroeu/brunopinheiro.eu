@@ -307,6 +307,32 @@ export async function getProductBySlug(
         productCollection(where: { slug: $slug }, limit: 1) {
           items {
             ${PRODUCT_FIELDS}
+            ${HOME_FIELDS}
+          }
+        }
+      }
+    `,
+      { slug }
+    );
+
+    const item = data.productCollection.items?.[0];
+    return item ? normalizeProduct(item) : null;
+  } catch (error) {
+    // Same Home · fields schema-lag fallback as getProducts().
+    console.warn(
+      "[Contentful] Query with Home fields failed for getProductBySlug, " +
+        "falling back to base fields.",
+      error
+    );
+  }
+
+  try {
+    const data = await contentfulFetch<ProductBySlugQuery>(
+      `
+      query ProductBySlugBase($slug: String) {
+        productCollection(where: { slug: $slug }, limit: 1) {
+          items {
+            ${PRODUCT_FIELDS}
           }
         }
       }

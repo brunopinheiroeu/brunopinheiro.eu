@@ -8,7 +8,7 @@ export default function FadeHeader({
   subtitleClassName = "",
 }: {
   title: string;
-  subtitle: string;
+  subtitle?: string;
   titleClassName?: string;
   subtitleClassName?: string;
 }) {
@@ -22,14 +22,16 @@ export default function FadeHeader({
       >
         {title}
       </motion.h2>
-      <motion.p
-        initial={{ opacity: 0, y: 12 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, amount: 0.2 }}
-        className={`text-sm text-slate-600 dark:text-slate-400 md:text-base ${subtitleClassName}`}
-      >
-        {subtitle}
-      </motion.p>
+      {subtitle && (
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.2 }}
+          className={`text-sm text-slate-600 dark:text-slate-400 md:text-base ${subtitleClassName}`}
+        >
+          {subtitle}
+        </motion.p>
+      )}
     </div>
   );
 }

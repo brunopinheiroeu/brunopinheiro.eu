@@ -3,7 +3,7 @@ import { useRef, useState, useEffect } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import FadeHeader from "@/components/FadeHeader";
 import SkillCard from "@/components/SkillCard";
-import { Palette, Bot, Settings } from "lucide-react";
+import { Compass, PenTool, Rocket } from "lucide-react";
 
 export default function Skills() {
   const sectionRef = useRef<HTMLElement | null>(null);
@@ -29,6 +29,7 @@ export default function Skills() {
 
   return (
     <section
+      id="expertise"
       ref={sectionRef}
       className="relative overflow-hidden bg-gradient-to-br from-gradient-start via-gradient-mid to-gradient-end py-24 text-white"
     >
@@ -81,41 +82,35 @@ export default function Skills() {
         />
         <div className="mt-8 grid grid-cols-1 gap-6 md:grid-cols-3">
           <SkillCard
-            icon={<Palette className="h-12 w-12 text-white" />}
+            icon={<Compass className="h-12 w-12 text-white" />}
+            title="Product Strategy & Business"
+            items={[
+              "Problem discovery & validation",
+              "Business viability & prioritization",
+              "MVP scoping & trade-offs",
+              "Stakeholder alignment",
+            ]}
+          />
+
+          <SkillCard
+            icon={<PenTool className="h-12 w-12 text-white" />}
             title="Product & UX Design"
             items={[
-              "Product Discovery & UX Strategy",
-              "Design Systems at Scale",
-              "End-to-End Product Design",
-              "Stakeholder-to-Developer Translation",
-              "Usability Testing & Research",
-              "Shipped Product Experiences",
+              "User journeys & interaction design",
+              "UI design & reusable systems",
+              "Usability testing & iteration",
+              "Design leadership & collaboration",
             ]}
           />
 
           <SkillCard
-            icon={<Bot className="h-12 w-12 text-white" />}
-            title="AI-Assisted Prototyping"
+            icon={<Rocket className="h-12 w-12 text-white" />}
+            title="Development & Automation"
             items={[
-              "Codex, Claude Code, Lovable",
-              "Cursor & AI Coding Workflows",
-              "React, Next.js & Vercel",
-              "Supabase & Neon",
-              "LLM Integration & Prompting",
-              "0-to-1 MVPs in Weeks",
-            ]}
-          />
-
-          <SkillCard
-            icon={<Settings className="h-12 w-12 text-white" />}
-            title="Automation & Delivery"
-            items={[
-              "Python & Shell Automation",
-              "Workflow Optimization",
-              "Internal Tools & Dashboards",
-              "HTML, CSS & JavaScript",
-              "Git & Deployment Workflows",
-              "Cross-Functional Delivery",
+              "Web & mobile product development",
+              "AI-assisted prototyping & implementation",
+              "Internal tools & workflow automation",
+              "Deployment & ongoing improvements",
             ]}
           />
         </div>

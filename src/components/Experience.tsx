@@ -65,7 +65,7 @@ export default function Experience() {
               initial={{ opacity: 0, y: 12 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, amount: 0.2 }}
-              className="mb-4 overflow-hidden rounded-xl border border-border"
+              className="mb-4 overflow-hidden rounded-2xl border border-border"
             >
               <button
                 onClick={() => setOpenIdx(openIdx === idx ? -1 : idx)}

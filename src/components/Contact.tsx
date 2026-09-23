@@ -7,7 +7,7 @@ import { Mail, Check } from "lucide-react";
 import { SiLinkedin, SiGithub } from "react-icons/si";
 
 export default function Contact() {
-  const EMAIL = "bruno@pinheiro.art.br";
+  const EMAIL = "hello@brunopinheiro.eu";
   const [copied, setCopied] = useState(false);
 
   const copyEmail = async () => {

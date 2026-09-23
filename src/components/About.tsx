@@ -52,27 +52,21 @@ export default function About() {
             </p>
 
             <p className="mb-4">
-              My studies in{" "}
+              I previously founded and ran a VR company. That experience and
+              my{" "}
               <strong className="text-primary">
-                Entrepreneurial Management and Innovation (MBA)
+                MBA in Entrepreneurial Management and Innovation
               </strong>{" "}
-              inform how I approach product decisions: understanding the
-              opportunity, setting priorities, and balancing user needs with
-              business viability. I work with teams to define a realistic
-              scope and stay involved through implementation and testing.
+              help me balance user needs with business viability, set
+              priorities, and decide what to build.
             </p>
 
             <p className="mb-4">
               My interest in building started with taking motors out of toy
-              cars to make small fans and boats. That curiosity eventually
-              took me into design, interactive experiences, VR, and software
-              development.
-            </p>
-
-            <p className="mb-4">
-              I've built with Unity, Unreal, and HTML/CSS, alongside leading
-              design and improving production workflows. Today, AI-assisted
-              development helps me prototype, test, and iterate faster.
+              cars to make small fans and boats. That curiosity led me to
+              design and development with Unity, Unreal, and HTML/CSS. Today,
+              I also use AI-assisted development to prototype, test, and
+              iterate faster.
             </p>
 
             <p className="mb-4">

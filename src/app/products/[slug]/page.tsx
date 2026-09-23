@@ -1,15 +1,15 @@
 import { notFound } from "next/navigation";
 import Image from "next/image";
-import Link from "next/link";
 import { getProductBySlug, getProducts } from "@/lib/contentful";
 import { getToolItems } from "@/lib/toolIcons";
-import { ArrowRight } from "lucide-react";
+import { extractLoneVimeoUrls, getVimeoEmbeds } from "@/lib/vimeo";
 import Nav from "@/components/Nav";
 // import BackButton from "./BackButton";
 import FadeHeader from "@/components/FadeHeader";
 import Contact from "@/components/Contact";
 import Footer from "@/components/Footer";
 import MarkdownWithEmbeds from "@/components/MarkdownWithEmbeds";
+import ProductCard from "@/components/ProductCard";
 
 interface ProductPageProps {
   params: Promise<{
@@ -28,8 +28,13 @@ export default async function ProductPage({ params }: ProductPageProps) {
     notFound();
   }
 
-  const coverImageUrl = product.coverImage?.url;
+  const homeImage = product.home.image;
   const toolItems = getToolItems(product.tools);
+
+  // Server-side, cached lookup of any lone Vimeo URLs in the case body so
+  // MarkdownWithEmbeds can swap them for a real player (see lib/vimeo.ts).
+  const vimeoUrls = product.content ? extractLoneVimeoUrls(product.content) : [];
+  const vimeoEmbeds = vimeoUrls.length ? await getVimeoEmbeds(vimeoUrls) : {};
 
   // Fetch all projects for the case index section
   const allProducts = await getProducts();
@@ -55,7 +60,7 @@ export default async function ProductPage({ params }: ProductPageProps) {
               className="inline-flex items-center gap-2 mb-8 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-sm font-medium text-white shadow-lg backdrop-blur-md transition hover:-translate-y-0.5 hover:bg-white/20"
             /> */}
 
-            <div className="grid md:grid-cols-[2.3fr_1fr] gap-8 items-center">
+            <div className="grid md:grid-cols-2 gap-8 items-center">
               {/* Text Content */}
               <div>
                 <h1 className="text-4xl text-transform: uppercase font-extrabold mb-4 md:text-5xl">
@@ -115,19 +120,17 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 )}
               </div>
 
-              {/* Cover Image - 50% size, vertical layout */}
-              {coverImageUrl && (
-                <div className="w-full max-w-sm md:max-w-[242px] lg:max-w-[286px] mx-auto md:ml-auto">
-                  <div className="relative aspect-[3/4] w-full bg-gradient-to-br from-primary to-secondary rounded-2xl overflow-hidden shadow-xl">
-                    <Image
-                      src={coverImageUrl}
-                      alt={product.title}
-                      fill
-                      className="object-cover"
-                      priority
-                    />
-                    <div className="absolute inset-0 bg-white/5 [mask-image:radial-gradient(40%_40%_at_30%_20%,black,transparent)]" />
-                  </div>
+              {/* Home · Product image - stands on its own, no frame/box */}
+              {homeImage && (
+                <div className="mx-auto w-full max-w-xs md:mx-0 md:ml-auto md:max-w-none">
+                  <Image
+                    src={homeImage.url}
+                    alt={homeImage.alt || product.title}
+                    width={homeImage.width ?? 900}
+                    height={homeImage.height ?? 1200}
+                    className="h-auto w-full"
+                    priority
+                  />
                 </div>
               )}
             </div>
@@ -142,61 +145,22 @@ export default async function ProductPage({ params }: ProductPageProps) {
                 <MarkdownWithEmbeds
                   content={product.content}
                   className="text-surface-foreground/80"
+                  vimeoEmbeds={vimeoEmbeds}
                 />
               </div>
             </section>
           ) : null}
         </article>
 
-        {/* All Cases Section */}
+        {/* More Cases Section */}
         {relatedProducts.length > 0 && (
           <section className="bg-primary/5 py-16">
             <div className="mx-auto max-w-6xl px-6">
-              <FadeHeader
-                title="All Cases"
-                subtitle="Explore the full archive of projects"
-              />
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4 mt-8">
-                {relatedProducts.map((relatedProduct) => {
-                  const relatedImageUrl = relatedProduct.coverImage?.url;
-                  return (
-                    <Link
-                      key={relatedProduct.slug}
-                      href={`/products/${relatedProduct.slug}`}
-                      className="group relative overflow-hidden rounded-2xl bg-white dark:bg-slate-800 shadow-md transition hover:-translate-y-1 hover:shadow-xl"
-                    >
-                      <div className="relative h-48 overflow-hidden bg-gradient-to-br from-primary to-secondary">
-                        {relatedImageUrl ? (
-                          <Image
-                            src={relatedImageUrl}
-                            alt={relatedProduct.title}
-                            fill
-                            className="object-cover transition-transform group-hover:scale-105"
-                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 25vw"
-                          />
-                        ) : null}
-                        <div className="absolute inset-0 bg-white/10 [mask-image:radial-gradient(40%_40%_at_30%_20%,black,transparent)]" />
-                      </div>
-                      <div className="p-4">
-                        <h3 className="mb-2 text-sm font-semibold text-surface-foreground line-clamp-2">
-                          {relatedProduct.title}
-                        </h3>
-                        {relatedProduct.frontPageText && (
-                          <div className="mb-3 line-clamp-2 text-xs text-muted">
-                            <MarkdownWithEmbeds
-                              content={relatedProduct.frontPageText}
-                              inline
-                              className="text-muted"
-                            />
-                          </div>
-                        )}
-                        <div className="inline-flex items-center gap-1 text-xs font-medium text-primary group-hover:text-secondary">
-                          Case Study <ArrowRight className="h-3 w-3" />
-                        </div>
-                      </div>
-                    </Link>
-                  );
-                })}
+              <FadeHeader title="More Cases" />
+              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 mt-8">
+                {relatedProducts.map((relatedProduct) => (
+                  <ProductCard key={relatedProduct.slug} product={relatedProduct} />
+                ))}
               </div>
             </div>
           </section>

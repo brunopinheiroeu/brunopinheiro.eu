@@ -1,7 +1,7 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { Home, Briefcase, Clock, User, Mail, Menu, X } from "lucide-react";
+import { Home, Layers, Briefcase, ToolCase, User, Mail, Menu, X } from "lucide-react";
 import Image from "next/image";
 import { scrollToSection } from "@/lib/scroll";
 
@@ -11,16 +11,24 @@ export default function Nav() {
   const pathname = usePathname();
   const router = useRouter();
   // The section anchors (#home, #products, ...) only exist on the home
-  // page. Any other route (/products/[slug], /projects, ...) needs to
+  // page. Any other route (/products/[slug], /products, ...) needs to
   // navigate back to "/" first instead of trying to scroll in place.
   const isHomePage = pathname === "/";
   const isProductPage = !isHomePage;
+
+  // scrollIntoView({block: "start"}) lands exactly on the section's top
+  // edge, which sits just outside the observer's "-40%/-50%" active band -
+  // so right after a click the old link stayed highlighted until the user
+  // scrolled further. Suppress the spy for the duration of the scroll
+  // animation and trust the click instead.
+  const suppressSpyRef = useRef(false);
+  const suppressTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   // Scroll spy (active link by section in view) - only on main page
   useEffect(() => {
     if (isProductPage) return;
 
-    const ids = ["home", "products", "experience", "about", "contact"];
+    const ids = ["home", "products", "experience", "expertise", "about", "contact"];
     const sections = ids
       .map((id) => document.getElementById(id))
       .filter(Boolean) as HTMLElement[];
@@ -29,6 +37,7 @@ export default function Nav() {
 
     const obs = new IntersectionObserver(
       (entries) => {
+        if (suppressSpyRef.current) return;
         const visible = entries
           .filter((e) => e.isIntersecting)
           .sort((a, b) => b.intersectionRatio - a.intersectionRatio);
@@ -49,7 +58,14 @@ export default function Nav() {
       router.push(`/#${id}`);
       // After navigation, scroll to section (handled by main page)
     } else {
-      // On main page, just scroll to section
+      // On main page, activate immediately and scroll - don't wait for
+      // the spy to catch up once the smooth scroll settles.
+      setActiveId(id);
+      suppressSpyRef.current = true;
+      if (suppressTimeoutRef.current) clearTimeout(suppressTimeoutRef.current);
+      suppressTimeoutRef.current = setTimeout(() => {
+        suppressSpyRef.current = false;
+      }, 1000);
       scrollToSection(e, id);
     }
   };
@@ -61,8 +77,9 @@ export default function Nav() {
 
   const links = [
     { id: "home", label: "Home", icon: Home },
-    { id: "products", label: "Products", icon: Briefcase },
-    { id: "experience", label: "Experience", icon: Clock },
+    { id: "products", label: "Products", icon: Layers },
+    { id: "experience", label: "Experience", icon: Briefcase },
+    { id: "expertise", label: "Expertise", icon: ToolCase },
     { id: "about", label: "About", icon: User },
     { id: "contact", label: "Contact", icon: Mail },
   ];
