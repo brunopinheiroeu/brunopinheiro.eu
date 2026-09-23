@@ -20,19 +20,30 @@ export const metadata: Metadata = {
   title: "Bruno Pinheiro - Lead Product Designer & Design Engineer",
   description:
     "Bruno Pinheiro is a Lead Product Designer and Design Engineer who turns ambiguous problems into shipped products through UX, automation, and AI-assisted prototyping across edtech, web, mobile, and emerging technology.",
+  authors: [{ name: "Bruno Pinheiro", url: "https://brunopinheiro.eu" }],
   openGraph: {
     title: "Bruno Pinheiro - Lead Product Designer & Design Engineer",
     description:
       "Bruno Pinheiro is a Lead Product Designer and Design Engineer who turns ambiguous problems into shipped products through UX, automation, and AI-assisted prototyping across edtech, web, mobile, and emerging technology.",
     images: [
       {
-        url: "/images/cover.png",
+        // Query param busts social platforms' (LinkedIn, Facebook, etc.)
+        // image cache, which is keyed by exact URL - bump it whenever
+        // cover.png changes so the new preview actually shows up.
+        url: "/images/cover.png?v=2",
         width: 1200,
         height: 627,
         alt: "Bruno Pinheiro - Lead Product Designer & Design Engineer",
       },
     ],
-    type: "website",
+    // "article" (instead of "website") is what makes LinkedIn/Facebook
+    // actually render an author and a publish date on the preview card.
+    type: "article",
+    // Site's original launch date (first redesign commit) - bump
+    // modifiedTime whenever the content changes meaningfully.
+    publishedTime: "2025-09-03T00:00:00.000Z",
+    modifiedTime: "2026-09-23T00:00:00.000Z",
+    authors: ["https://linkedin.com/in/brunopinheiroeu"],
   },
 };
 
