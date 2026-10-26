@@ -1,34 +1,25 @@
-import Nav from "@/components/Nav";
-import Hero from "@/components/Hero";
-import Products from "@/components/Products";
-import Experience from "@/components/Experience";
-import Skills from "@/components/Skills";
-import About from "@/components/About";
-import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
-import HashScrollHandler from "@/components/HashScrollHandler";
+import Link from "next/link";
 import { getProducts } from "@/lib/contentful";
+import { buildChapters } from "@/lib/story";
+import StoryExperience from "@/components/story/StoryExperience";
 
-// Mark page as dynamic since it fetches data from Contentful
 export const dynamic = "force-dynamic";
 
 export default async function Page() {
-  // Fetch products from Contentful
-  const products = await getProducts();
+  const chapters = buildChapters(await getProducts());
 
   return (
-    <div className="min-h-screen antialiased text-foreground">
-      <HashScrollHandler />
-      <Nav />
-      <div className="pl-0 md:pl-20">
-        <Hero />
-        <Products products={products} />
-        <Experience />
-        <Skills />
-        <About />
-        <Contact />
-        <Footer />
-      </div>
-    </div>
+    <>
+      <StoryExperience chapters={chapters} />
+      <nav className="sr-only" aria-label="Case studies">
+        <ul>
+          {chapters.map((c) => (
+            <li key={c.slug}><Link href={`/products/${c.slug}`}>{c.name} — {c.headline}</Link></li>
+          ))}
+          <li><Link href="/about">About Bruno Pinheiro</Link></li>
+          <li><Link href="/products">All case studies</Link></li>
+        </ul>
+      </nav>
+    </>
   );
 }

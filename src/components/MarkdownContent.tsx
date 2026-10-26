@@ -31,14 +31,9 @@ export default function MarkdownContent({
   useEffect(() => {
     const processEmbeds = () => {
       if (typeof window !== "undefined") {
-        const embedlyFunc = (window as any).embedly;
+        const embedlyFunc = (window as unknown as { embedly?: ((action: string, el: HTMLElement | null) => void) | { card?: () => void } }).embedly;
         
         if (embedlyFunc) {
-          console.log("Embedly found, processing cards in:", contentRef.current);
-          
-          // Find all embedly-card elements
-          const cards = contentRef.current?.querySelectorAll('.embedly-card');
-          console.log("Found embedly-card elements:", cards?.length);
           
           // Try different API methods
           try {
@@ -50,13 +45,11 @@ export default function MarkdownContent({
             else if (embedlyFunc.card && typeof embedlyFunc.card === 'function') {
               embedlyFunc.card();
             }
-            console.log("Embedly processing triggered");
             return true;
           } catch (error) {
             console.error("Error calling Embedly:", error);
           }
         } else {
-          console.log("Embedly not loaded yet");
         }
       }
       return false;

@@ -1,45 +1,41 @@
+import type { Metadata } from "next";
+import Image from "next/image";
+import Link from "next/link";
 import { getProducts } from "@/lib/contentful";
-import Nav from "@/components/Nav";
-import FadeHeader from "@/components/FadeHeader";
-import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
-import ProductCard from "@/components/ProductCard";
+import SiteHeader from "@/components/site/SiteHeader";
 
 export const dynamic = "force-dynamic";
+
+export const metadata: Metadata = {
+  title: "All case studies — Bruno Pinheiro",
+  description: "Every case study and experiment by Bruno Pinheiro, in one place.",
+};
 
 export default async function ProductsPage() {
   const products = await getProducts();
 
   return (
-    <div className="min-h-screen antialiased text-surface-foreground bg-primary/5">
-      <Nav />
-      <div className="pl-0 md:pl-20">
-        <section className="py-16">
-          <div className="mx-auto max-w-6xl px-6">
-            <FadeHeader
-              title="More Cases"
-              subtitle="Every case study and experiment, in one place"
-            />
-
-            {products.length > 0 ? (
-              <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {products.map((product) => (
-                  <ProductCard key={product.slug} product={product} />
-                ))}
-              </div>
-            ) : (
-              <div className="mt-12 rounded-2xl border border-dashed border-primary/20 bg-white/60 p-10 text-center shadow-inner">
-                <p className="text-lg font-semibold text-surface-foreground">
-                  No projects published yet
-                </p>
-              </div>
-            )}
-          </div>
-        </section>
-
-        <Contact />
-        <Footer />
-      </div>
+    <div className="case-page">
+      <SiteHeader variant="page" current="work" />
+      <main className="case-content">
+        <span className="eyebrow mono">Index</span>
+        <h1 className="display case-title">All cases</h1>
+        <p className="case-lead">Every case study and experiment, in one place.</p>
+        <div className="all-cases">
+          {products.map((p) => {
+            const image = p.home.image || p.coverImage;
+            const name = p.home.projectName || p.title.split(" - ")[0];
+            return (
+              <Link key={p.slug} href={`/products/${p.slug}`} className="case-card">
+                {image && <Image src={image.url} alt={image.alt || name} width={image.width ?? 800} height={image.height ?? 600} sizes="(max-width: 640px) 100vw, 360px" />}
+                <span className="eyebrow mono" style={{ marginBottom: 0 }}>{p.home.category}</span>
+                <span className="case-card-title">{name}</span>
+                <span className="case-card-text">{p.home.headline || p.frontPageText}</span>
+              </Link>
+            );
+          })}
+        </div>
+      </main>
     </div>
   );
 }

@@ -15,7 +15,11 @@ interface MarkdownWithEmbedsProps {
   // link. Omit entirely for content that's never expected to carry a
   // Vimeo URL - the markdown renders exactly as before.
   vimeoEmbeds?: Record<string, VimeoEmbedData | null>;
+  // Render plain semantic HTML so a parent stylesheet (the case page) owns the look.
+  unstyled?: boolean;
 }
+
+type EmbedlyGlobal = ((action: string, el: HTMLElement | null) => void) | { card?: () => void };
 
 const getExternalLinkProps = (href?: string) => {
   if (!href || !/^https?:\/\//i.test(href)) {
@@ -47,6 +51,10 @@ const markdownComponents = {
   br: () => <br />,
 };
 
+const plainComponents = {
+  a: ({ href, children }: { href?: string; children?: React.ReactNode }) => <a href={href} {...getExternalLinkProps(href)}>{children}</a>,
+};
+
 // Splits a markdown chunk into its own text runs and any lone-Vimeo-URL
 // paragraphs, rendering the latter as <VimeoEmbed>. When no vimeoEmbeds map
 // is passed, renders the whole chunk as plain markdown (no behavior change
@@ -54,15 +62,18 @@ const markdownComponents = {
 function MarkdownBlock({
   text,
   vimeoEmbeds,
+  unstyled,
 }: {
   text: string;
   vimeoEmbeds?: Record<string, VimeoEmbedData | null>;
+  unstyled?: boolean;
 }) {
   if (!text) return null;
+  const components = unstyled ? plainComponents : markdownComponents;
 
   if (!vimeoEmbeds) {
     return (
-      <ReactMarkdown rehypePlugins={[rehypeRaw]} components={markdownComponents}>
+      <ReactMarkdown rehypePlugins={[rehypeRaw]} components={components}>
         {text}
       </ReactMarkdown>
     );
@@ -93,7 +104,7 @@ function MarkdownBlock({
   // Nothing to split out - render as a single markdown pass, same as before.
   if (runs.length <= 1 && runs[0]?.type === "text") {
     return (
-      <ReactMarkdown rehypePlugins={[rehypeRaw]} components={markdownComponents}>
+      <ReactMarkdown rehypePlugins={[rehypeRaw]} components={components}>
         {text}
       </ReactMarkdown>
     );
@@ -105,7 +116,7 @@ function MarkdownBlock({
         run.type === "vimeo" ? (
           <VimeoEmbed key={i} url={run.url} data={vimeoEmbeds[run.url] ?? null} />
         ) : (
-          <ReactMarkdown key={i} rehypePlugins={[rehypeRaw]} components={markdownComponents}>
+          <ReactMarkdown key={i} rehypePlugins={[rehypeRaw]} components={components}>
             {run.text}
           </ReactMarkdown>
         )
@@ -119,27 +130,18 @@ export default function MarkdownWithEmbeds({
   className,
   inline = false,
   vimeoEmbeds,
+  unstyled = false,
 }: MarkdownWithEmbedsProps) {
   const containerRef = useRef<HTMLDivElement>(null);
 
-  // For inline rendering, delegate to MarkdownContent
-  if (inline) {
-    return <MarkdownContent content={content} className={className} inline={inline} />;
-  }
-
   // Trigger Embedly to process cards after content is rendered
   useEffect(() => {
+    if (inline) return;
     const processEmbeds = () => {
       if (typeof window !== "undefined") {
-        const embedlyFunc = (window as any).embedly;
+        const embedlyFunc = (window as unknown as { embedly?: EmbedlyGlobal }).embedly;
 
         if (embedlyFunc) {
-          console.log("Embedly found, processing cards in:", containerRef.current);
-
-          // Find all embedly-card elements
-          const cards = containerRef.current?.querySelectorAll('.embedly-card');
-          console.log("Found embedly-card elements:", cards?.length);
-
           // Try different API methods
           try {
             // Method 1: Call embedly as a function
@@ -150,13 +152,10 @@ export default function MarkdownWithEmbeds({
             else if (embedlyFunc.card && typeof embedlyFunc.card === 'function') {
               embedlyFunc.card();
             }
-            console.log("Embedly processing triggered");
             return true;
           } catch (error) {
             console.error("Error calling Embedly:", error);
           }
-        } else {
-          console.log("Embedly not loaded yet");
         }
       }
       return false;
@@ -187,7 +186,11 @@ export default function MarkdownWithEmbeds({
     }, 100);
 
     return () => clearTimeout(initialTimeout);
-  }, [content]);
+  }, [content, inline]);
+
+  if (inline) {
+    return <MarkdownContent content={content} className={className} inline={inline} />;
+  }
 
   // Split content by embedly blocks - using [\s\S] instead of 's' flag for ES2015 compatibility
   const embedlyRegex = /<a[^>]*class="embedly-card"[^>]*>[\s\S]*?<\/a>/g;
@@ -198,7 +201,7 @@ export default function MarkdownWithEmbeds({
   if (embeds.length === 0) {
     return (
       <div ref={containerRef} className={className}>
-        <MarkdownBlock text={content} vimeoEmbeds={vimeoEmbeds} />
+        <MarkdownBlock text={content} vimeoEmbeds={vimeoEmbeds} unstyled={unstyled} />
       </div>
     );
   }
@@ -208,7 +211,7 @@ export default function MarkdownWithEmbeds({
     <div ref={containerRef} className={className}>
       {parts.map((part, index) => (
         <Fragment key={index}>
-          <MarkdownBlock text={part} vimeoEmbeds={vimeoEmbeds} />
+          <MarkdownBlock text={part} vimeoEmbeds={vimeoEmbeds} unstyled={unstyled} />
           {embeds[index] && (
             <div
               className="my-4"
