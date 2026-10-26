@@ -200,7 +200,7 @@ input { font-family: inherit; }
 .phase-out .stack .crt-screen, .phase-pre .stack .crt-screen, .phase-out .stack .crt-screen::after, .phase-pre .stack .crt-screen::after,
 .phase-out .stack .q-move, .phase-pre .stack .q-move, .phase-out .stack .q-move-y, .phase-pre .stack .q-move-y,
 .phase-out .stack .q-chip, .phase-pre .stack .q-chip, .phase-out .stack .q-ping, .phase-pre .stack .q-ping { animation: none; opacity: 0; }
-.is-mobile .stack { --pw: 300px; }
+.is-mobile .stack { --pw: 100cqw; }
 .is-mobile .q-chip { font-size: 8px; padding: 4px 7px; }
 
 /* ── intro portrait ── */
@@ -263,7 +263,7 @@ input { font-family: inherit; }
 .is-mobile .stage { top: 67px; bottom: 118px; padding: 0 22px; align-items: flex-start; }
 .is-mobile.kind-intro .stage { padding-top: 296px; }
 .is-mobile .scene-frame { display: flex; flex-direction: column; align-items: stretch; gap: 16px; padding-top: 14px; }
-.is-mobile .col-visual { order: -1; flex: none; container-type: normal; }
+.is-mobile .col-visual { order: -1; flex: none; justify-content: center; }
 .is-mobile .col-text { flex: none; max-width: none; }
 .is-mobile .fig-caption, .is-mobile .meta-list, .is-mobile .ext-link { display: none; }
 .is-mobile .proj-title { font-size: calc(46px * var(--scale)); }

@@ -23,7 +23,8 @@ function measure(): StageSize {
 export function useStageSize() {
   const [size, setSize] = useState<StageSize>({ mobile: false, scale: 1, w: DESKTOP.w, h: DESKTOP.h, ready: false });
   useEffect(() => {
-    const update = () => setSize(measure());
+    // A zero-size window (mid-resize, hidden frame) would scale to 0 and divide by it.
+    const update = () => { if (window.innerWidth && window.innerHeight) setSize(measure()); };
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
