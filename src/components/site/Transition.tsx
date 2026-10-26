@@ -15,6 +15,17 @@ export function usePageTransition() {
   return ctx;
 }
 
+// Warms the router cache once the page has settled, so the next click only
+// waits for the wipe animation, not the network.
+export function usePrefetch(hrefs: string[]) {
+  const router = useRouter();
+  const key = hrefs.join("|");
+  useEffect(() => {
+    const t = setTimeout(() => key.split("|").filter(Boolean).forEach((h) => router.prefetch(h)), 800);
+    return () => clearTimeout(t);
+  }, [key, router]);
+}
+
 type Phase = "idle" | "cover" | "reveal";
 
 export function TransitionProvider({ children }: { children: React.ReactNode }) {

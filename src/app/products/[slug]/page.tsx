@@ -12,7 +12,12 @@ interface ProductPageProps {
   params: Promise<{ slug: string }>;
 }
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
+
+// Prerender every case at build so a click never waits on Contentful.
+export async function generateStaticParams() {
+  return (await getProducts()).map((p) => ({ slug: p.slug }));
+}
 
 const pad = (i: number) => String(i).padStart(2, "0");
 

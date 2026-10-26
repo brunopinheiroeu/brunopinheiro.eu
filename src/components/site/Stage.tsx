@@ -20,6 +20,10 @@ function measure(): StageSize {
   return { mobile: false, scale, w: vw / scale, h: vh / scale, ready: true };
 }
 
+// Runs while the HTML is parsed, so the server-rendered stage paints at the
+// right size before hydration instead of staying hidden until JS loads.
+const STAGE_BOOT_SCRIPT = `(function(){var v=document.currentScript.parentElement,w=innerWidth,h=innerHeight;if(!w||!h)return;var s,m=w<${MOBILE_BREAKPOINT};s=m?Math.min(w/${MOBILE_W},1.6):Math.min(w/${DESKTOP.w},h/${DESKTOP.h});if(m)v.classList.add("is-mobile");v.style.width=w/s+"px";v.style.height=h/s+"px";v.style.transform="scale("+s+")";})();`;
+
 export function useStageSize() {
   const [size, setSize] = useState<StageSize>({ mobile: false, scale: 1, w: DESKTOP.w, h: DESKTOP.h, ready: false });
   useEffect(() => {
@@ -80,12 +84,14 @@ export const Stage = forwardRef<HTMLDivElement, StageProps>(function Stage({ siz
   }, []);
 
   return (
-    <div className={`stage-host${size.ready ? "" : " is-pending"}`}>
+    <div className="stage-host">
       <div
         ref={inner}
         className={`viewport${size.mobile ? " is-mobile" : ""}${className ? ` ${className}` : ""}`}
         style={{ width: size.w, height: size.h, transform: `scale(${size.scale})`, ...style }}
+        suppressHydrationWarning
       >
+        {!size.ready && <script dangerouslySetInnerHTML={{ __html: STAGE_BOOT_SCRIPT }} />}
         {children}
         {prefs.grid && (
           <div className="stage-grid" aria-hidden="true">

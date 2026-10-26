@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { Stage, useStageSize } from "@/components/site/Stage";
 import SiteHeader from "@/components/site/SiteHeader";
 import { useAppearance } from "@/components/site/Appearance";
-import { usePageTransition } from "@/components/site/Transition";
+import { usePageTransition, usePrefetch } from "@/components/site/Transition";
 import { CONTACT, FACETS, INTRO_ACCENT, accentFor } from "@/lib/story";
 
 type ChapterRef = { slug: string; name: string };
@@ -15,6 +15,7 @@ export default function AboutExperience({ chapters }: { chapters: ChapterRef[] }
   const size = useStageSize();
   const { toast } = useAppearance();
   const { navigate } = usePageTransition();
+  usePrefetch([...chapters.map((c) => `/products/${c.slug}`), "/"]);
   const [discovered, setDiscovered] = useState<Record<string, true>>({});
   const [selected, setSelected] = useState<string | null>(null);
   const [spin, setSpin] = useState(0);

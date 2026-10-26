@@ -3,7 +3,7 @@ import { getProducts } from "@/lib/contentful";
 import { buildChapters } from "@/lib/story";
 import StoryExperience from "@/components/story/StoryExperience";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 export default async function Page() {
   const chapters = buildChapters(await getProducts());

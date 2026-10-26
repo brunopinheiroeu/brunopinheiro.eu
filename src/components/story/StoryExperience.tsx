@@ -4,7 +4,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { Stage, useStageSize } from "@/components/site/Stage";
 import SiteHeader from "@/components/site/SiteHeader";
 import { useAppearance } from "@/components/site/Appearance";
-import { usePageTransition } from "@/components/site/Transition";
+import { usePageTransition, usePrefetch } from "@/components/site/Transition";
 import { INTRO_ACCENT, type Chapter } from "@/lib/story";
 import Cover from "./Cover";
 import PaintedPortrait from "./PaintedPortrait";
@@ -51,11 +51,13 @@ export default function StoryExperience({ chapters }: { chapters: Chapter[] }) {
   const size = useStageSize();
   const { prefs, k, panelOpen, previewMobile } = useAppearance();
   const { navigate, busy } = usePageTransition();
+  usePrefetch([...chapters.map((c) => `/products/${c.slug}`), "/about"]);
   const scenes = useMemo<Scene[]>(() => [INTRO, ...chapters.map((c, i) => ({ ...c, kind: "project" as const, title: c.name, eyebrow: `${pad(i + 1)} / ${c.eyebrow}` }))], [chapters]);
   const last = scenes.length - 1;
 
   const [index, setIndex] = useState(0);
-  const [phase, setPhase] = useState<Phase>("pre");
+  // The intro is server-rendered already revealed, so the headline paints with the HTML.
+  const [phase, setPhase] = useState<Phase>("idle");
   const [dir, setDir] = useState<"fwd" | "back">("fwd");
   const [sweepRun, setSweepRun] = useState<"" | "a" | "b">("");
   const [decodeTick, setDecodeTick] = useState(DECODE_STEPS);
@@ -121,17 +123,17 @@ export default function StoryExperience({ chapters }: { chapters: Chapter[] }) {
     }, 560 * kk);
   }, [last, later, prefs.motion, setScrub, startDecode]);
 
-  // Initial chapter from the URL hash (#tomei, #work), then play the intro.
+  // Initial chapter from the URL hash (#tomei, #work) reveals that chapter;
+  // the plain intro is already visible.
   useEffect(() => {
     const hash = decodeURIComponent(window.location.hash.slice(1));
     const found = hash === "work" ? 1 : scenes.findIndex((s) => s.slug && s.slug === hash);
-    if (found > 0) setIndex(found);
     const kk = kRef.current;
+    if (found > 0) { setIndex(found); if (kk !== 0) setPhase("pre"); }
     const t = setTimeout(() => {
-      setPhase("idle");
-      startDecode();
-      setTimeout(() => { locked.current = false; }, 600 * kk);
-    }, kk === 0 ? 0 : 90);
+      if (found > 0) { setPhase("idle"); startDecode(); }
+      setTimeout(() => { locked.current = false; }, (found > 0 ? 600 : 0) * kk);
+    }, found > 0 && kk !== 0 ? 90 : 0);
     const timersSnapshot = timers.current;
     return () => {
       clearTimeout(t);

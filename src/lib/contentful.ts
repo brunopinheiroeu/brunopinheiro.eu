@@ -132,6 +132,9 @@ const HOME_FIELDS = `
 
 const isConfigured = Boolean(SPACE_ID && DELIVERY_TOKEN);
 
+// Seconds. Keep in step with `revalidate` in the page files.
+const CONTENT_REVALIDATE = 300;
+
 async function contentfulFetch<T>(
   query: string,
   variables?: Record<string, unknown>,
@@ -158,7 +161,9 @@ async function contentfulFetch<T>(
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-    cache: options.cache ?? "no-store",
+    // Cached and refreshed in the background, so pages can be prerendered and
+    // prefetched whole. Edits in Contentful show up within this window.
+    ...(options.cache ? { cache: options.cache } : { next: { revalidate: CONTENT_REVALIDATE } }),
     body: JSON.stringify({ query, variables }),
   });
 

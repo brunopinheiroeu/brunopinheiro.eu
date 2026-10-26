@@ -3,7 +3,7 @@ import { getProducts } from "@/lib/contentful";
 import { buildChapters } from "@/lib/story";
 import AboutExperience from "@/components/story/AboutExperience";
 
-export const dynamic = "force-dynamic";
+export const revalidate = 300;
 
 export const metadata: Metadata = {
   title: "About — Bruno Pinheiro",
