@@ -215,8 +215,11 @@ input { font-family: inherit; }
 .phase-idle .paint-fill { animation: paint-fill var(--pd) ease var(--pdl) both; }
 .phase-pre .paint-fill { opacity: 0; }
 @keyframes paint-fill { from { opacity: 0; } to { opacity: 1; } }
-.is-mobile .portrait-wrap { top: 86px; right: auto; left: 50%; margin-left: -150px; }
-.is-mobile .hero-portrait { height: 290px; }
+/* --sh is the stage height. The portrait gets what the intro text (about 260px)
+   and the controls leave, so short phones shrink it instead of overlapping. */
+.is-mobile { --intro-ph: clamp(110px, calc(var(--sh, 760px) - 474px), 290px); }
+.is-mobile .portrait-wrap { top: 86px; right: auto; left: 50%; margin-left: calc(var(--intro-ph) * -.531); }
+.is-mobile .hero-portrait { height: var(--intro-ph); }
 
 /* ── chapter dots ── */
 .progress { position: absolute; right: 22px; top: 50%; transform: translateY(-50%); z-index: 6; display: flex; flex-direction: column; align-items: center; gap: 14px; }
@@ -260,10 +263,17 @@ input { font-family: inherit; }
 .timeline-auto { position: absolute; top: 0; bottom: 0; background: color-mix(in srgb, var(--accent) 45%, transparent); }
 
 /* ── mobile scene layout ── */
-.is-mobile .stage { top: 83px; bottom: 118px; padding: 0 22px; align-items: flex-start; }
-.is-mobile.kind-intro .stage { padding-top: 296px; }
-.is-mobile .scene-frame { display: flex; flex-direction: column; align-items: stretch; gap: 16px; padding-top: 14px; }
-.is-mobile .col-visual { order: -1; flex: none; justify-content: center; }
+.is-mobile .stage { top: 83px; bottom: 118px; padding: 0 22px; align-items: stretch; }
+.is-mobile.kind-intro .stage { padding-top: calc(var(--intro-ph) + 6px); }
+.is-mobile .scene-inner { display: flex; flex-direction: column; }
+.is-mobile .scene-frame { flex: 1; min-height: 0; display: flex; flex-direction: column; align-items: stretch; gap: 16px; padding-top: 14px; }
+/* The cover takes up to 300px and gives height back to the text on short screens. */
+.is-mobile .col-visual { order: -1; flex: 0 1 300px; min-height: 0; justify-content: center; container-type: size; }
+.is-mobile .stack { --pw: min(100cqw, 100cqh * 644 / 560); }
+/* Phones shorter than about 620 design px (e.g. iPhone SE with Safari's bars): keep the cover readable. */
+@media (max-width: 899px) and (min-aspect-ratio: 39/62) {
+  .is-mobile .desc:not(.intro-desc) { display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; }
+}
 .is-mobile .col-text { flex: none; max-width: none; }
 .is-mobile .fig-caption, .is-mobile .meta-list, .is-mobile .ext-link { display: none; }
 .is-mobile .proj-title { font-size: calc(46px * var(--scale)); }
