@@ -1,6 +1,7 @@
 "use client";
 
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
+import { useAppearance } from "./Appearance";
 
 export type StageSize = { mobile: boolean; scale: number; w: number; h: number; ready: boolean };
 
@@ -42,7 +43,13 @@ type StageProps = {
 // viewport so parallax never re-renders React.
 export const Stage = forwardRef<HTMLDivElement, StageProps>(function Stage({ size, className, style, children }, ref) {
   const inner = useRef<HTMLDivElement>(null);
+  const { prefs } = useAppearance();
   useImperativeHandle(ref, () => inner.current as HTMLDivElement);
+
+  useEffect(() => {
+    document.documentElement.classList.add("has-stage");
+    return () => document.documentElement.classList.remove("has-stage");
+  }, []);
 
   useEffect(() => {
     const el = inner.current;
@@ -79,6 +86,11 @@ export const Stage = forwardRef<HTMLDivElement, StageProps>(function Stage({ siz
         style={{ width: size.w, height: size.h, transform: `scale(${size.scale})`, ...style }}
       >
         {children}
+        {prefs.grid && (
+          <div className="stage-grid" aria-hidden="true">
+            {Array.from({ length: 12 }, (_, i) => <span key={i} />)}
+          </div>
+        )}
       </div>
     </div>
   );

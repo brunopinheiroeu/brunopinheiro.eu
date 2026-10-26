@@ -49,7 +49,7 @@ function Title({ text, className, as: Tag }: { text: string; className: string; 
 
 export default function StoryExperience({ chapters }: { chapters: Chapter[] }) {
   const size = useStageSize();
-  const { prefs, k, panelOpen } = useAppearance();
+  const { prefs, k, panelOpen, previewMobile } = useAppearance();
   const { navigate, busy } = usePageTransition();
   const scenes = useMemo<Scene[]>(() => [INTRO, ...chapters.map((c, i) => ({ ...c, kind: "project" as const, title: c.name, eyebrow: `${pad(i + 1)} / ${c.eyebrow}` }))], [chapters]);
   const last = scenes.length - 1;
@@ -156,9 +156,9 @@ export default function StoryExperience({ chapters }: { chapters: Chapter[] }) {
 
   // Wheel scrubbing, keyboard and touch swipe.
   useEffect(() => {
-    const inPanel = (t: EventTarget | null) => t instanceof Element && Boolean(t.closest(".settings"));
+    const inPanel = (t: EventTarget | null) => t instanceof Element && Boolean(t.closest(".settings, .mobile-preview"));
     const onWheel = (e: WheelEvent) => {
-      if (inPanel(e.target)) return;
+      if (previewMobile || inPanel(e.target)) return;
       e.preventDefault();
       if (locked.current || busy) return;
       const dy = e.deltaY * (e.deltaMode === 1 ? 33 : 1);
@@ -176,6 +176,7 @@ export default function StoryExperience({ chapters }: { chapters: Chapter[] }) {
       scrubTimer.current = setTimeout(() => { setScrub(0); setScrubbing(false); }, 260);
     };
     const onKey = (e: KeyboardEvent) => {
+      if (previewMobile) return;
       const t = e.target as HTMLElement | null;
       if (t && (t.tagName === "INPUT" || t.tagName === "TEXTAREA" || t.closest?.(".settings"))) return;
       const onControl = Boolean(t && (t.tagName === "BUTTON" || t.tagName === "A"));
@@ -190,6 +191,7 @@ export default function StoryExperience({ chapters }: { chapters: Chapter[] }) {
     let startX = 0;
     const onTouchStart = (e: TouchEvent) => { startY = e.touches[0].clientY; startX = e.touches[0].clientX; };
     const onTouchEnd = (e: TouchEvent) => {
+      if (previewMobile) return;
       const dy = startY - e.changedTouches[0].clientY;
       const dx = startX - e.changedTouches[0].clientX;
       if (Math.abs(dy) < 50 || Math.abs(dy) < Math.abs(dx)) return;
@@ -205,11 +207,11 @@ export default function StoryExperience({ chapters }: { chapters: Chapter[] }) {
       window.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("touchend", onTouchEnd);
     };
-  }, [busy, goTo, last, openCase, setScrub]);
+  }, [busy, goTo, last, openCase, setScrub, previewMobile]);
 
   // Autoplay: advance every 7s, loop back to the intro at the end.
   useEffect(() => {
-    if (!prefs.autoplay || panelOpen || busy) return;
+    if (!prefs.autoplay || panelOpen || busy || previewMobile) return;
     const id = setInterval(() => {
       if (locked.current) return;
       setAutoT((t) => {
@@ -220,7 +222,7 @@ export default function StoryExperience({ chapters }: { chapters: Chapter[] }) {
       });
     }, 100);
     return () => clearInterval(id);
-  }, [prefs.autoplay, panelOpen, busy, goTo, last]);
+  }, [prefs.autoplay, panelOpen, busy, goTo, last, previewMobile]);
 
   const active = scenes[index];
   const decoded = useMemo(() => {

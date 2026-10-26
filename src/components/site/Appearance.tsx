@@ -28,6 +28,8 @@ type Ctx = {
   setPanelOpen: (open: boolean) => void;
   toast: (message: string) => void;
   k: number;
+  previewMobile: boolean;
+  setPreviewMobile: (on: boolean) => void;
 };
 
 const AppearanceContext = createContext<Ctx | null>(null);
@@ -39,7 +41,7 @@ export function useAppearance() {
 }
 
 function motionFactor(motion: Prefs["motion"]) {
-  return motion === "cinematic" ? 1 : motion === "calm" ? 0.65 : 0;
+  return motion === "cinematic" ? 1 : motion === "calm" ? 0.8 : 0;
 }
 
 // Saved preferences live in a tiny external store so hydration renders the
@@ -64,12 +66,23 @@ function writePrefs(next: Prefs) {
 
 function subscribe(listener: () => void) {
   listeners.add(listener);
-  return () => { listeners.delete(listener); };
+  // Keeps the mobile preview iframe (same origin) in sync with the panel.
+  const onStorage = (e: StorageEvent) => {
+    if (e.key !== PREFS_KEY) return;
+    storedPrefs = null;
+    listener();
+  };
+  window.addEventListener("storage", onStorage);
+  return () => {
+    listeners.delete(listener);
+    window.removeEventListener("storage", onStorage);
+  };
 }
 
 export function AppearanceProvider({ children }: { children: React.ReactNode }) {
   const prefs = useSyncExternalStore(subscribe, readPrefs, () => DEFAULT_PREFS);
   const [panelOpen, setPanelOpen] = useState(false);
+  const [previewMobile, setPreviewMobile] = useState(false);
   const [toastMsg, setToastMsg] = useState("");
   const [toastOn, setToastOn] = useState(false);
   const toastTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -107,11 +120,14 @@ export function AppearanceProvider({ children }: { children: React.ReactNode }) 
     setPanelOpen,
     toast,
     k: motionFactor(prefs.motion),
-  }), [prefs, setPref, panelOpen, toast]);
+    previewMobile,
+    setPreviewMobile,
+  }), [prefs, setPref, panelOpen, toast, previewMobile]);
 
   return (
     <AppearanceContext.Provider value={value}>
       {children}
+      {previewMobile && <MobilePreview onExit={() => setPreviewMobile(false)} />}
       {panelOpen && <AppearancePanel />}
       {prefs.grid && <LayoutGrid />}
       {prefs.cursor && <CustomCursor />}
@@ -145,7 +161,9 @@ function Toggle({ label, on, onToggle }: { label: string; on: boolean; onToggle:
 }
 
 function AppearancePanel() {
-  const { prefs, setPref, reset, setPanelOpen } = useAppearance();
+  const { prefs, setPref, reset, setPanelOpen, previewMobile, setPreviewMobile } = useAppearance();
+  // The panel only ever renders on the client, after a click.
+  const canPreview = window.self === window.top && window.innerWidth >= 900;
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") setPanelOpen(false); };
@@ -189,10 +207,15 @@ function AppearancePanel() {
       </div>
       <div className="set-group">
         <Toggle label="Color wash" on={prefs.wash} onToggle={() => setPref("wash", !prefs.wash)} />
-        <Toggle label="Autoplay story" on={prefs.autoplay} onToggle={() => setPref("autoplay", !prefs.autoplay)} />
         <Toggle label="Layout grid" on={prefs.grid} onToggle={() => setPref("grid", !prefs.grid)} />
         <Toggle label="Custom cursor" on={prefs.cursor} onToggle={() => setPref("cursor", !prefs.cursor)} />
       </div>
+      {canPreview && (
+        <div className="set-group">
+          <div className="set-label"><span>Preview</span></div>
+          <Seg value={previewMobile ? "mobile" : "desktop"} options={[["desktop", "Desktop"], ["mobile", "Mobile"]]} onPick={(v) => setPreviewMobile(v === "mobile")} />
+        </div>
+      )}
       <div className="set-foot">
         <span className="kbd-hint mono">SCROLL · ← → · ESC</span>
         <button type="button" className="reset-btn" onClick={reset}>↺ Reset to default</button>
@@ -207,7 +230,7 @@ function LayoutGrid() {
       <div className="grid-overlay" aria-hidden="true">
         {Array.from({ length: 12 }, (_, i) => <span key={i} />)}
       </div>
-      <span className="grid-tag mono" aria-hidden="true">GRID · 12 COL DESKTOP / 4 COL MOBILE</span>
+      <span className="grid-tag mono" aria-hidden="true">GRID · 12 COL · 24 GUTTER · 4 COL ON PHONES</span>
     </>
   );
 }
@@ -231,5 +254,29 @@ function CustomCursor() {
       <div ref={ring} className="cursor-ring" aria-hidden="true" />
       <div ref={dot} className="cursor-dot" aria-hidden="true" />
     </>
+  );
+}
+
+function MobilePreview({ onExit }: { onExit: () => void }) {
+  const [src] = useState(() => window.location.pathname + window.location.hash);
+  const [scale, setScale] = useState(() => Math.min(1, (window.innerHeight - 64) / 844));
+
+  useEffect(() => {
+    const onResize = () => setScale(Math.min(1, (window.innerHeight - 64) / 844));
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, []);
+
+  return (
+    <div className="mobile-preview" role="dialog" aria-label="Mobile preview">
+      <div className="preview-caption">
+        <span className="mono">PREVIEW — MOBILE · 390 × 844</span>
+        <span className="preview-hint">Swipe, scroll or tap the arrows inside the phone. Everything works as on a real device.</span>
+        <button type="button" className="back-btn" onClick={onExit}>← Back to desktop</button>
+      </div>
+      <div className="phone-frame" style={{ ["--ps" as string]: scale }}>
+        <iframe src={src} title="Mobile preview of the portfolio" />
+      </div>
+    </div>
   );
 }
