@@ -500,6 +500,11 @@ html:has(a:hover, button:hover) .cursor-ring { width: 58px; height: 58px; margin
 .kbd-hint { font-size: 10px; color: var(--muted); }
 .reset-btn { border: none; background: none; font-size: 11px; color: var(--muted); padding: 4px 0; }
 .reset-btn:hover { color: var(--text); }
+/* Phones get theme, font, size, radius and motion only. */
+@media (max-width: 899px) {
+  .settings .set-desktop-only { display: none; }
+  .settings .set-group:has(+ .set-desktop-only) { border-bottom: none; }
+}
 
 /* ── mobile preview (desktop only) ── */
 .mobile-preview { position: fixed; inset: 0; z-index: 75; display: flex; align-items: center; justify-content: center; background: color-mix(in srgb, var(--bg) 84%, var(--text) 16%); animation: panel-in .4s cubic-bezier(.2,.7,0,1); }

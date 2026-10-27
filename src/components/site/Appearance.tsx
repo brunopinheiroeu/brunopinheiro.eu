@@ -205,7 +205,7 @@ function AppearancePanel() {
         <div className="set-label"><span>Motion</span></div>
         <Seg value={prefs.motion} options={[["cinematic", "Cinematic"], ["calm", "Calm"], ["off", "Off"]]} onPick={(v) => setPref("motion", v)} />
       </div>
-      <div className="set-group">
+      <div className="set-group set-desktop-only">
         <Toggle label="Color wash" on={prefs.wash} onToggle={() => setPref("wash", !prefs.wash)} />
         <Toggle label="Layout grid" on={prefs.grid} onToggle={() => setPref("grid", !prefs.grid)} />
         <Toggle label="Custom cursor" on={prefs.cursor} onToggle={() => setPref("cursor", !prefs.cursor)} />
@@ -216,7 +216,7 @@ function AppearancePanel() {
           <Seg value={previewMobile ? "mobile" : "desktop"} options={[["desktop", "Desktop"], ["mobile", "Mobile"]]} onPick={(v) => setPreviewMobile(v === "mobile")} />
         </div>
       )}
-      <div className="set-foot">
+      <div className="set-foot set-desktop-only">
         <span className="kbd-hint mono">SCROLL · ← → · ESC</span>
         <button type="button" className="reset-btn" onClick={reset}>↺ Reset to default</button>
       </div>
