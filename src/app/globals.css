@@ -342,6 +342,8 @@ input { font-family: inherit; }
 @keyframes cb-in { from { opacity: 0; transform: translateY(32px); } to { opacity: 1; transform: none; } }
 .case-body h2 { counter-increment: chapter; font-family: var(--font-display); font-weight: var(--display-weight); letter-spacing: var(--display-track); font-size: clamp(28px, 3.6vw, calc(42px * var(--scale))); line-height: 1.08; margin: 80px 0 20px; padding-top: 28px; border-top: 1px solid var(--text); }
 .case-body h2::before { content: counter(chapter, decimal-leading-zero); display: block; font-family: var(--font-mono-ui); font-size: 11px; letter-spacing: .14em; color: var(--muted); margin-bottom: 14px; }
+.case-body hr { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+.case-body hr:has(+ h2) { display: none; } /* h2 already draws its own top rule */
 .case-body h1 { font-family: var(--font-display); font-weight: var(--display-weight); font-size: clamp(32px, 4vw, 48px); line-height: 1.08; margin: 60px 0 16px; }
 .case-body h3 { font-family: var(--font-display); font-weight: var(--display-weight); font-size: calc(25px * var(--scale)); line-height: 1.2; margin: 40px 0 12px; }
 .case-body h4, .case-body h5, .case-body h6 { font-family: var(--font-mono-ui); font-weight: 500; font-size: 11px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 30px 0 10px; }
