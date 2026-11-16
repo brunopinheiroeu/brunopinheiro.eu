@@ -109,9 +109,9 @@ export default function AboutExperience({ chapters }: { chapters: ChapterRef[] }
             I'm Bruno Pinheiro, a Lead Product Designer and Design Engineer connecting product strategy, user experience, and development. I currently lead product design for educational platforms while building independent products and tools that address everyday problems.
           </p>
           <div className="stats about-rise" style={{ ["--d" as string]: 3 }}>
-            <div className="stat"><span className="stat-num">3,500+</span><span className="stat-label">Products on the design system I built</span></div>
+            <div className="stat"><span className="stat-num">1,100+</span><span className="stat-label">Games in the three suites built on my design system</span></div>
             <div className="stat"><span className="stat-num">50,000+</span><span className="stat-label">Students on the redesigned platform</span></div>
-            <div className="stat"><span className="stat-num">10x+</span><span className="stat-label">Faster resource production</span></div>
+            <div className="stat"><span className="stat-num">−82%</span><span className="stat-label">Weekly team time, from 140 h to 25 h</span></div>
           </div>
           <div className="about-rise" style={{ ["--d" as string]: 4 }}>
             <div className="discover-head mono"><span>DISCOVERED</span><span>{count} / {FACETS.length}</span></div>
