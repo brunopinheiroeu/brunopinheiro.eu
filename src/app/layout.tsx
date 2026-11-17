@@ -25,7 +25,7 @@ export const metadata: Metadata = {
       {
         // Query param busts social platforms' image cache, which is keyed by
         // exact URL - bump it whenever cover.png changes.
-        url: "/images/cover.png?v=2",
+        url: "/images/cover.png?v=3",
         width: 1200,
         height: 627,
         alt: "Bruno Pinheiro - Lead Product Designer & Design Engineer",
